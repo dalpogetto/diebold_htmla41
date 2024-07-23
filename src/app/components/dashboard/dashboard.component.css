@@ -1,0 +1,42 @@
+.rpwInfo {
+  display: none;
+  color: white;
+  border-radius: 3px;
+  box-shadow: 2px 20px 25px gray;
+  padding: 5px;
+  margin-top: 5px;
+  max-width: 520px;
+
+  :is(h4) {
+    color: white;
+  }
+}
+
+.rpwInfo.ok {
+  background: var(--color-10);
+}
+
+.rpwInfo.erro {
+  background: var(--color-07);
+}
+
+.rpwInfo.info {
+  background: var(--color-08);
+}
+
+.icone {
+  margin-right: 10px;
+  font-size: 24px;
+  float: left;
+  text-align: center;
+  
+  :is(i) {
+    color: white;
+  }
+
+}
+.formatoTexto{
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px; 
+  font-variant-numeric: tabular-nums;
+}
