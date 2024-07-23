@@ -271,9 +271,10 @@ obterColunasReparos(): Array<PoTableColumn>{
     {property: 'cod-estabel', label: "Estab"},
     {property: 'codFilial', label: "Filial"},
     {property: 'it-codigo', label: "Item"},
-    {property: 'quantidade', label: "Qtd.Reparos"},
-    {property: 'tem-equival', label: "EQV", type: 'columnTemplate'},
-    {property: 'it-equival', label: "Item Equivalente"},
+    {property: 'qt-reparos', label: "Qtd.Rep"},
+    /* {property: 'l-equivalente', label: "EQV", type: 'columnTemplate'}, */
+    {property: 'it-codigo-equiv', label: "Item Equiv"},
+    {property: 'qt-equiv', label: "Qtd.Equiv"},
     {property: 'nr-enc', label: "ENC"},
     {property: 'num-serie-it', label: "Num.Serie Garantia"},
     {property:'opcoes', label: "Ações Disponíveis", type:'cellTemplate'},

@@ -7,6 +7,7 @@
     <div class="po-md-12 btnEliminar">
      <!--  <po-button (p-click)="LogarUsuario()" p-icon="bi bi-person-workspace" p-tooltip="Selecionar outro usuário"></po-button> -->
       <po-button p-tooltip="Eliminar Todos" p-icon="bi bi-trash" p-label="Eliminar Todos" p-danger="true"></po-button>
+      <po-button p-tooltip="Abrir Reparos" p-icon="bi bi-printer" p-label="Abrir e Imprimir Reparos" p-kind="primary" (p-click)="onAbrirReparos()"></po-button>
     </div>
     <po-table [p-items]="listaReparos" 
               [p-striped]="true" 
@@ -34,21 +35,25 @@
     <b>Justificativa da Equivalência</b>
     <po-textarea [(ngModel)]="cJustificativa" [p-rows]="2"></po-textarea>
     <div class="po-md-12">
-      <po-button p-tooltip="Abrir Reparos" p-icon="bi bi-printer" p-label="Abrir Reparos" p-kind="primary" (p-click)="onAbrirReparos()"></po-button>
+      
     </div>
   </po-widget>
 </div>
 
 
 <po-modal #telaAlterar p-title="Alterar Reparo"
-                       p-size="sm" 
+                       p-size="md" 
                        [p-primary-action]="acaoSalvar" 
                        [p-secondary-action]="acaoCancelar">
 
-    <po-widget>
-      
+    <po-widget p-title="Dados Equivalência" >
+      <div style="display: flex;gap:20px">
+        <!-- <div><po-checkbox [(ngModel)]="lequiv" (p-change)="tagEquiv()" p-label="EQV"> </po-checkbox></div> -->
+        <div><po-input [(ngModel)]="itCodigoEquiv" p-label="Item Equivalência" p-mask="__.___._____-__"></po-input></div>
+        <div><po-input [(ngModel)]="qtdEquiv" p-label="Qtd.Equiv"></po-input></div>
+    </div>
     </po-widget>
-      
+
            
         
     

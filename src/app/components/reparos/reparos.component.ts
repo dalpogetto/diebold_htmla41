@@ -26,6 +26,7 @@ loadTela:boolean=false
 
 lEQV:boolean=false
 
+
 listaReparos!:any[]
 
 colunasReparos!:PoTableColumn[]
@@ -56,6 +57,12 @@ readonly acoesGrid: PoTableAction[] = [
     action: this.onDeletar.bind(this),
     type:'danger'
   }];
+
+  lequiv:boolean=false
+  itCodigoEquiv=''
+  qtdEquiv=0
+
+  tagEquiv(){}
 
   ngOnInit(): void {
 
