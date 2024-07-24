@@ -25,7 +25,7 @@ export class HomeComponent {
     let params={RowId: "0x000000003f0f2186"}
     this.srvTotvs.AbrirProgramaTotvs(params).subscribe({
       next: (response: any) => {
-        console.log(response)
+        //console.log(response)
         
       }})
   
@@ -35,8 +35,8 @@ export class HomeComponent {
     
     this.srvTotvs.ObterVariaveisGlobais().subscribe({
       next: (response: any) => {
-        console.log(response)
-        alert(response.UsuarioLogado)
+        //console.log(response)
+        //alert(response.UsuarioLogado)
       }})
     
   }

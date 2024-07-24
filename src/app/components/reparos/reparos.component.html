@@ -9,7 +9,7 @@
       <po-button p-tooltip="Eliminar Todos" p-icon="bi bi-trash" p-label="Eliminar Todos" p-danger="true"></po-button>
       <po-button p-tooltip="Abrir Reparos" p-icon="bi bi-printer" p-label="Abrir e Imprimir Reparos" p-kind="primary" (p-click)="onAbrirReparos()"></po-button>
     </div>
-    <po-table [p-items]="listaReparos" 
+    <po-table [p-items]="listaReparos" #gridReparos
               [p-striped]="true" 
               [p-height]="250"
               p-container="true"

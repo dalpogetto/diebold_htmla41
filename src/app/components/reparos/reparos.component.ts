@@ -1,6 +1,6 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn } from '@po-ui/ng-components';
+import { PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent } from '@po-ui/ng-components';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
 
@@ -12,6 +12,7 @@ import { TotvsService } from '../../services/totvs-service.service';
 export class ReparosComponent {
 
   @ViewChild('telaAlterar', { static: true }) telaAlterar: | PoModalComponent | undefined;
+  @ViewChild('gridReparos', { static: true }) gridReparos: | PoTableComponent | undefined;
 
 //---Injection
 private srvTotvs = inject(TotvsService);
@@ -23,14 +24,11 @@ codEstabel: string = '';
 codUsuario: string = '';
 nrProcess:string='';
 loadTela:boolean=false
-
 lEQV:boolean=false
-
-
 listaReparos!:any[]
-
 colunasReparos!:PoTableColumn[]
 cJustificativa!:string
+itemSelecionado:any
 
 readonly acaoSalvar: PoModalAction = {
   label: 'Salvar',
@@ -88,7 +86,6 @@ readonly acoesGrid: PoTableAction[] = [
     let params: any = { codEmitente: this.codUsuario, nrProcess: this.nrProcess }
     this.srvTotvs.ObterItensParaReparo(params).subscribe({
       next:(response:any)=>{
-        console.log("ObterItensParaReparo", response)
         this.loadTela=false
         if (response === undefined){
           return
@@ -141,23 +138,49 @@ readonly acoesGrid: PoTableAction[] = [
  }
 
  onDeletar(obj:any){
+  
+  this.srvDialog.confirm({
+    title: 'CONFIRMAÇÃO',
+    message: 'Confirma exclusão do Reparo?',
+    literals: { cancel: 'Não', confirm: 'Sim' },
+    confirm: () => { this.gridReparos?.removeItem(obj)},
+    cancel: () => {},
+  });
+  
  }
 
  onEditar(obj:any){
-  console.log(obj)
+  this.itemSelecionado = obj
+  this.itCodigoEquiv = this.itemSelecionado["it-codigo-equiv"]
+  this.qtdEquiv = this.itemSelecionado["qt-equiv"]
   this.telaAlterar?.open()
 
  }
 
  onSalvar(){
+  let registroModificado = this.itemSelecionado
+  let itemNaoFormatado = this.itCodigoEquiv
+  let itemFormatado=''
+  if (itemNaoFormatado !== ''){
+     itemFormatado = itemNaoFormatado!.substring(0,2) + '.' +
+                     itemNaoFormatado!.substring(2,5) + '.' +
+                     itemNaoFormatado!.substring(5,10) + '-' +
+                     itemNaoFormatado!.substring(10)
+  }
 
+  registroModificado["it-codigo-equiv"] = itemFormatado
+  registroModificado["qt-equiv"] =  this.qtdEquiv
+  registroModificado["l-equivalente"] = itemFormatado !== ''
+
+  let registro = {...this.itemSelecionado, registroModificado}
+  this.gridReparos?.updateItem(this.itemSelecionado, registro)
+
+  this.telaAlterar?.close()
  }
 
  onCancelar(){
-
+   this.telaAlterar?.close()
  }
- habilitarCampos(){
-
- }
+ 
 }
 

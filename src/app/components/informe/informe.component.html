@@ -59,9 +59,7 @@
             <po-button p-tooltip="Nova OS" p-icon="bi bi-plus" p-kind="primary" p-kind="primary" (p-click)="onIncluirOrdem()"></po-button>
           </div>
                 <po-table [p-items]="listaOrdens" class="po-font-smaller" #gridOrdens 
-                     
                           (p-selected)="selecionarOrdem($event)"
-                          
                           [p-actions]="acoesGridOrdem"
                           [p-striped]="true" 
                           [p-loading]="loadGridOrdem"

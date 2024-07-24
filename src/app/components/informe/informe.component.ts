@@ -361,7 +361,7 @@ export class InformeComponent {
     this.loadGrid = true;
     this.srvTotvs46.SeriesPendentes(params).subscribe({
       next: (response: any) => {
-        console.log(response)
+        //console.log(response)
         this.loadGrid = false;
         this.listaEnc=response.items.sort(this.srvTotvs.ordenarCampos(['numos']))
       },
@@ -372,7 +372,7 @@ export class InformeComponent {
 
   //Montar o objeto para salvar informacoes do item da os
   onLeaveNumSerieItem(obj:any){
-    console.log(obj)
+    //console.log(obj)
     let params: any = {
       cRowId: obj['c-rowId'],
       numSerieItem: obj['num-serie-it'],
@@ -394,7 +394,7 @@ export class InformeComponent {
     this.loadGridEnc = true;
     this.srvTotvs46.ValidarSerie(params).subscribe({
       next: (response: any) => {
-        console.log("serieFormatada", response.serieFormatada)
+        //console.log("serieFormatada", response.serieFormatada)
         this.loadGridEnc = false;
       },
       error: (e) => {this.loadGridEnc = false},
@@ -403,7 +403,7 @@ export class InformeComponent {
   }
 
   onFocusNumSerie(obj:any){
-    console.log("Focus Row", obj)
+    //console.log("Focus Row", obj)
     this.gridEnc?.selectRow(obj)
   }
 
@@ -1199,10 +1199,14 @@ export class InformeComponent {
           next: (response: any) => {
             this.atualizarContadores();
             this.loadGridOrdem = false;
+            
             let registro = {
               ...this.ordemSelecionada,
               value: (this.ordemSelecionada.situacao = 'M'),
             };
+
+            //console.log("Registro", registro)
+            //console.log("Ordem Selecionada", this.ordemSelecionada)
             this.gridOrdens?.updateItem(this.ordemSelecionada, registro);
             this.srvNotification.success('Registro alterado com sucesso !');
           },
@@ -1230,10 +1234,7 @@ export class InformeComponent {
           next: (response: any) => {
             this.atualizarContadores();
             this.loadGridOrdem = false;
-            let registro = {
-              ...this.ordemSelecionada,
-              value: (this.ordemSelecionada.situacao = 'U'),
-            };
+            let registro = { ...this.ordemSelecionada, value: (this.ordemSelecionada.situacao = 'U') };
             this.gridOrdens?.updateItem(this.ordemSelecionada, registro);
             this.srvNotification.success('Registro alterado com sucesso !');
           },

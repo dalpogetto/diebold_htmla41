@@ -637,7 +637,7 @@ readonly acaoLogar: PoModalAction = {
 
   teste(){
     let elemento = document.querySelector('.po-search-input') as HTMLElement
-    console.log(elemento)
+   // console.log(elemento)
     
   }
 
@@ -807,7 +807,7 @@ readonly acaoLogar: PoModalAction = {
 
         this.srvTotvs.AprovarCalculo(params).subscribe({
           next: (response: any) => {
-            console.log("aprovar calculo", response)
+            //console.log("aprovar calculo", response)
             this.loadTela=false
             this.srvNotification.success('Execução do cálculo realizada com sucesso ! Processo RPW: ' + response.rpw)
             this.srvTotvs.EmitirParametros({estabInfo:'', tecInfo:'', processoInfo:''})
