@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent } from '@po-ui/ng-components';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
+import { Reparo } from '../../interfaces/reparo';
 
 @Component({
   selector: 'app-reparos',
@@ -26,8 +27,9 @@ nrProcess:string='';
 loadTela:boolean=false
 lEQV:boolean=false
 listaReparos!:any[]
+listaTemp = new Array<any>
 colunasReparos!:PoTableColumn[]
-cJustificativa!:string
+cJustificativa:string=''
 itemSelecionado:any
 
 readonly acaoSalvar: PoModalAction = {
@@ -69,15 +71,9 @@ readonly acoesGrid: PoTableAction[] = [
 
     this.srvTotvs.ObterUsuario().subscribe({
       next:(response:Usuario)=>{
-        
-        if (response === undefined){
-          this.LogarUsuario()
-        }
-        else{
           this.codEstabel = response.codEstabelecimento
           this.codUsuario = response.codUsuario
           this.nrProcess  = response.nrProcesso
-       }
       }
     })
 
@@ -87,54 +83,85 @@ readonly acoesGrid: PoTableAction[] = [
     this.srvTotvs.ObterItensParaReparo(params).subscribe({
       next:(response:any)=>{
         this.loadTela=false
+        console.log("info", response)
         if (response === undefined){
           return
         }
         this.listaReparos = response.items
-
       }})
  }
 
- onAbrirReparos(){
+ chamarCriacao(){
+    let param:any
+    if (this.gridReparos?.items.length === 0){
+      param = {reparos:[{"it-codigo":"", "cod-estabel": this.codEstabel, "nr-process": this.nrProcess}]}
+    }
+    else{
+      param = {reparos:this.gridReparos?.items}
+    }
 
+    this.srvTotvs.AbrirReparo(param).subscribe({
+      next: (response:any)=> {
+        this.loadTela = false
+        if (response.NumPedExec > 0)
+            this.srvNotification.success('Gerado pedido de execução para criação e impressão de reparos: ' + response.NumPedExec)
+          else
+            this.srvNotification.success('Processo atualizado com sucesso !')
+
+          this.router.navigate(['monitor'])
+        }
+    })
+ }
+
+ onAbrirReparos(){
   this.srvDialog.confirm({
     title: "GERAÇÃO E IMPRESSÃO DE REPAROS",
     message: "Deseja gerar e imprimir os reparos ?",
     confirm: () => {
-      this.loadTela = true
-      let param:any
+        
 
-      //Caso a lista de reparos tenha sido excluida pelo usuario enviar um registro 
-      //com item em branco, codigo do estabelecimento e numero do processo
-      
+        //Antes de Validar - Regra Excecao de Equivalencia
+        let lExcecao = true
+        this.gridReparos?.items.forEach((item:Reparo) =>{
+          if(!item['l-equivalente'])
+            lExcecao=false
+          else if(item['l-equivalente'] && item['it-codigo'].substring(0,6) === item['it-codigo-equiv'].substring(0,6) && item['it-codigo'].substring(0,2) === "98")
+            lExcecao=false
+        })
 
-      if (this.listaReparos.length === 0){
-        param = {reparos:[{"it-codigo":"", "cod-estabel": this.codEstabel, "nr-process": this.nrProcess}]}
-      }
-      else{
-        param = {reparos:this.listaReparos}
-      }
+        //Enviar a lista de reparos e justificativa
+        let params:any={itemsReparo:this.gridReparos?.items}
 
-      this.srvTotvs.AbrirReparo(param).subscribe({
-        next: (response:any)=> {
-           this.loadTela = false
-           if (response.NumPedExec > 0)
-              this.srvNotification.success('Gerado pedido de execução para criação e impressão de reparos: ' + response.NumPedExec)
-            else
-              this.srvNotification.success('Processo atualizado com sucesso !')
-
-            this.router.navigate(['monitor'])
-          }
+        if (lExcecao === true){
+          this.srvDialog.confirm({
+            title: 'EQUIVALENCIA POR EXCEÇÃO',
+            message: 'Confirma equivalencia por excecao do item?',
+            confirm: () => { 
+              this.loadTela = true
+              this.srvTotvs.ValidarItensReparo(params).subscribe({
+                next: (response:any) =>{
+                  if(response.ok !== undefined)
+                    this.chamarCriacao()
+                },
+                error:(e)=> {this.loadTela = false}
+              })
+            },
+            cancel: () => {this.loadTela = false },
+          });
+        }
+        else {
+          this.loadTela = true
+          this.srvTotvs.ValidarItensReparo(params).subscribe({
+            next: (response:any) =>{
+              if(response.ok !== undefined)
+                this.chamarCriacao()
+            },
+            error:(e)=>{this.loadTela = false}
+          })
+        }
+      },
+        cancel: () => {this.loadTela = false}
       })
-    },
-    cancel: () => {}
-  })
-  
- }
-
- 
- LogarUsuario() {
-    this.router.navigate(['seletor'], {queryParams:{redirectTo:'reparos'}}) 
  }
 
  onDeletar(obj:any){
@@ -148,13 +175,23 @@ readonly acoesGrid: PoTableAction[] = [
   });
   
  }
+ onDeletarTodos(){
+  this.srvDialog.confirm({
+    title: 'CONFIRMAÇÃO',
+    message: 'Confirma exclusão do Reparo?',
+    literals: { cancel: 'Não', confirm: 'Sim' },
+    confirm: () => { 
+        this.gridReparos?.items.forEach(item => this.gridReparos?.removeItem(item))
+    },
+    cancel: () => {},
+  });
+ }
 
  onEditar(obj:any){
   this.itemSelecionado = obj
   this.itCodigoEquiv = this.itemSelecionado["it-codigo-equiv"]
   this.qtdEquiv = this.itemSelecionado["qt-equiv"]
   this.telaAlterar?.open()
-
  }
 
  onSalvar(){
@@ -172,15 +209,30 @@ readonly acoesGrid: PoTableAction[] = [
   registroModificado["qt-equiv"] =  this.qtdEquiv
   registroModificado["l-equivalente"] = itemFormatado !== ''
 
-  let registro = {...this.itemSelecionado, registroModificado}
-  this.gridReparos?.updateItem(this.itemSelecionado, registro)
+  if (registroModificado["l-equivalente"])
+     registroModificado["desc-item-equiv"] = this.cJustificativa
 
   this.telaAlterar?.close()
+
+  //let registro = {...this.itemSelecionado, registroModificado}
+  this.gridReparos?.updateItem(this.itemSelecionado, registroModificado)
  }
 
  onCancelar(){
    this.telaAlterar?.close()
  }
+
+
+ removeAttrFromObject = <O extends object, A extends keyof O>(
+  object: O, attr: A): Omit<O, A> => {
+  const newObject = { ...object }
+
+  if (attr in newObject) {
+    delete newObject[attr]
+  }
+
+  return newObject
+}
  
 }
 

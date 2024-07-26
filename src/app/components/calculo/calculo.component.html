@@ -122,7 +122,7 @@
 
       <po-step p-label="ExtraKit" [p-can-active-next-step]="canActiveNextStep.bind(this)">
 
-        <po-widget class="po-md-12" [p-primary-label]="lblStepAnterior" 
+        <po-widget class="po-md-12" [p-primary-label]="lblStepAnterior" p-title="Marque as peças para entrada no DAT"
           [p-secondary-label]="lblStepExecutar" (p-primary-action)="stepper.previous()"
           (p-secondary-action)="stepper.next()">
 

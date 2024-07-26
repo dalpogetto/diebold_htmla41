@@ -8,6 +8,7 @@ import { PoTableColumn } from '@po-ui/ng-components';
 import { Usuario } from '../interfaces/usuario';
 import { Monitor } from '../interfaces/monitor';
 import { environment } from '../../environments/environment';
+import { Reparo } from '../interfaces/reparo';
 
 //--- Header somente para DEV
 const headersTotvs = new HttpHeaders(environment.totvs_header)    
@@ -68,7 +69,7 @@ obterColunasSaldoTerc(): Array<PoTableColumn> {
     { property: 'serieDocto', label: "Série" },
     { property: 'itCodigo', label: "Item"},
     { property: 'qtSaldo', label: 'Qtde', type: 'number', color:"color-10"},
-    { property: 'qtRuim', label: 'QtRuim', type: 'number', color:"color-07", visible:true},
+   /*  { property: 'qtRuim', label: 'QtRuim', type: 'number', color:"color-07", visible:true}, */
     { property: 'descItem', label: "Descrição", width: '300px'}
 
   ];
@@ -269,7 +270,7 @@ obterColunasReparos(): Array<PoTableColumn>{
   return [
    
     {property: 'cod-estabel', label: "Estab"},
-    {property: 'codFilial', label: "Filial"},
+    {property: 'CodFilial', label: "Filial"},
     {property: 'it-codigo', label: "Item"},
     {property: 'qt-reparos', label: "Qtd.Rep"},
     /* {property: 'l-equivalente', label: "EQV", type: 'columnTemplate'}, */
@@ -285,11 +286,11 @@ obterColunasMonitor():Array<PoTableColumn>{
   return [
     {property: 'situacao', label: "Situação", type:'label',
       labels: [
-        { value: 'I',  color: 'color-08', label: 'Impresso', textColor:'white' },
+        { value: 'I',  color: 'color-08', label: 'Impresso', textColor:'white' ,},
         { value: 'B',  color: 'color-03', label: 'Embalagem', textColor:'white' },
-        { value: 'E',  color: 'color-10', label: 'Entradas', textColor:'white' },
+        { value: 'E',  color: 'color-09', label: 'Entradas', textColor:'white' },
         { value: 'S',  color: 'color-10', label: 'Saídas', textColor:'white' },
-        { value: 'R',  color: 'color-03', label: 'Reparo', textColor:'white' },
+        { value: 'R',  color: 'color-01', label: 'Reparo', textColor:'white' },
         { value: 'L',  color: 'color-07', label: 'Resumo Final', textColor:'white' }
       ]},
     {property: 'nr-process', label: "Processo"},
@@ -333,9 +334,7 @@ public ObterMonitor(monitor?:Monitor){
   public ObterEstabelecimentos(params?: any){
     return this.http.get<any>(`${this._url}/ObterEstab`, {params: params, headers:headersTotvs})
                  .pipe(
-                  ///tap(data => {console.log("Retorno API TOTVS => ", data)}),
                   map(item => { return item.items.map((item:any) =>  { return { label:item.codEstab + ' ' + item.nome, value: item.codEstab, codFilial: item.codFilial } }) }),
-                  ///tap(data => {console.log("Data Transformada pelo Map =>", data)}),
                   take(1));
   }
 
@@ -345,7 +344,6 @@ public ObterMonitor(monitor?:Monitor){
     return this.http.get<any>(`${this._url}/ObterTecEstab?codEstabel=${id}`, {headers:headersTotvs})
                  .pipe(
                   map(item => { return item.items.map((item:any) =>  { return { label: item.codTec + ' ' + item.nomeAbrev, value: item.codTec  } }) }),
-                  ///tap(data => {console.log("Data Transformada pelo Map =>", data)}),
                   take(1));
   }
 
@@ -498,9 +496,15 @@ public ObterMonitor(monitor?:Monitor){
                    .pipe(take(1));
   }
 
-   //---------------------- Salvar registro
-   public AbrirReparo(params?: any){
+  public AbrirReparo(params?: any){
     return this.http.post(`${this._url}/AbrirReparos`, params, {headers:headersTotvs})
+                .pipe(take(1));
+  }
+
+
+   //---------------------- Salvar registro
+   public ValidarItensReparo(params?: any){
+    return this.http.post<Reparo[]>(`${this._url}/ValidarItensReparo`, params, {headers:headersTotvs})
                 .pipe(take(1));
   }
 
