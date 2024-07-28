@@ -1,13 +1,17 @@
 import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 
-import { PoMenuComponent, PoMenuItem } from '@po-ui/ng-components';
+import { PoMenuComponent, PoMenuItem, PoMenuModule, PoToolbarModule, PoPageModule } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
 import { TotvsService } from './services/totvs-service.service';
+import { RouterOutlet } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: true,
+    imports: [PoMenuModule, NgIf, PoToolbarModule, PoPageModule, RouterOutlet]
 })
 export class AppComponent {
   private srvTotvs = inject(TotvsService)
