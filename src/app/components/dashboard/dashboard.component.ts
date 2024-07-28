@@ -1,24 +1,30 @@
 import { Component, inject, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  PoAccordionComponent,
-  PoAccordionItemComponent,
-  PoDialogService,
-  PoModalAction,
-  PoModalComponent,
-  PoNotificationService,
-  PoTableAction,
-  PoTableColumn,
-} from '@po-ui/ng-components';
+import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoButtonModule, PoTooltipModule, PoAccordionModule, PoWidgetModule, PoTableModule, PoModalModule } from '@po-ui/ng-components';
 import { Subscription, delay, interval } from 'rxjs';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
 import { environment } from '../../../environments/environment';
+import { BtnDownloadComponent } from '../btn-download/btn-download.component';
+import { NgIf, UpperCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css'],
+    standalone: true,
+    imports: [
+        NgIf,
+        PoLoadingModule,
+        PoButtonModule,
+        PoTooltipModule,
+        PoAccordionModule,
+        PoWidgetModule,
+        PoTableModule,
+        BtnDownloadComponent,
+        PoModalModule,
+        UpperCasePipe,
+    ],
 })
 export class DashboardComponent {
   //---------- Acessar a DOM

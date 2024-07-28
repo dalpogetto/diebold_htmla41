@@ -22,34 +22,30 @@ import { CardComponent } from './components/card/card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DashboardComponent,
-    CalculoComponent,
-    HomeComponent,
-    InformeComponent,
-    ParamestabComponent,
-    EmbalagemComponent,
-    ReparosComponent,
-    SeletorComponent,
-    MonitorProcessosComponent,
-    ResumoFinalComponent,
-    BtnDownloadComponent,
-    CardComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    PoModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot([])
-  ],
-
- 
-  providers: [provideAnimations()],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        PoModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule.forRoot([]),
+        DashboardComponent,
+        CalculoComponent,
+        HomeComponent,
+        InformeComponent,
+        ParamestabComponent,
+        EmbalagemComponent,
+        ReparosComponent,
+        SeletorComponent,
+        MonitorProcessosComponent,
+        ResumoFinalComponent,
+        BtnDownloadComponent,
+        CardComponent
+    ],
+    providers: [provideAnimations()],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

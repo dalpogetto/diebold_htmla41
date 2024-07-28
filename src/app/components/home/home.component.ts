@@ -1,10 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { TotvsService } from '../../services/totvs-service.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
+    standalone: true,
+    imports: [RouterLink]
 })
 export class HomeComponent {
 

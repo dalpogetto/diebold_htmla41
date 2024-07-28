@@ -1,14 +1,18 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent } from '@po-ui/ng-components';
+import { PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTooltipModule, PoTableModule, PoFieldModule, PoModalModule } from '@po-ui/ng-components';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
 import { Reparo } from '../../interfaces/reparo';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-reparos',
-  templateUrl: './reparos.component.html',
-  styleUrls: ['./reparos.component.css']
+    selector: 'app-reparos',
+    templateUrl: './reparos.component.html',
+    styleUrls: ['./reparos.component.css'],
+    standalone: true,
+    imports: [NgIf, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTooltipModule, PoTableModule, PoFieldModule, FormsModule, PoModalModule]
 })
 export class ReparosComponent {
 

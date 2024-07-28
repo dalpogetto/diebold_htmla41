@@ -5,32 +5,19 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {
-  PoComboComponent,
-  PoDialogComponent,
-  PoDialogService,
-  PoMenuItem,
-  PoModalAction,
-  PoModalComponent,
-  PoNotificationService,
-  PoTableAction,
-  PoTableColumn,
-} from '@po-ui/ng-components';
+import { PoComboComponent, PoDialogComponent, PoDialogService, PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoButtonModule, PoTableModule, PoInfoModule, PoModalModule, PoFieldModule, PoIconModule, PoDividerModule } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
-import {
-  FormBuilder,
-  FormGroup,
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TotvsService } from '../../services/totvs-service.service';
+import { NgIf } from '@angular/common';
 
 
 @Component({
-  selector: 'app-paramestab',
-  templateUrl: './paramestab.component.html',
-  styleUrls: ['./paramestab.component.css']
+    selector: 'app-paramestab',
+    templateUrl: './paramestab.component.html',
+    styleUrls: ['./paramestab.component.css'],
+    standalone: true,
+    imports: [PoButtonModule, PoTableModule, PoInfoModule, PoModalModule, FormsModule, ReactiveFormsModule, NgIf, PoFieldModule, PoIconModule, PoDividerModule]
 })
 export class ParamestabComponent {
   private srvTotvs = inject(TotvsService);

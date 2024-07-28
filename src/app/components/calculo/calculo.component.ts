@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
-import { PoMenuItem, PoModalAction, PoModalComponent, PoPageAction, PoRadioGroupOption, PoStepperComponent, PoTableAction, PoTableColumn, PoTableComponent, PoNotificationService, PoDialogService, PoNotification, PoButtonComponent } from '@po-ui/ng-components';
+import { PoMenuItem, PoModalAction, PoModalComponent, PoPageAction, PoRadioGroupOption, PoStepperComponent, PoTableAction, PoTableColumn, PoTableComponent, PoNotificationService, PoDialogService, PoNotification, PoButtonComponent, PoLoadingModule, PoStepperModule, PoWidgetModule, PoDividerModule, PoFieldModule, PoIconModule, PoTableModule, PoButtonModule, PoTooltipModule, PoRadioGroupModule, PoModalModule } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
 import { catchError, delay, elementAt } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -7,12 +7,16 @@ import { ExcelService } from '../../services/excel-service.service';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService46 } from '../../services/totvs-service-46.service';
 import { environment } from '../../../environments/environment';
+import { BtnDownloadComponent } from '../btn-download/btn-download.component';
+import { NgIf } from '@angular/common';
 
 
 @Component({
-  selector: 'app-calculo',
-  templateUrl: './calculo.component.html',
-  styleUrls: ['./calculo.component.css']
+    selector: 'app-calculo',
+    templateUrl: './calculo.component.html',
+    styleUrls: ['./calculo.component.css'],
+    standalone: true,
+    imports: [NgIf, PoLoadingModule, PoStepperModule, PoWidgetModule, PoDividerModule, PoFieldModule, FormsModule, PoIconModule, PoTableModule, PoButtonModule, PoTooltipModule, BtnDownloadComponent, PoRadioGroupModule, PoModalModule]
 })
 export class CalculoComponent {
 

@@ -1,15 +1,18 @@
 import { Component, ViewChild, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoRadioGroupOption, PoTableAction, PoTableColumn, PoTableComponent } from '@po-ui/ng-components';
+import { PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoRadioGroupOption, PoTableAction, PoTableColumn, PoTableComponent, PoLoadingModule, PoButtonModule, PoWidgetModule, PoTableModule, PoModalModule, PoFieldModule, PoRadioGroupModule } from '@po-ui/ng-components';
 
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-embalagem',
-  templateUrl: './embalagem.component.html',
-  styleUrls: ['./embalagem.component.css']
+    selector: 'app-embalagem',
+    templateUrl: './embalagem.component.html',
+    styleUrls: ['./embalagem.component.css'],
+    standalone: true,
+    imports: [NgIf, PoLoadingModule, PoButtonModule, PoWidgetModule, PoTableModule, PoModalModule, FormsModule, ReactiveFormsModule, PoFieldModule, PoRadioGroupModule]
 })
 export class EmbalagemComponent {
 

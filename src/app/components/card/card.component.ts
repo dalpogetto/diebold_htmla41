@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, numberAttribute, Output } from '@angular/core';
+import { NgClass } from '@angular/common';
 
 
 @Component({
-  selector: 'cardResumo',
-  templateUrl: './card.component.html',
-  styleUrl: './card.component.css'
+    selector: 'cardResumo',
+    templateUrl: './card.component.html',
+    styleUrl: './card.component.css',
+    standalone: true,
+    imports: [NgClass]
 })
 
 export class CardComponent {

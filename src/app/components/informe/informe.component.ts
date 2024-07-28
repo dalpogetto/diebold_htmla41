@@ -5,38 +5,44 @@ import { Component,
   QueryList,
   ElementRef} from '@angular/core';
 
-  import {
-    PoAccordionComponent,
-    PoAccordionItemComponent,
-    PoDialogService,
-    PoMenuItem,
-    PoModalAction,
-    PoModalComponent,
-    PoNotificationService,
-    PoTableAction,
-    PoTableColumn,
-    PoTableComponent,
-  } from '@po-ui/ng-components';
+  import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent, PoLoadingModule, PoAccordionModule, PoWidgetModule, PoFieldModule, PoIconModule, PoButtonModule, PoTooltipModule, PoTableModule, PoTagModule, PoModalModule, PoDatepickerModule, PoRadioGroupModule, PoCheckboxModule } from '@po-ui/ng-components';
   import { delay, Subscription } from 'rxjs';
 import { TotvsService46 } from '../../services/totvs-service-46.service';
-  import {
-    FormBuilder,
-    FormGroup,
-    UntypedFormBuilder,
-    UntypedFormGroup,
-    Validators,
-  } from '@angular/forms';
+  import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TotvsService } from '../../services/totvs-service.service';
 import { Usuario } from '../../interfaces/usuario';
 import { Router } from '@angular/router';
 import { ExcelService } from '../../services/excel-service.service';
 import { environment } from '../../../environments/environment';
+import { BtnDownloadComponent } from '../btn-download/btn-download.component';
+import { NgIf, NgClass } from '@angular/common';
 
 
 @Component({
-  selector: 'app-informe',
-  templateUrl: './informe.component.html',
-  styleUrls: ['./informe.component.css'],
+    selector: 'app-informe',
+    templateUrl: './informe.component.html',
+    styleUrls: ['./informe.component.css'],
+    standalone: true,
+    imports: [
+        NgIf,
+        PoLoadingModule,
+        PoAccordionModule,
+        PoWidgetModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PoFieldModule,
+        PoIconModule,
+        PoButtonModule,
+        PoTooltipModule,
+        PoTableModule,
+        NgClass,
+        PoTagModule,
+        BtnDownloadComponent,
+        PoModalModule,
+        PoDatepickerModule,
+        PoRadioGroupModule,
+        PoCheckboxModule,
+    ],
 })
 export class InformeComponent {
   private srvTotvs46 = inject(TotvsService46);

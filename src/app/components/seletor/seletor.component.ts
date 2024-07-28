@@ -1,13 +1,17 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PoModalAction, PoModalComponent, PoNotificationService } from '@po-ui/ng-components';
+import { PoModalAction, PoModalComponent, PoNotificationService, PoModalModule, PoFieldModule, PoIconModule } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 
 @Component({
-  selector: 'app-seletor',
-  templateUrl: './seletor.component.html',
-  styleUrls: ['./seletor.component.css']
+    selector: 'app-seletor',
+    templateUrl: './seletor.component.html',
+    styleUrls: ['./seletor.component.css'],
+    standalone: true,
+    imports: [NgIf, PoModalModule, PoFieldModule, FormsModule, PoIconModule]
 })
 export class SeletorComponent {
 

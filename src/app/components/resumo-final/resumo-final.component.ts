@@ -1,16 +1,20 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PoDialogService, PoNotificationService, PoTableColumn, PoTableLiterals } from '@po-ui/ng-components';
+import { PoDialogService, PoNotificationService, PoTableColumn, PoTableLiterals, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTableModule } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
 import { TotvsService46 } from '../../services/totvs-service-46.service';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../../interfaces/usuario';
+import { BtnDownloadComponent } from '../btn-download/btn-download.component';
+import { NgIf } from '@angular/common';
 
 
 @Component({
-  selector: 'app-resumo-final',
-  templateUrl: './resumo-final.component.html',
-  styleUrl: './resumo-final.component.css'
+    selector: 'app-resumo-final',
+    templateUrl: './resumo-final.component.html',
+    styleUrl: './resumo-final.component.css',
+    standalone: true,
+    imports: [NgIf, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTableModule, BtnDownloadComponent]
 })
 export class ResumoFinalComponent implements OnInit {
   private srvTotvs = inject(TotvsService)

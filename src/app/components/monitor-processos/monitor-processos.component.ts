@@ -1,13 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { PoModalAction, PoNotificationService, PoTableAction, PoTableColumn } from '@po-ui/ng-components';
+import { PoModalAction, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoFieldModule, PoIconModule, PoButtonModule, PoTableModule } from '@po-ui/ng-components';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
+import { FormsModule } from '@angular/forms';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-monitor-processos',
-  templateUrl: './monitor-processos.component.html',
-  styleUrls: ['./monitor-processos.component.css']
+    selector: 'app-monitor-processos',
+    templateUrl: './monitor-processos.component.html',
+    styleUrls: ['./monitor-processos.component.css'],
+    standalone: true,
+    imports: [NgIf, PoLoadingModule, PoFieldModule, FormsModule, PoIconModule, PoButtonModule, PoTableModule, NgClass]
 })
 export class MonitorProcessosComponent {
 

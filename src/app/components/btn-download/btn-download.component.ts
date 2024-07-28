@@ -1,11 +1,14 @@
 import { booleanAttribute, Component, Input } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { NgIf } from '@angular/common';
 
 
 @Component({
-  selector: 'btnDownload',
-  templateUrl: './btn-download.component.html',
-  styleUrl: './btn-download.component.css'
+    selector: 'btnDownload',
+    templateUrl: './btn-download.component.html',
+    styleUrl: './btn-download.component.css',
+    standalone: true,
+    imports: [NgIf]
 })
 export class BtnDownloadComponent {
   @Input() nomeArquivo: string='';
