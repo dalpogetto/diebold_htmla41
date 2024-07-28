@@ -10,15 +10,16 @@ import { PoModule } from '@po-ui/ng-components';
 import { AppRoutingModule } from './app/app-routing.module';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { APP_ROUTES } from './app/app.routes';
 
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule, PoModule, FormsModule, ReactiveFormsModule),
+        importProvidersFrom(BrowserModule, PoModule, FormsModule, ReactiveFormsModule),
         provideAnimations(),
         provideAnimations(),
         provideHttpClient(withInterceptorsFromDi()),
-        provideRouter([])
+        provideRouter(APP_ROUTES)
     ]
 })
   .catch(err => console.error(err));
