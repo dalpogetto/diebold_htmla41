@@ -16,7 +16,20 @@ import { NgIf } from '@angular/common';
     templateUrl: './calculo.component.html',
     styleUrls: ['./calculo.component.css'],
     standalone: true,
-    imports: [NgIf, PoLoadingModule, PoStepperModule, PoWidgetModule, PoDividerModule, PoFieldModule, FormsModule, PoIconModule, PoTableModule, PoButtonModule, PoTooltipModule, BtnDownloadComponent, PoRadioGroupModule, PoModalModule]
+    imports: [NgIf, 
+      PoLoadingModule, 
+      PoStepperModule, 
+      PoWidgetModule, 
+      PoDividerModule, 
+      PoFieldModule, 
+      FormsModule, 
+      PoIconModule, 
+      PoTableModule, 
+      PoButtonModule,
+      PoTooltipModule, 
+      BtnDownloadComponent, 
+      PoRadioGroupModule, 
+      PoModalModule]
 })
 export class CalculoComponent {
 

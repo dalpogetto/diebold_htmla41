@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject, map, of, take, tap } from 'rxjs';
 import { Observable } from 'rxjs';
@@ -18,6 +18,34 @@ const headersTotvs = new HttpHeaders(environment.totvs_header)
 })
 
 export class TotvsService {
+  
+  //Signals
+  usuarioSelecionado:WritableSignal<Usuario> = signal({codUsuario:'', codEstabelecimento:'', nrProcesso:''})
+  codTransEnt = signal('')
+  codTransSai = signal('')
+  codEntrega  = signal('')
+  serieSaida  = signal('')
+  serieEntra  = signal('')
+
+  //Lista Transportadora e Entrega
+  listaTransp = signal<any[]>([])
+  listaEntrega = signal<any[]>([]) 
+
+
+  public PopularListaEntrega(lista:any){
+    this.listaEntrega.update(lista)
+
+  }
+
+  public SetarUsuarioAmbiente(usuario:Usuario){
+    this.usuarioSelecionado.set(usuario)
+  }
+
+  public ObterUsuarioAmbiente(){
+    return this.usuarioSelecionado
+  }
+  
+
   private reg!:any;
   _url = environment.totvs_url;
 

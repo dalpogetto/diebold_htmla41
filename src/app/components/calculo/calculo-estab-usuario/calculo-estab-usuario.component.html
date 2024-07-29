@@ -1,0 +1,34 @@
+<po-divider p-label="Estabelecimento e Técnico"></po-divider>
+
+<div class="po-md-12">
+  <div class="po-md-6">
+    <po-combo [ngModel]="codEstabelecimento" (ngModelChange)="codEstabelecimento = $event"
+      (p-change)="onEstabChange($event)" p-clean="true" [p-options]="listaEstabelecimentos" p-label="Estabelecimento"
+      p-icon="bi bi-pin-map" [p-placeholder]="placeHolderEstabelecimento">
+      <ng-template p-combo-option-template let-option>
+        <div class="po-row">
+          <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="bi bi-pin-map"></po-icon>
+          <div class="po-sm-10 po-md-9 po-lg-11">
+            <div class="po-font-text-large-bold">{{ option.label }}</div>
+            <div class="po-font-text-smaller">Filial: {{ option.codFilial }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </po-combo>
+  </div>
+
+  <div class="po-md-6">
+    <po-combo p-label="Técnico" [ngModel]="codTecnico" (ngModelChange)="codTecnico = $event"
+      p-icon="bi bi-person-workspace" [p-options]="listaTecnicos" (p-change)="onTecnicoChange($event)"
+      [p-placeholder]="loadTecnico" [p-clean]="true">
+      <ng-template p-combo-option-template let-option>
+        <div class="po-row">
+          <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="bi bi-person-workspace"></po-icon>
+          <div class="po-sm-10 po-md-9 po-lg-11">
+            <div class="po-font-text-large-bold">{{ option.label }}</div>
+            <div class="po-font-text-smaller">Técnico: {{ option.value }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </po-combo>
+  </div>
