@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { TotvsService } from '../../services/totvs-service.service';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-home',
@@ -10,11 +11,15 @@ import { RouterLink } from '@angular/router';
     imports: [RouterLink]
 })
 export class HomeComponent {
+  versao!:string
 
 
   srvTotvs = inject(TotvsService)
 
   ngOnInit(): void {
+    //versao
+    this.versao = environment.versao
+
     //--- Informacoes iniciais tela
     this.srvTotvs.EmitirParametros({tituloTela: 'MENU PRINCIPAL - SELECIONE UMA DAS OPÇÕES', abrirMenu: false})
   }
