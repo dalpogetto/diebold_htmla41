@@ -1,5 +1,5 @@
 import { Component, ViewChild, inject } from '@angular/core';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoRadioGroupOption, PoTableAction, PoTableColumn, PoTableComponent, PoLoadingModule, PoButtonModule, PoWidgetModule, PoTableModule, PoModalModule, PoFieldModule, PoRadioGroupModule } from '@po-ui/ng-components';
 
@@ -50,7 +50,7 @@ export class EmbalagemComponent {
     readonly acaoSalvar: PoModalAction = {
       label: 'Salvar',
       action: () => { this.onSalvar() }
-    }
+    }  
 
     //--------- Opcoes de Calculo (Resumo)
 readonly options: Array<PoRadioGroupOption> = [
@@ -66,9 +66,10 @@ readonly options: Array<PoRadioGroupOption> = [
     'qt-embal': [''],
     'peso-liq': ['', Validators.required],
     'peso-bru': ['', Validators.required],
-    'modal':[1]
+    'modal':[2]
     
   });
+  
 
    ngOnInit(): void {
      
@@ -83,8 +84,8 @@ readonly options: Array<PoRadioGroupOption> = [
             this.codEstabel = response.codEstabelecimento
             this.codUsuario = response.codUsuario
             this.nrProcess  = response.nrProcesso
-            this.form_.controls.modal.setValue(1);
-            this.listaGrid = ([{'nr-process':response.nrProcesso, 'qt-volume':'0', 'cod-embal':'', 'qt-embal':'0', 'peso-liq':'0,001', 'peso-bru':'0,001', 'modal': 1}])
+            this.form_.controls.modal.setValue(2);
+            this.listaGrid = ([{'nr-process':response.nrProcesso, 'qt-volume':'0', 'cod-embal':'', 'qt-embal':'0', 'peso-liq':'0,001', 'peso-bru':'0,001', 'modal': 2}])
             this.form_.setValue(this.listaGrid[0])
         }
       })
@@ -107,6 +108,7 @@ readonly options: Array<PoRadioGroupOption> = [
 
      onEditar(){
       this.form_.patchValue(this.listaGrid[0])
+      this.onAlterarModal(this.form_.controls.modal.value)
       this.tela?.open()
      }
 
@@ -153,5 +155,17 @@ readonly options: Array<PoRadioGroupOption> = [
           this.grid.items = this.listaGrid
           this.tela?.close()
         }
+     }
+
+     onAlterarModal(opcao:any){
+      if (opcao === 1){
+        this.form_.controls['cod-embal'].enable()
+        this.form_.controls['qt-embal'].enable()
+      }
+      else {
+        this.form_.controls['cod-embal'].disable()
+        this.form_.controls['qt-embal'].disable()
+      }
+
      }
 }

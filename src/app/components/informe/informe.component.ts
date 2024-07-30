@@ -1256,7 +1256,20 @@ export class InformeComponent {
   //Selecionar OS
   onSelecionarOS(obj?: any | null) {}
 
+  public onTecnicoChange(obj:string){
+    //Limpar listas
+    this.listaOrdens=[]
+    this.listaItens=[]
+    this.mostrarDados=false
+  }
+
   public onEstabChange(obj: string) {
+    
+    //Limpar listas
+    this.listaOrdens=[]
+    this.listaItens=[]
+    this.mostrarDados=false
+
     if (obj === undefined) return;
 
     //Popular o Combo do Emitente

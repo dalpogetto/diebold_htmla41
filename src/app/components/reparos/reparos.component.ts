@@ -6,6 +6,7 @@ import { TotvsService } from '../../services/totvs-service.service';
 import { Reparo } from '../../interfaces/reparo';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { TotvsService46 } from '../../services/totvs-service-46.service';
 
 @Component({
     selector: 'app-reparos',
@@ -21,6 +22,7 @@ export class ReparosComponent {
 
 //---Injection
 private srvTotvs = inject(TotvsService);
+private srvTotvs46 = inject(TotvsService46);
 private srvNotification = inject(PoNotificationService);
 private srvDialog = inject(PoDialogService);
 private router = inject(Router)
@@ -65,6 +67,7 @@ readonly acoesGrid: PoTableAction[] = [
   lequiv:boolean=false
   itCodigoEquiv=''
   qtdEquiv=0
+  numSerie=''
 
   tagEquiv(){}
 
@@ -195,6 +198,7 @@ readonly acoesGrid: PoTableAction[] = [
   this.itemSelecionado = obj
   this.itCodigoEquiv = this.itemSelecionado["it-codigo-equiv"]
   this.qtdEquiv = this.itemSelecionado["qt-equiv"]
+  this.numSerie = this.itemSelecionado["num-serie-it"]
   this.telaAlterar?.open()
  }
 
@@ -212,6 +216,7 @@ readonly acoesGrid: PoTableAction[] = [
   registroModificado["it-codigo-equiv"] = itemFormatado
   registroModificado["qt-equiv"] =  this.qtdEquiv
   registroModificado["l-equivalente"] = itemFormatado !== ''
+  registroModificado["num-serie-it"] = this.numSerie
 
   if (registroModificado["l-equivalente"])
      registroModificado["desc-item-equiv"] = this.cJustificativa
@@ -225,6 +230,19 @@ readonly acoesGrid: PoTableAction[] = [
  onCancelar(){
    this.telaAlterar?.close()
  }
+
+ //Montar o objeto para salvar informacoes do item da os
+ onLeaveNumSerie(){
+  let params: any = { itCodigo: this.itemSelecionado, numSerieItem: this.numSerie };
+  this.srvTotvs46.ValidarSerie(params).subscribe({
+    next: (response: any) => {
+      //console.log("serieFormatada", response.serieFormatada)
+      
+    },
+   
+    
+  });
+}
 
 
  removeAttrFromObject = <O extends object, A extends keyof O>(

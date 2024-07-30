@@ -1,8 +1,8 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PoModalAction, PoModalComponent, PoNotificationService, PoModalModule, PoFieldModule, PoIconModule } from '@po-ui/ng-components';
+import { PoModalAction, PoModalComponent, PoNotificationService, PoModalModule, PoFieldModule, PoIconModule, PoButtonModule } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 
 
@@ -11,7 +11,8 @@ import { NgIf } from '@angular/common';
     templateUrl: './seletor.component.html',
     styleUrls: ['./seletor.component.css'],
     standalone: true,
-    imports: [NgIf, PoModalModule, PoFieldModule, FormsModule, PoIconModule]
+    imports: [NgIf, PoModalModule, PoFieldModule, FormsModule, PoIconModule, FormsModule, PoButtonModule,
+      ReactiveFormsModule,]
 })
 export class SeletorComponent {
 
@@ -46,8 +47,18 @@ acaoCancelar: PoModalAction={
   label: 'Cancelar '
 }
 
+private formBuilder = inject(FormBuilder);
+
+//Formulario
+public form = this.formBuilder.group({
+  'Inclusao': [''],
+  
+});
+
 
 ngOnInit(): void {
+  this.form.controls['Inclusao'].patchValue('só no sapatinho')
+
   /*
 
 this.mostrarLabel=false

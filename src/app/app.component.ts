@@ -65,12 +65,18 @@ export class AppComponent {
       shortLabel: 'FT0904',
       action: () => this.AbrirProgramaTotvs('ftp/ft0904.w'),
     },
-    {
+    /* {
       label: 'Refactory Calculo',
       icon: 'bi bi-file-earmark-text',
       link: '/calculo-step',
       shortLabel: 'Calculo Step',
     },
+    {
+      label: 'Seletor',
+      icon: 'bi bi-file-earmark-text',
+      link: '/seletor',
+      shortLabel: 'Calculo Step',
+    }, */
   ];
 
   //------ Label de menu principal

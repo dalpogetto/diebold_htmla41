@@ -28,6 +28,7 @@
 
         <div class="po-md-4">
           <po-combo p-label="Técnico" formControlName="codUsuario" 
+          (p-change)="onTecnicoChange($event)"
                 p-icon="bi bi-person-workspace"     [p-options]="listaTecnicos"
                 [p-placeholder]="loadTecnico" [p-clean]="true" >
                 <ng-template p-combo-option-template let-option>
@@ -81,7 +82,7 @@
                 </po-table>
                           
                
-                  <div class="box">
+                  <div class="box" *ngIf=" this.mostrarDados === true">
                     <div class="po-md-4"><strong>Usadas</strong><po-tag [p-value]="cUsadas" p-color="color-10" p-text-color="white"></po-tag></div>
                     <div class="po-md-4"><strong>Em Branco</strong><po-tag  [p-value]="cBrancas" p-color="color-01" p-text-color="white"></po-tag></div>
                     <div class="po-md-4"><strong>Total</strong><po-tag      [p-value]="cTotal" p-color="color-07" p-text-color="white"></po-tag></div>
@@ -122,14 +123,14 @@
             </po-table>
          
             
-            <div class="po-md-12 observacao"> <p>{{edObservacao}}</p></div>
+            <div class="po-md-12 observacao" *ngIf=" this.mostrarDados === true"> <p>{{edObservacao}}</p></div>
           
           </div>
        
     </po-accordion-item>
 
     <po-accordion-item p-label="Log de Arquivos">
-      <po-widget>
+      <po-widget *ngIf=" this.mostrarDados === true">
         <po-table [p-items]="listaArquivos" 
                   [p-columns]="colunasArquivos" 
                   [p-hide-table-search]="true"

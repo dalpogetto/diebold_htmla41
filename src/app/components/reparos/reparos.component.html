@@ -51,6 +51,7 @@
         <!-- <div><po-checkbox [(ngModel)]="lequiv" (p-change)="tagEquiv()" p-label="EQV"> </po-checkbox></div> -->
         <div><po-input [(ngModel)]="itCodigoEquiv" p-label="Item Equivalência" p-mask="__.___._____-__"></po-input></div>
         <div><po-input [(ngModel)]="qtdEquiv" p-label="Qtd.Equiv"></po-input></div>
+        <div><po-input [(ngModel)]="numSerie" p-label="Num Série Garantia" (p-blur)="onLeaveNumSerie()"></po-input></div>
     </div>
     </po-widget>
 

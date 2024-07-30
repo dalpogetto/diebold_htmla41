@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PoModalAction, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoFieldModule, PoIconModule, PoButtonModule, PoTableModule } from '@po-ui/ng-components';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
@@ -18,6 +18,7 @@ export class MonitorProcessosComponent {
 private srvTotvs = inject(TotvsService)
 private srvNotification = inject(PoNotificationService);
 private router = inject(Router)
+private route = inject(ActivatedRoute)
 
 
 
@@ -103,7 +104,7 @@ public onListar(){
   let params:any={codEstabel: this.codEstabel}
   this.srvTotvs.ObterProcessosEstab(params).subscribe({
     next: (response:any)=>{
-      this.lista = response.items;
+      this.lista = (response.items as any[]).sort(this.srvTotvs.ordenarCampos(['nr-process']));
       this.srvTotvs.SetarMonitor({listaEstab: this.listaEstabelecimentos, listaGrid: this.lista, estabSelecionado: this.codEstabel})
       this.loadTela = false
     },

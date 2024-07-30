@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   versao:'1.0',
-  totvs_url: 'https://totvsapptst.dieboldnixdorf.com.br:8143/api/integracao/aat/v1/apiesaa041',
-  totvs46_url: 'https://totvsapptst.dieboldnixdorf.com.br:8143/api/integracao/aat/v1/apiesaa046',
+  totvs_url: 'https://totvsapptst.dieboldnixdorf.com.br:8543/api/integracao/aat/v1/apiesaa041',
+  totvs46_url: 'https://totvsapptst.dieboldnixdorf.com.br:8543/api/integracao/aat/v1/apiesaa046',
   totvs_header:{
     'Content-Type': 'application/json',
     'Authorization': 'Basic ' + btoa("super:prodiebold11"),

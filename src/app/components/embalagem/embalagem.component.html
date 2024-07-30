@@ -31,18 +31,22 @@
 
 <po-modal [p-title]="titleEmbal" #tela [p-primary-action]="this.acaoSalvar" p-click-out="false" >
     
-    <form [formGroup]="form_" (ngSubmit)="onSalvar">
+    <form [formGroup]="form_">
         <div class="po-md-4"><po-input p-clean="true" p-auto-focus="true" p-label="Volumes" formControlName="qt-volume" ></po-input>
             <div *ngIf="this.form_.controls['qt-volume'].errors" style="color:red">* Volume deve ser preenchido</div>
         </div>
         
         <div class="po-md-12">
             <po-widget>
-            <po-radio-group [p-columns]="2" name="options" formControlName="modal" [p-options]="options" p-label="Modalidade Embalagem"/></po-widget>
+            <po-radio-group  name="options" formControlName="modal" 
+                             (p-change)="onAlterarModal($event)"
+                             [p-columns]="2" 
+                             [p-options]="options" 
+                             p-label="Modalidade Embalagem"/></po-widget>
         </div>
 
-        <div class="po-md-4"><po-input p-clean="true"  p-label="Embalagem" formControlName="cod-embal"  ></po-input></div>
-        <div class="po-md-4"><po-input p-clean="true"  p-label="Qtd Embalagem" formControlName="qt-embal"  ></po-input></div>
+        <div class="po-md-4"><po-input p-clean="true"  p-label="Embalagem" formControlName="cod-embal" name="cod-embal" ></po-input></div>
+        <div class="po-md-4"><po-input p-clean="true"  p-label="Qtd Embalagem" formControlName="qt-embal" name="qt-embal"  ></po-input></div>
         <div class="po-row"></div>
 
         <div class="po-md-4"><po-input p-clean="true"  p-label="Peso Liq." formControlName="peso-liq"  ></po-input></div>
