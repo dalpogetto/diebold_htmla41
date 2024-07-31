@@ -53,7 +53,18 @@
       </po-widget>
     </po-accordion-item>
     <po-accordion-item #item2 p-label="Notas Fiscais de SAÍDA" p-tooltip="2">
-      <po-widget>
+       <po-widget>
+        <div class="efetivacaoInfo">
+          <div><span class="po-font-text-large">A EFETIVAÇÃO IRÁ ENVIAR O PROCESSO PARA O PRÓXIMO PASSO</span></div>
+          <div>
+            <po-button (p-click)="onForcarEfetivarProcesso()" 
+                      p-icon="bi bi-check-lg" 
+                      p-label="Efetivar Processo" 
+                      p-danger="true">
+            </po-button>
+          </div>
+          
+        </div>
         <!-- <po-progress [p-value]="percNFS" [p-show-percentage]="true" p-text="Notas processadas"></po-progress>
         <po-divider></po-divider> -->
 

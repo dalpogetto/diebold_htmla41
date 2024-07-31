@@ -1,8 +1,17 @@
+.efetivacaoInfo{
+  display: flex; 
+  column-gap: 20px; 
+  justify-content: center; 
+  align-items: center; 
+  margin-bottom: 10px; 
+  background-color: whitesmoke;
+}
+
 .rpwInfo {
   display: none;
   color: white;
   border-radius: 3px;
-  box-shadow: 2px 20px 25px gray;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   padding: 5px;
   margin-top: 5px;
   max-width: 520px;

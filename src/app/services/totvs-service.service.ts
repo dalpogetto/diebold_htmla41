@@ -170,6 +170,7 @@ obterColunasRenovar(): Array<PoTableColumn> {
     { property: 'codLocaliza', label: "Local"},
     { property: 'kit', label: "Kit"},
     { property: 'itPrincipal', label: "Principal"},
+   
    /*  { property: 'seqOrdem', label: "Ordem"},
     { property: 'notaAnt', label: "Nota"}, */
   ];
@@ -187,6 +188,7 @@ obterColunasExtrakit(): Array<PoTableColumn> {
     { property: 'codLocaliza', label: "Local"},
     { property: 'kit', label: "Kit"},
     { property: 'itPrincipal', label: "Principal"},
+    
     /* { property: 'seqOrdem', label: "Ordem"},
     { property: 'notaAnt', label: "Nota"}, */
   ];
@@ -245,7 +247,7 @@ obterColunasSaidas(): Array<PoTableColumn> {
     labels: [
       { value: 1,  color: 'color-08', label: 'NFe não autorizada', textColor:'white' },
       { value: 2,  color: 'color-08', label: 'Em Processamento', textColor:'white' },
-      { value: 3,  color: 'color-10', label: 'Autorizada', textColor:'white' },
+      { value: 3,  color: 'color-09', label: 'Autorizada', textColor:'white' },
       { value: 4,  color: 'color-07', label: 'Uso denegado', textColor:'white' },
       { value: 5,  color: 'color-07', label: 'Docto Rejeitado', textColor:'white' },
       { value: 6,  color: 'color-07', label: 'Docto Cancelado', textColor:'white' },
@@ -546,6 +548,10 @@ public ObterMonitor(monitor?:Monitor){
                 .pipe(take(1));
   }
 
+  public ForcarEfetivacaoSaida(params?: any){
+    return this.http.get(`${this._url}/ForcarEfetivacaoSaida`, {params, headers:headersTotvs})
+                .pipe(take(1));
+  }
   
    //Ordenacao campos num array
    public ordenarCampos = (fields: any[]) =>

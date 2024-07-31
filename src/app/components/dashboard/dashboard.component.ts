@@ -150,6 +150,33 @@ export class DashboardComponent {
     })
   }
 
+onForcarEfetivarProcesso(){
+  this.srvDialog.confirm({
+    title: 'EFETIVAR PROCESSO',
+    message:
+      'Confirma efetivação do processo ?',
+
+    confirm: () => {
+      this.loadTela = true;
+      let params: any = {
+          codEstabel: this.codEstabel,
+          nrProcess: this.nrProcess
+      };
+
+      this.srvTotvs.ForcarEfetivacaoSaida(params).subscribe({
+        next: (response: any) => {
+          this.router.navigate(['monitor']) 
+        },
+        error: (e) => {
+         
+          this.loadTela = false;
+        },
+      });
+    },
+    cancel: () => this.srvNotification.error('Cancelada pelo usuário'),
+  });
+}
+
 
 LogarUsuario() {
    this.router.navigate(['seletor'], {queryParams:{redirectTo:'dashboard'}}) 
@@ -175,7 +202,7 @@ verificarNotas() {
             if (x.label.startsWith('Notas Fiscais de ENTRADA'))
               x.label = `Notas Fiscais de ENTRADA (${this.listaNFE.filter(x => x["idi-sit"] === 100).length} de ${response.nfe.length})`
             else if (x.label.startsWith('Notas Fiscais de SAÍDA'))
-              x.label = `Notas Fiscais de SAÍDA (${this.listaNFS.filter(x => x["idi-sit"] === 3).length} de ${response.nfs.length})`
+              x.label = `Notas Fiscais de SAÍDA (${this.listaNFS.filter(x => x["idi-sit"] === 100).length} de ${response.nfs.length})`
             else
               x.label = `Logs do Processo (${response.erros.length})`
           })
