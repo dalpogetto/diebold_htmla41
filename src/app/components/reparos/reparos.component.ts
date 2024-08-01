@@ -68,6 +68,7 @@ readonly acoesGrid: PoTableAction[] = [
   itCodigoEquiv=''
   qtdEquiv=0
   numSerie=''
+  lErroSerie:boolean=false
 
   tagEquiv(){}
 
@@ -125,6 +126,10 @@ readonly acoesGrid: PoTableAction[] = [
     title: "GERAÇÃO E IMPRESSÃO DE REPAROS",
     message: "Deseja gerar e imprimir os reparos ?",
     confirm: () => {
+
+
+       //Associar a justificativa aos reparos
+       this.gridReparos?.items.forEach((item:Reparo)=>{ item["desc-item-equiv"]= this.cJustificativa })
         
 
         //Antes de Validar - Regra Excecao de Equivalencia
@@ -224,6 +229,8 @@ readonly acoesGrid: PoTableAction[] = [
   this.telaAlterar?.close()
 
   //let registro = {...this.itemSelecionado, registroModificado}
+  if (this.lErroSerie)
+    registroModificado["num-serie-it"] = '0'
   this.gridReparos?.updateItem(this.itemSelecionado, registroModificado)
  }
 
@@ -233,28 +240,25 @@ readonly acoesGrid: PoTableAction[] = [
 
  //Montar o objeto para salvar informacoes do item da os
  onLeaveNumSerie(){
-  let params: any = { itCodigo: this.itemSelecionado, numSerieItem: this.numSerie };
+  let params: any = { itCodigo: this.itemSelecionado["it-codigo"], numSerieItem: this.numSerie }
+  if(this.numSerie === '0' || this.numSerie==='') return
+  this.lErroSerie=false
+
   this.srvTotvs46.ValidarSerie(params).subscribe({
     next: (response: any) => {
       //console.log("serieFormatada", response.serieFormatada)
       
     },
-   
-    
+    error:(e)=>{ 
+         let registroModificado=this.itemSelecionado
+         this.numSerie='0';
+         registroModificado["num-serie-it"] = '0'
+         this.gridReparos?.updateItem(this.itemSelecionado, registroModificado)}
   });
 }
 
 
- removeAttrFromObject = <O extends object, A extends keyof O>(
-  object: O, attr: A): Omit<O, A> => {
-  const newObject = { ...object }
-
-  if (attr in newObject) {
-    delete newObject[attr]
-  }
-
-  return newObject
-}
+ 
  
 }
 
