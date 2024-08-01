@@ -1,10 +1,14 @@
 .efetivacaoInfo{
   display: flex; 
-  column-gap: 20px; 
-  justify-content: center; 
+  justify-content: end; 
   align-items: center; 
   margin-bottom: 10px; 
+  
   background-color: whitesmoke;
+}
+
+.efetivacaoInfo > div{
+  margin-right: 40px;
 }
 
 .rpwInfo {
