@@ -633,12 +633,11 @@ export class TotvsService {
 
   obterColunasEmbalagem(): Array<PoTableColumn> {
     return [
-      
-      { property: 'qt-volume', label: 'Volumes' },
+      { property: 'qt-volume', label: 'Volumes',type: 'number', format:'1.0-0' },
       { property: 'cod-embal', label: 'Embalagem' },
       { property: 'qt-embal', label: 'Qtd Embalagem' },
-      { property: 'peso-liq', label: 'Peso Liq.' },
-      { property: 'peso-bru', label: 'Peso Bru' },
+      { property: 'peso-liq', label: 'Peso Liq.', type: 'number', format:'1.3-3' },
+      { property: 'peso-bru', label: 'Peso Bru', type: 'number', format:'1.3-3' },
       { property: 'modal', label: 'Modalidade' },
       { property: 'opcoes', label: 'Ações', type: 'cellTemplate' },
     ];

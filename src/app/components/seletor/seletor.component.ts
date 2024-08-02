@@ -1,9 +1,25 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PoModalAction, PoModalComponent, PoNotificationService, PoModalModule, PoFieldModule, PoIconModule, PoButtonModule } from '@po-ui/ng-components';
+import { PoModalAction, PoModalComponent, PoNotificationService, PoModalModule, PoFieldModule, PoIconModule, PoButtonModule, PoTableModule, PoWidgetModule, PoWidgetComponent, PoI18nService, PoI18nModule } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { DecimalPipe, NgIf } from '@angular/common';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+
+import { PoI18nConfig } from '@po-ui/ng-components';
+
+
+const i18nConfig: PoI18nConfig = {
+  default: {
+    language: 'pt-BR',
+    context: 'general',
+    cache: true
+  },
+  contexts: {
+    general: {
+    },
+  }
+};
 
 
 @Component({
@@ -11,8 +27,19 @@ import { NgIf } from '@angular/common';
     templateUrl: './seletor.component.html',
     styleUrls: ['./seletor.component.css'],
     standalone: true,
-    imports: [NgIf, PoModalModule, PoFieldModule, FormsModule, PoIconModule, FormsModule, PoButtonModule,
-      ReactiveFormsModule,]
+    imports: [NgIf,
+      
+       PoFieldModule, 
+      FormsModule,
+       PoIconModule,
+        FormsModule, 
+        PoButtonModule,
+        PoTableModule,
+        PoWidgetModule,
+      ReactiveFormsModule,
+      NgxMaskDirective,
+      DecimalPipe,
+      NgxMaskPipe]
 })
 export class SeletorComponent {
 
@@ -20,6 +47,7 @@ private srvTotvs = inject(TotvsService)
 private srvNotification = inject(PoNotificationService);
 private route = inject(ActivatedRoute)
 private router = inject(Router)
+
 
 @ViewChild('loginModal', { static: true }) loginModal: | PoModalComponent | undefined;
 
@@ -55,9 +83,18 @@ public form = this.formBuilder.group({
   
 });
 
+colunas:any[]=[
+        { property: 'descricao', label: "Descricao"},
+        { property: 'campo', label: 'Valor', type: 'number', format:'1.3-3'}]
+lista:any[]=[{campo:150.50, descricao:'teste'}, {campo:32.35, descricao:'teste'}, {campo:1601.351, descricao:'teste'}]
+
+
+
 
 ngOnInit(): void {
   this.form.controls['Inclusao'].patchValue('só no sapatinho')
+  PoI18nModule.config(i18nConfig)
+ 
 
   /*
 

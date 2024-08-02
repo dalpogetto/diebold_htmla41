@@ -1,3 +1,5 @@
+/// <reference types="@angular/localize" />
+
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 
@@ -10,6 +12,17 @@ import { PoModule } from '@po-ui/ng-components';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { APP_ROUTES } from './app/app.routes';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
+
+import { Component, LOCALE_ID } from '@angular/core';
+import localeIt from '@angular/common/locales/it';
+import localeItExtra from '@angular/common/locales/extra/it';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeIt, 'pt-BR', localeItExtra);
+
+
+
 
 
 bootstrapApplication(AppComponent, {
@@ -18,7 +31,10 @@ bootstrapApplication(AppComponent, {
         provideAnimations(),
         provideAnimations(),
         provideHttpClient(withInterceptorsFromDi()),
-        provideRouter(APP_ROUTES)
+        provideEnvironmentNgxMask(),
+        provideRouter(APP_ROUTES),
+        {provide: LOCALE_ID, useValue: 'pt-BR' }
+        
     ]
 })
   .catch(err => console.error(err));

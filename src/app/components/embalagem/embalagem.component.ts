@@ -6,13 +6,26 @@ import { PoDialogService, PoModalAction, PoModalComponent, PoNotificationService
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
 import { NgIf } from '@angular/common';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @Component({
     selector: 'app-embalagem',
     templateUrl: './embalagem.component.html',
     styleUrls: ['./embalagem.component.css'],
     standalone: true,
-    imports: [NgIf, PoLoadingModule, PoButtonModule, PoWidgetModule, PoTableModule, PoModalModule, FormsModule, ReactiveFormsModule, PoFieldModule, PoRadioGroupModule]
+    imports: [NgIf, 
+              PoLoadingModule, 
+              PoButtonModule, 
+              PoWidgetModule, 
+              PoTableModule, 
+              PoModalModule, 
+              FormsModule, 
+              ReactiveFormsModule,
+              PoFieldModule, 
+              PoRadioGroupModule,
+              NgxMaskDirective,
+              NgxMaskPipe
+              ]
 })
 export class EmbalagemComponent {
 
@@ -64,8 +77,8 @@ readonly options: Array<PoRadioGroupOption> = [
     'qt-volume': ['', Validators.required],
     'cod-embal': [''],
     'qt-embal': [''],
-    'peso-liq': ['', Validators.required],
-    'peso-bru': ['', Validators.required],
+    'peso-liq': [0.001],
+    'peso-bru': [0.001],
     'modal':[2]
     
   });
@@ -85,7 +98,7 @@ readonly options: Array<PoRadioGroupOption> = [
             this.codUsuario = response.codUsuario
             this.nrProcess  = response.nrProcesso
             this.form_.controls.modal.setValue(2);
-            this.listaGrid = ([{'nr-process':response.nrProcesso, 'qt-volume':'0', 'cod-embal':'', 'qt-embal':'0', 'peso-liq':'0,001', 'peso-bru':'0,001', 'modal': 2}])
+            this.listaGrid = ([{'nr-process':response.nrProcesso, 'qt-volume':'0', 'cod-embal':'', 'qt-embal':'0', 'peso-liq':'0.001', 'peso-bru':'0.001', 'modal': 2}])
             this.form_.setValue(this.listaGrid[0])
         }
       })

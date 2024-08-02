@@ -1,3 +1,28 @@
+.cabec{
+  display: flex; 
+  justify-content: space-between;
+  
+}
+
+.colA{
+  display: flex; 
+  gap:10px; 
+  justify-content: start; 
+  align-items:last baseline;
+  height: 100px;
+  
+}
+
+.colB{
+  display: flex; 
+  gap:10px; 
+  justify-content: center; 
+  align-items:center;
+  height: 100px;
+ 
+}
+
+
 figure.snip0057 {
     position: relative;
     overflow: hidden;

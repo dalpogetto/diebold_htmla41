@@ -1,11 +1,55 @@
+
+
+
+
+<div class="cabec">
+  <po-widget> 
+    <div class="colA">
+      <po-input  name="codEstabel" p-label="Estab" ></po-input>
+      <po-input  name="codEstabel" p-label="Filial" ></po-input>
+      <po-input  name="codEstabel" p-label="Reparo" ></po-input>
+      <po-button p-label="botao 01"></po-button>
+    </div>
+  </po-widget>
+
+  <po-widget> 
+    <div class="colB">
+      <po-button p-label="botao 01"></po-button>
+      <po-button p-label="botao 01"></po-button>
+    </div>
+  </po-widget>
+
+</div>
+
+ 
 <span>Voce se encontra no limbo</span>
 
-<form [formGroup]="form">
-  <po-input formControlName="Inclusao" name="Inclusao" ></po-input>
-</form>
 
 <po-button p-label="Salvar"   p-kind="primary" style="margin-right: 5px;"></po-button>
 <po-button p-label="Cancelar" p-kind="secondary"></po-button>
+
+<po-table [p-items]="lista" #grid
+          p-container="true"
+          [p-columns]="colunas" 
+          [p-hide-table-search]="true" 
+          [p-hide-columns-manager]="true" >
+          <!-- <ng-template p-table-column-template p-property='campo' let-value>
+            <span>{{value | number: '2.2-2'}}</span>
+          </ng-template> -->
+          </po-table>
+
+<div class="po-md-4">
+  <div style="display: flex;flex-direction: column;">
+      <div><label class="po-font-text-large-bold">Peso Liq</label></div>
+      <div><input [leadZero]="true" thousandSeparator="." mask="separator.3" decimalMarker="," class="po-input" formControlName="peso-liq" p-label="Peso Liq" /></div>
+  </div>
+</div>
+<div class="po-md-4">
+  <div style="display: flex;flex-direction: column;">
+      <div><label class="po-font-text-large-bold">Peso Bruto</label></div>
+      <div><input [leadZero]="true" thousandSeparator="." mask="separator.3" decimalMarker="," class="po-input" formControlName="peso-bru" /></div>
+  </div>
+</div>
 
 
 
@@ -17,41 +61,3 @@
 <div><h1 style="color: lightgray;">ALTERNANDO USUARIO, AGUARDE...</h1></div>
 </div>
 
-<po-modal #loginModal 
-     p-title="Selecione o Técnico" 
-     p-size="auto" 
-     p-click-out="false" 
-     [p-primary-action]="acaoLogin" 
-     [p-secondary-action]="acaoCancelar"
-     [p-hide-close]="true">
-
-    <div class="po-md-12">
-      <po-combo [ngModel]="codEstabel" (ngModelChange)="codEstabel = $event" (p-change)="onEstabChange($event)"
-        [p-options]="listaEstabelecimentos" p-label="Estabelecimento" p-icon="bi bi-pin-map"
-        [p-placeholder]="placeHolderEstabelecimento" p-clean="true">
-        <ng-template p-combo-option-template let-option>
-          <div class="po-row">
-            <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="bi bi-pin-map"></po-icon>
-            <div class="po-sm-10 po-md-9 po-lg-11">
-              <div class="po-font-text-large-bold">{{ option.label }}</div>
-              <div class="po-font-text-smaller">Filial: {{ option.codFilial }}</div>
-            </div>
-          </div>
-        </ng-template>
-      </po-combo>
-    </div>
-    <div class="po-md-12">
-      <po-combo p-label="Técnico" [ngModel]="codUsuario" (ngModelChange)="codUsuario = $event"
-        p-icon="bi bi-person-workspace" [p-options]="listaTecnicos" [p-placeholder]="loadTecnico" [p-clean]="true">
-        <ng-template p-combo-option-template let-option>
-          <div class="po-row">
-            <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="bi bi-person-workspace"></po-icon>
-            <div class="po-sm-10 po-md-9 po-lg-11">
-              <div class="po-font-text-large-bold">{{ option.label }}</div>
-              <div class="po-font-text-smaller">Técnico: {{ option.value }}</div>
-            </div>
-          </div>
-        </ng-template>
-      </po-combo>
-    </div>
-  </po-modal>

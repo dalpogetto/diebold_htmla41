@@ -10,15 +10,10 @@
     background: #E5E5E5 ;
     box-shadow: 2px 5px 5px lightgray;
     margin-bottom: 10px;
-    
 }
-
-
-
 .show{
     display:block;
 }
-
 .hide{
     display:none;
 }

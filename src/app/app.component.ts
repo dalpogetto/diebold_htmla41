@@ -65,6 +65,7 @@ export class AppComponent {
       shortLabel: 'FT0904',
       action: () => this.AbrirProgramaTotvs('ftp/ft0904.w'),
     },
+   
     /* {
       label: 'Refactory Calculo',
       icon: 'bi bi-file-earmark-text',

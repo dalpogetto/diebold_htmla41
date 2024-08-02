@@ -624,6 +624,8 @@ readonly acaoLogar: PoModalAction = {
           //this.mostrarDetalhe=true
           this.detailsModal?.open();
           this.opcoesGridPagto = []
+
+          this.itemsResumo.sort(this.srvTotvs.ordenarCampos(['-qtSaldo','itCodigo']))
         break;
 
         case 'ExtraKit':

@@ -49,8 +49,22 @@
         <div class="po-md-4"><po-input p-clean="true"  p-label="Qtd Embalagem" formControlName="qt-embal" name="qt-embal"  ></po-input></div>
         <div class="po-row"></div>
 
-        <div class="po-md-4"><po-input p-clean="true"  p-label="Peso Liq." formControlName="peso-liq"  ></po-input></div>
-        <div class="po-md-4"><po-input p-clean="true"  p-label="Peso Bru." formControlName="peso-bru" ></po-input></div> 
+        <!-- <div class="po-md-4"><po-input p-clean="true"  p-label="Peso Liq." formControlName="peso-liq"  ></po-input></div>
+        <div class="po-md-4"><po-input p-clean="true"  p-label="Peso Bru." formControlName="peso-bru" ></po-input></div>  -->
+        
+        <div class="po-md-4">
+            <div style="display: flex;flex-direction: column;">
+                <div><label class="po-font-text-large-bold">Peso Liq</label></div>
+                <div><input [leadZero]="true" thousandSeparator="." mask="separator.3" decimalMarker="," class="po-input" formControlName="peso-liq" p-label="Peso Liq" /></div>
+            </div>
+        </div>
+        <div class="po-md-4">
+            <div style="display: flex;flex-direction: column;">
+                <div><label class="po-font-text-large-bold">Peso Bruto</label></div>
+                <div><input [leadZero]="true" thousandSeparator="." mask="separator.3" decimalMarker="," class="po-input" formControlName="peso-bru" /></div>
+            </div>
+        </div>
+
     </form>
 
 </po-modal>
