@@ -25,9 +25,6 @@
 <span>Voce se encontra no limbo</span>
 
 
-<po-button p-label="Salvar"   p-kind="primary" style="margin-right: 5px;"></po-button>
-<po-button p-label="Cancelar" p-kind="secondary"></po-button>
-
 <po-table [p-items]="lista" #grid
           p-container="true"
           [p-columns]="colunas" 
@@ -49,6 +46,12 @@
       <div><label class="po-font-text-large-bold">Peso Bruto</label></div>
       <div><input [leadZero]="true" thousandSeparator="." mask="separator.3" decimalMarker="," class="po-input" formControlName="peso-bru" /></div>
   </div>
+
+  <div class="po-md-4">
+    <div style="display: flex;flex-direction: column;">
+        <div><label class="po-font-text-large-bold">POINPUt</label></div>
+        <div><po-input thousandSeparator="." mask="separator.3" decimalMarker="," formControlName="peso-bru" p-mask="1.2-2"></po-input></div>
+    </div>
 </div>
 
 

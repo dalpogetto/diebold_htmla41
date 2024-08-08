@@ -29,7 +29,6 @@ bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(BrowserModule, PoModule, FormsModule, ReactiveFormsModule),
         provideAnimations(),
-        provideAnimations(),
         provideHttpClient(withInterceptorsFromDi()),
         provideEnvironmentNgxMask(),
         provideRouter(APP_ROUTES),

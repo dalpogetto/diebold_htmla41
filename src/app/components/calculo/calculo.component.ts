@@ -365,22 +365,27 @@ readonly acaoLogar: PoModalAction = {
         //PARCIAL
         else if (event === "2"){
            this.itemsResumo = this.listaResumo.filter(o => (o.qtPagar > 0 && !o.soEntrada) || (o.soEntrada) || (o.qtRenovar > 0 && o.temPagto))
+           //Regra: Se Renovacao possuir qtdes desabilitar o botao Aprovar Sem Saida 
+           this.itemsResumo.forEach(item => {
+              if (item.qtRenovar > 0){
+                this.lBtnAprovarSemE = true
+              }})
         }
 
-             //DEVOLUCAO EXTRAKIT
-             else {
-               this.itemsResumo = this.listaResumo.filter(o => o.soEntrada)
+        //DEVOLUCAO EXTRAKIT
+        else {
+          this.itemsResumo = this.listaResumo.filter(o => o.soEntrada)
 
-               this.itemsResumo.forEach(item=> {
-                   if (item.tipo === "Kit"){ 
-                      if (this.lBtnAprovar === false){
-                        this.srvNotification.error("Existe OS Informada para Nota Fiscal de Kit. Usar as opções Renovação Total ou Renovação Parcial") 
-                        this.lBtnAprovar = true
-                        this.lBtnAprovarSemE = true
-                        }
-                    }
-                 })
-             }
+          this.itemsResumo.forEach(item=> {
+              if (item.tipo === "Kit"){ 
+                 if (this.lBtnAprovar === false){
+                   this.srvNotification.error("Existe OS Informada para Nota Fiscal de Kit. Usar as opções Renovação Total ou Renovação Parcial") 
+                   this.lBtnAprovar = true
+                   this.lBtnAprovarSemE = true
+                   }
+               }
+            })
+        }
 
     }
     this.AtualizarLabelsContadores()
