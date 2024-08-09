@@ -670,7 +670,7 @@ readonly acaoLogar: PoModalAction = {
 
     this.srvDialog.confirm({
       title: 'ELIMINAR REGISTRO',
-      message: 'Deseja eliminar registro ?',
+      message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> DESEJA ELIMINAR REGISTRO ?</span>",
       literals: {"cancel": "Não", "confirm": "Sim"},
       confirm: () => {
         //Encontrar o indice da linha a ser excluida
@@ -737,7 +737,7 @@ readonly acaoLogar: PoModalAction = {
 
       this.srvDialog.confirm({
         title: 'ELIMINAR REGISTRO',
-        message: 'Deseja eliminar registro ?',
+        message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> DESEJA ELIMINAR REGISTRO ?</span>",
         literals: {"cancel": "Não", "confirm": "Sim"},
         confirm: () => {
           //Encontrar o indice da linha a ser excluida
@@ -810,7 +810,7 @@ readonly acaoLogar: PoModalAction = {
   public onAprovarCalculo(tipoAprov:number){
     this.srvDialog.confirm({
       title: 'EXECUÇÃO CÁLCULO',
-      message: 'Confirma execução do cálculo? Serão geradas as entradas e saídas',
+      message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> CONFIRMA EXECUÇÃO DO CÁLCULO ?</span><p>Serão geradas as notas fiscais de entrada e saída.</p>",
 
       confirm: () => {
         this.labelLoadTela = "Gerando execução RPW..."

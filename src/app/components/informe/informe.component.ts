@@ -859,7 +859,7 @@ export class InformeComponent {
   onExcluirItemOrdem(obj: any) {
     this.srvDialog.confirm({
       title: 'CONFIRMAÇÃO',
-      message: 'Confirma exclusão do Item da Ordem de Serviço?',
+      message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> DESEJA ELIMINAR REGISTRO ?</span>",
       literals: { cancel: 'Não', confirm: 'Sim' },
       confirm: () => {
         let params: any = {
@@ -965,7 +965,7 @@ export class InformeComponent {
     this.ordemSelecionada = obj;
     this.srvDialog.confirm({
       title: 'CONFIRMAÇÃO',
-      message: 'Confirma exclusão da Ordem de Serviço?',
+      message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> DESEJA ELIMINAR REGISTRO ?</span>",
       literals: { cancel: 'Não', confirm: 'Sim' },
       confirm: () => {
         this.loadGridOrdem = true;
@@ -1196,7 +1196,7 @@ export class InformeComponent {
 
     this.srvDialog.confirm({
       title: 'CONFIRMAÇÃO',
-      message: 'Confirma a Alteração do Status para Utilizado (M)?',
+      message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> Confirma a Alteração do Status para Utilizado (M) ?</span>",
       literals: { cancel: 'Não', confirm: 'Sim' },
       confirm: () => {
         this.loadGridOrdem = true;
@@ -1231,7 +1231,8 @@ export class InformeComponent {
 
     this.srvDialog.confirm({
       title: 'CONFIRMAÇÃO',
-      message: 'Confirma a Alteração do Status para Utilizado (U)?',
+      message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> Confirma a Alteração do Status para (U) ?</span>",
+      
       literals: { cancel: 'Não', confirm: 'Sim' },
       confirm: () => {
         this.loadGridOrdem = true;

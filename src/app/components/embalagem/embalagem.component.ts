@@ -128,8 +128,8 @@ readonly options: Array<PoRadioGroupOption> = [
      onEfetivar(){
 
       this.srvDialog.confirm({
-        title: "EFETIVAR DADOS DE EMBALAGEM",
-        message: `Confirma efetivação ?`,
+        title: "DADOS DE EMBALAGEM",
+        message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> CONFIRMA EFETIVAÇÃO ?</span>",
         confirm: () => {
           this.loadTela = true
 
@@ -151,7 +151,7 @@ readonly options: Array<PoRadioGroupOption> = [
               //this.srvTotvs.EmitirParametros({processoSituacao: 'FINALIZADO'});
               // this.srvDialog.alert({title:"PROCESSO FINALIZADO", message:"Informações de Embalagem gravadas com sucesso ! "})
               
-              this.srvNotification.success("Dados gravados com sucesso. Processo Finalizado !!!")
+              //this.srvNotification.success("Dados gravados com sucesso. Processo Finalizado !!!")
               this.router.navigate(['monitor'])
             },
           })
