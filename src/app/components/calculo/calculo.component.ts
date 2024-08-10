@@ -670,7 +670,7 @@ readonly acaoLogar: PoModalAction = {
 
     this.srvDialog.confirm({
       title: 'ELIMINAR REGISTRO',
-      message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> DESEJA ELIMINAR REGISTRO ?</span>",
+      message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span>",
       literals: {"cancel": "Não", "confirm": "Sim"},
       confirm: () => {
         //Encontrar o indice da linha a ser excluida
@@ -737,7 +737,7 @@ readonly acaoLogar: PoModalAction = {
 
       this.srvDialog.confirm({
         title: 'ELIMINAR REGISTRO',
-        message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> DESEJA ELIMINAR REGISTRO ?</span>",
+        message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span>",
         literals: {"cancel": "Não", "confirm": "Sim"},
         confirm: () => {
           //Encontrar o indice da linha a ser excluida
@@ -810,7 +810,7 @@ readonly acaoLogar: PoModalAction = {
   public onAprovarCalculo(tipoAprov:number){
     this.srvDialog.confirm({
       title: 'EXECUÇÃO CÁLCULO',
-      message: "<span class='po-font-title'><i class='bi bi-question-circle-fill'></i> CONFIRMA EXECUÇÃO DO CÁLCULO ?</span><p>Serão geradas as notas fiscais de entrada e saída.</p>",
+      message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXECUÇÃO DO CÁLCULO ?</span><p>Serão geradas as notas fiscais de entrada e saída.</p>",
 
       confirm: () => {
         this.labelLoadTela = "Gerando execução RPW..."
@@ -852,7 +852,7 @@ readonly acaoLogar: PoModalAction = {
         this.srvDialog.confirm({
           title: "GERAÇÃO INFORME OS",
           literals: { cancel: 'Arquivo', confirm: 'Impressão' },
-          message: "Selecione a opção de Saída para o Relatório",
+          message: "<i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> SELECIONE UMA OPÇÃO</span>",
           confirm: () => {
             this.loadTela = true
             this.labelLoadTela='Gerando Pedido Execução'

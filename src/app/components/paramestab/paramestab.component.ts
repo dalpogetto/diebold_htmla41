@@ -202,7 +202,7 @@ export class ParamestabComponent {
     
     this.srvDialog.confirm({
       title: "DELETAR REGISTRO",
-      message: `Confirma deleção do registro: ${obj.nomeEstabel} ?`,
+      message: `<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXCLUSÃO: ${obj.nomeEstabel} ?</span> `,
       confirm: () => {
         this.loadTela = true
         this.srvTotvs.Deletar(paramTela).subscribe({
