@@ -129,7 +129,7 @@ readonly options: Array<PoRadioGroupOption> = [
 
       this.srvDialog.confirm({
         title: "DADOS DE EMBALAGEM",
-        message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EFETIVAÇÃO ?</span>",
+        message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EFETIVAÇÃO ?</span></div>",
         confirm: () => {
           this.loadTela = true
 

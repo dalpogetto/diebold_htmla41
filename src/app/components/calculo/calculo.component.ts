@@ -670,7 +670,7 @@ readonly acaoLogar: PoModalAction = {
 
     this.srvDialog.confirm({
       title: 'ELIMINAR REGISTRO',
-      message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span>",
+      message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span></div>",
       literals: {"cancel": "Não", "confirm": "Sim"},
       confirm: () => {
         //Encontrar o indice da linha a ser excluida
@@ -737,7 +737,7 @@ readonly acaoLogar: PoModalAction = {
 
       this.srvDialog.confirm({
         title: 'ELIMINAR REGISTRO',
-        message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span>",
+        message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span></div>",
         literals: {"cancel": "Não", "confirm": "Sim"},
         confirm: () => {
           //Encontrar o indice da linha a ser excluida
@@ -810,7 +810,7 @@ readonly acaoLogar: PoModalAction = {
   public onAprovarCalculo(tipoAprov:number){
     this.srvDialog.confirm({
       title: 'EXECUÇÃO CÁLCULO',
-      message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXECUÇÃO DO CÁLCULO ?</span><p>Serão geradas as notas fiscais de entrada e saída.</p>",
+      message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXECUÇÃO DO CÁLCULO ?</span></div><p>Serão geradas as notas fiscais de entrada e saída.</p>",
 
       confirm: () => {
         this.labelLoadTela = "Gerando execução RPW..."
@@ -852,7 +852,7 @@ readonly acaoLogar: PoModalAction = {
         this.srvDialog.confirm({
           title: "GERAÇÃO INFORME OS",
           literals: { cancel: 'Arquivo', confirm: 'Impressão' },
-          message: "<i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> SELECIONE UMA OPÇÃO</span>",
+          message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> SELECIONE UMA OPÇÃO</span></div>",
           confirm: () => {
             this.loadTela = true
             this.labelLoadTela='Gerando Pedido Execução'

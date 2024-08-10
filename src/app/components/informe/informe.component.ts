@@ -723,7 +723,7 @@ export class InformeComponent {
       ) {
         this.srvDialog.confirm({
           title: 'CONFIRMA ELIMINAÇÃO',
-          message: `<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> ENC CADASTRADA, CONFIRMA ELIMINAÇÃO: ${this.formItemOrdem.controls['nr-enc'].value} ?</span>`,
+          message: `<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> ENC CADASTRADA, CONFIRMA ELIMINAÇÃO: ${this.formItemOrdem.controls['nr-enc'].value} ?</span></div>`,
           confirm: () => {
             this.loadTela = true;
 
@@ -758,7 +758,7 @@ export class InformeComponent {
     this.srvDialog.confirm({
       title: 'GERAÇÃO INFORME OS',
       literals: { cancel: 'Arquivo', confirm: 'Impressão' },
-      message: "<i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> SELECIONE UMA OPÇÃO</span>",
+      message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> SELECIONE UMA OPÇÃO</span></div>",
       confirm: () => {
         this.loadTela = true;
         let paramsArquivo: any = {
@@ -859,7 +859,7 @@ export class InformeComponent {
   onExcluirItemOrdem(obj: any) {
     this.srvDialog.confirm({
       title: 'CONFIRMAÇÃO',
-      message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span>",
+      message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span></div>",
       literals: { cancel: 'Não', confirm: 'Sim' },
       confirm: () => {
         let params: any = {
@@ -965,7 +965,7 @@ export class InformeComponent {
     this.ordemSelecionada = obj;
     this.srvDialog.confirm({
       title: 'CONFIRMAÇÃO',
-      message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span>",
+      message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span></div>",
       literals: { cancel: 'Não', confirm: 'Sim' },
       confirm: () => {
         this.loadGridOrdem = true;
@@ -1196,7 +1196,7 @@ export class InformeComponent {
 
     this.srvDialog.confirm({
       title: 'CONFIRMAÇÃO',
-      message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> ALTERAÇÃO DE STATUS PARA (M) ?</span>",
+      message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> ALTERAÇÃO DE STATUS PARA (M) ?</span></div>",
       literals: { cancel: 'Não', confirm: 'Sim' },
       confirm: () => {
         this.loadGridOrdem = true;
@@ -1231,7 +1231,7 @@ export class InformeComponent {
 
     this.srvDialog.confirm({
       title: 'CONFIRMAÇÃO',
-      message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> ALTERAÇÃO DO STATUS PARA (U) ?</span>",
+      message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> ALTERAÇÃO DO STATUS PARA (U) ?</span></div>",
       
       literals: { cancel: 'Não', confirm: 'Sim' },
       confirm: () => {

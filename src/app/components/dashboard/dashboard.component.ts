@@ -154,7 +154,7 @@ onForcarEfetivarProcesso(){
   this.srvDialog.confirm({
     title: 'EFETIVAR PROCESSO',
     message:
-    "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EFETIVAÇÃO ?</span><p>O processamento será encerrado e o processo enviado para o próximo passo.</p>",
+    "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EFETIVAÇÃO ?</span></div><p>O processamento será encerrado e o processo enviado para o próximo passo.</p>",
 
     confirm: () => {
       this.loadTela = true;
@@ -252,7 +252,7 @@ verificarNotas() {
     this.srvDialog.confirm({
       title: 'REPROCESSAR NOTAS',
       message:
-         "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA REPROCESSAMENTO ?</span><p>O reprocessamento só deve ser usado com a certeza da parada do processamento normal.</p>",
+         "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA REPROCESSAMENTO ?</span></div><p>O reprocessamento só deve ser usado com a certeza da parada do processamento normal.</p>",
         
 
       confirm: () => {

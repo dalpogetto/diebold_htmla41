@@ -9,6 +9,9 @@
 .menuGrid>div {
   text-align: center;
 }
+.menuGrid div i{
+  font-size:16px;
+}
 
 .btn {
   display: flex;
@@ -20,7 +23,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: .3s;
-  padding: 8px;
+  padding: 5px;
   gap: 5px;
   min-width: 96px;
   font-weight: 500;
@@ -34,5 +37,9 @@
 }
 
 .btn > p {
-  font-size: small;
+  font-size: 12px;
+}
+
+.dlg{
+  display:flex;justify-content:start;align-items:center;gap:10px
 }

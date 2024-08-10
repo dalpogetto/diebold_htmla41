@@ -67,8 +67,8 @@ export class ResumoFinalComponent implements OnInit {
 
   onGerarResumo(){
      this.srvDialog.confirm({
-      title: 'GERAÇÃO ARQUIVO CONFERÊNCIA DE OS',
-      message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> GERAR ARQUIVO DE CONFERÊNCIA OS ?</span>",
+      title: 'ARQUIVO CONFERÊNCIA DE OS',
+      message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> GERAR ARQUIVO ?</span></div>",
         confirm: () => {
           this.loadTela = true;
           let params:any={iExecucao:2, nrProcess:this.nrProcess}
@@ -97,7 +97,7 @@ export class ResumoFinalComponent implements OnInit {
   onFinalizar(){
     this.srvDialog.confirm({
       title: `FINALIZAR PROCESSO: ${this.nrProcess}`,
-      message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA FINALIZAR O PROCESSO ?</span>",
+      message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA FINALIZAR O PROCESSO ?</span></div>",
         confirm: () => {
           this.loadTela = true;
           

@@ -124,7 +124,7 @@ readonly acoesGrid: PoTableAction[] = [
  onAbrirReparos(){
   this.srvDialog.confirm({
     title: "GERAÇÃO E IMPRESSÃO DE REPAROS",
-    message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA GERAR E IMPRIMIR OS REPAROS ?</span>",
+    message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA GERAR E IMPRIMIR OS REPAROS ?</span></div>",
     confirm: () => {
 
 
@@ -147,7 +147,7 @@ readonly acoesGrid: PoTableAction[] = [
         if (lExcecao === true){
           this.srvDialog.confirm({
             title: 'EQUIVALENCIA POR EXCEÇÃO',
-            message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EQUIVALÊNCIA POR EXCEÇÃO ?</span>",
+            message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EQUIVALÊNCIA POR EXCEÇÃO ?</span></div>",
             confirm: () => { 
               this.loadTela = true
               this.srvTotvs.ValidarItensReparo(params).subscribe({
@@ -180,7 +180,7 @@ readonly acoesGrid: PoTableAction[] = [
   
   this.srvDialog.confirm({
     title: 'CONFIRMAÇÃO',
-    message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXCLUSÃO ?</span>",
+    message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXCLUSÃO ?</span></div>",
     literals: { cancel: 'Não', confirm: 'Sim' },
     confirm: () => { this.gridReparos?.removeItem(obj)},
     cancel: () => {},
@@ -190,7 +190,7 @@ readonly acoesGrid: PoTableAction[] = [
  onDeletarTodos(){
   this.srvDialog.confirm({
     title: 'CONFIRMAÇÃO',
-    message: "<i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXCLUSÃO ?</span>",
+    message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXCLUSÃO ?</span></div>",
     literals: { cancel: 'Não', confirm: 'Sim' },
     confirm: () => { 
         this.gridReparos?.items.forEach(item => this.gridReparos?.removeItem(item))
