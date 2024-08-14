@@ -6,7 +6,6 @@ export const APP_ROUTES: Routes=[
     {path:'informe', loadComponent:()=> import('../app/components/informe/informe.component').then(c=>c.InformeComponent)},
     {path:'dashboard', loadComponent:()=> import('../app/components/dashboard/dashboard.component').then(c=>c.DashboardComponent)},
     {path:'calculo', loadComponent:()=> import('../app/components/calculo/calculo.component').then(c=>c.CalculoComponent)},
-    {path:'calculo-step', loadComponent:()=> import('../app/components/calculo/calculo-step/calculo-step.component').then(c=>c.CalculoStepComponent)},
     {path:'paramestab', loadComponent:()=> import('../app/components/paramestab/paramestab.component').then(c=>c.ParamestabComponent)},
     {path:'paramestab', loadComponent:()=> import('../app/components/paramestab/paramestab.component').then(c=>c.ParamestabComponent)},
     {path:'embalagem', loadComponent:()=> import('../app/components/embalagem/embalagem.component').then(c=>c.EmbalagemComponent)},

@@ -6,6 +6,7 @@ import {
   PoMenuModule,
   PoToolbarModule,
   PoPageModule,
+  PoTagModule,
 } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
 import { TotvsService } from './services/totvs-service.service';
@@ -17,7 +18,7 @@ import { NgIf } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   standalone: true,
-  imports: [PoMenuModule, NgIf, PoToolbarModule, PoPageModule, RouterOutlet],
+  imports: [PoMenuModule, NgIf, PoToolbarModule, PoPageModule, RouterOutlet, PoTagModule],
 })
 export class AppComponent {
   private srvTotvs = inject(TotvsService);

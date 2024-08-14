@@ -251,11 +251,13 @@ export class InformeComponent {
       label: 'Marcar Moto',
       icon: 'bi bi-bicycle',
       action: this.onMarcarMoto.bind(this),
+      //disabled: this.form.controls.senha.value?.toLowerCase() !== 'moto'
     },
     {
       label: 'Desmarcar Moto',
       icon: 'bi bi-bicycle',
       action: this.onDesmarcarMoto.bind(this),
+      //disabled: this.form.controls.senha.value?.toLowerCase() !== 'moto'
     },
     {
       separator: true,
@@ -432,28 +434,24 @@ export class InformeComponent {
     //--- Titulo Tela
     this.srvTotvs.EmitirParametros({ tituloTela: 'HTMLA46 - INFORME DE OS' });
     
-
     //--- Login Unico
     this.srvTotvs.ObterUsuario().subscribe({
       next: (response: Usuario) => {
         if (response === undefined) {
           this.srvTotvs.EmitirParametros({ estabInfo: '' });
         } else {
-          this.formOrdem.controls.codEmitente.setValue(
-            Number(response.codUsuario)
-          );
-          this.formOrdem.controls.codEstabel.setValue(
-            response.codEstabelecimento
-          );
+          this.formOrdem.controls.codEmitente.setValue(Number(response.codUsuario))
+          this.formOrdem.controls.moto.setValue(this.form.controls.senha.value === 'moto')
+          this.formOrdem.controls.codEstabel.setValue(response.codEstabelecimento)
         }
       },
     });
 
     //Colunas do grid
-    this.colunasOrdens = this.srvTotvs46.obterColunasOrdens();
-    this.colunasItens = this.srvTotvs46.obterColunasItems();
-    this.colunasArquivos = this.srvTotvs46.obterColunasArquivos();
-    this.colunasEnc= this.srvTotvs46.obterColunasSeriesPendentes();
+    this.colunasOrdens = this.srvTotvs46.obterColunasOrdens()
+    this.colunasItens = this.srvTotvs46.obterColunasItems()
+    this.colunasArquivos = this.srvTotvs46.obterColunasArquivos()
+    this.colunasEnc= this.srvTotvs46.obterColunasSeriesPendentes()
 
     //this.principal.expandAllItems()
     this.item1.expand();
@@ -471,9 +469,10 @@ export class InformeComponent {
 
   okIncluirEnc() {
     let param:any = {"paramsTela": this.formEnc.getRawValue()}
+    console.log("Parametros ENC", param)
     this.srvTotvs46.GravarEnc(param).subscribe({
       next: (response:any)=>{
-        
+        console.log("Resposta ENC", response)
         if(response.ok !== "ok") return
         this.formItemOrdem.controls['nr-enc'].setValue(this.formEnc.controls['nr-enc'].value)
         this.formItemOrdem.controls['Serie-enc'].setValue(this.formEnc.controls['Serie-enc'].value)
@@ -853,6 +852,8 @@ export class InformeComponent {
     this.formItemOrdem.controls['serie-ins'].disable();
     this.formItemOrdem.controls['serie-ret'].disable();
     this.formItemOrdem.patchValue(obj);
+    this.formItemOrdem.controls['tag-enc'].setValue(Number(obj["nr-enc"]) === 999999999 || Number(obj["nr-enc"]) === 0)
+
     this.telaIncluirItemOrdem?.open();
   }
 
@@ -933,7 +934,7 @@ export class InformeComponent {
     this.formOrdem.controls.numOS.setValue(this.ordemSelecionada.NumOS);
     this.formOrdem.controls.codEmitente.setValue(Number(this.form.controls.codUsuario.value));
     this.formOrdem.controls.codEstabel.setValue(this.form.controls.codEstabel.value);
-    this.formOrdem.controls.moto.setValue(false);
+    this.formOrdem.controls.moto.setValue(this.form.controls.senha.value === 'moto');
 
     //Montar as informacoes para enviar para api
     let params: any = { paramsTela: this.formOrdem.value };
@@ -942,11 +943,10 @@ export class InformeComponent {
     this.srvTotvs46.AlterarOrdem(params).subscribe({
       next: (response: any) => {
         this.ordemSelecionada.Chamado = this.formOrdem.controls.Chamado.value;
-        let registro = {
-          ...this.ordemSelecionada,
-          value: (this.ordemSelecionada.Chamado =
-            this.formOrdem.controls.Chamado.value),
-        };
+        let registro = {...this.ordemSelecionada}
+        registro.Chamado = this.formOrdem.controls.Chamado.value 
+        registro.situacao = this.form.controls.senha.value?.toLocaleLowerCase() === 'moto' ? 'M': 'U'
+
         this.gridOrdens?.updateItem(this.ordemSelecionada, registro);
         this.listaOrdens = this.gridOrdens?.items as any[];
         this.gridOrdens?.unselectRows();
