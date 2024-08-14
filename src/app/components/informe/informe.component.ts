@@ -502,35 +502,34 @@ export class InformeComponent {
 
     //Estabelecimento
     this.srvTotvs46
-      .ObterCadastro({
-        tabela: 'estabel',
-        codigo: this.form.controls.codEstabel.value,
-      })
+      .ObterCadastro({tabela: 'estabel', codigo: this.form.controls.codEstabel.value})
       .subscribe({
         next: (response: any) => {
-          this.formEnc.controls['cod-estabel'].setValue(
-            this.form.controls.codEstabel.value
-          );
-          this.formEnc.controls['nom-estabel'].setValue(response.desc);
+          this.formEnc.controls['cod-estabel'].setValue(this.form.controls.codEstabel.value)
+          this.formEnc.controls['nom-estabel'].setValue(response.desc)
+
+          let estabelec = this.listaEstabelecimentos.filter(item=> item.value === this.form.controls.codEstabel.value)[0]
+          this.formItemOrdem.controls.CodFilial.setValue(estabelec.codFilial)
+          this.formEnc.controls.CodFilial.setValue(estabelec.codFilial)
+          this.formEnc.controls['CodFilial-enc'].setValue(estabelec.codFilial)
+
+          //Filial
+          this.srvTotvs46
+          .ObterCadastro({tabela: 'filial', codigo: this.formItemOrdem.controls.CodFilial.value})
+          .subscribe({
+            next: (response: any) => {
+              this.formEnc.controls['nom-filial'].setValue(response.desc);
+            },
+          });
+       // this.formEnc.controls['nom-filial'].setValue(response.descFilial);
         },
       });
 
-    //Filial
-    this.srvTotvs46
-      .ObterCadastro({
-        tabela: 'filial',
-        codigo: this.formItemOrdem.controls.CodFilial.value,
-      })
-      .subscribe({
-        next: (response: any) => {
-          this.formEnc.controls.CodFilial.setValue(
-            this.formItemOrdem.controls.CodFilial.value
-          );
-          this.formEnc.controls['nom-filial'].setValue(response.desc);
-        },
-      });
+    
+      
 
     //Item
+    if (this.formItemOrdem.controls['it-codigo'].value !== null){
     this.srvTotvs46
       .ObterCadastro({
         tabela: 'item',
@@ -544,6 +543,7 @@ export class InformeComponent {
           this.formEnc.controls['desc-item'].setValue(response.desc);
         },
       });
+    }
 
     //Abrir Tela Enc
     this.telaIncluirEnc?.open();
@@ -614,6 +614,7 @@ export class InformeComponent {
   //Habilitar e desabilitar componentes e iniciar valores
   leaveItem() {
     let itemNaoFormatado = this.formItemOrdem.controls['it-codigo'].value
+    if (itemNaoFormatado === null) return
     let itemFormatado=''
     if (itemNaoFormatado!.indexOf('.') === -1){
       itemFormatado = itemNaoFormatado!.substring(0,2) + '.' +
@@ -821,6 +822,10 @@ export class InformeComponent {
     //cRowId da Ordem
     this.cRowId = this.ordemSelecionada['c-rowId'];
     this.formItemOrdem.enable();
+
+    //Valores iniciais - valter
+    this.formItemOrdem.controls['tag-enc'].setValue(false)
+    this.formItemOrdem.controls["nr-enc"].setValue('0')
     this.telaIncluirItemOrdem?.open();
   }
 
