@@ -88,7 +88,7 @@ readonly options: Array<PoRadioGroupOption> = [
      
       this.srvTotvs.EmitirParametros({tituloTela: 'HTMLA41 - INFORMAÇÕES DE EMBALAGEM'});
       this.colunas=this.srvTotvs.obterColunasEmbalagem()
-      this.loadTela=true
+     // this.loadTela=true
 
       //Login Unico
       this.srvTotvs.ObterUsuario().subscribe({

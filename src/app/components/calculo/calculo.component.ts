@@ -757,8 +757,11 @@ readonly acaoLogar: PoModalAction = {
           //Atualizar contadores tela de resumos
           this.AtualizarLabelsContadores();
 
+          
+          let param:any={id:id.id, codEstabel:this.codEstabelecimento, codTecnico:this.codTecnico}
+
           //Apagar na base
-          this.srvTotvs.EliminarPorId(id).subscribe({
+          this.srvTotvs.EliminarPorId(param).subscribe({
             next: (response: any) => {}
           })
 
