@@ -94,16 +94,12 @@ ngOnInit(): void {
 }
 
 
-
-somefunction(obj:any){
-  alert("Duplo clique")
-}
-
 public onListar(){
   this.loadTela=true;
   let params:any={codEstabel: this.codEstabel}
   this.srvTotvs.ObterProcessosEstab(params).subscribe({
     next: (response:any)=>{
+      this.lista =[]
       this.lista = (response.items as any[]).sort(this.srvTotvs.ordenarCampos(['nr-process']));
       this.srvTotvs.SetarMonitor({listaEstab: this.listaEstabelecimentos, listaGrid: this.lista, estabSelecionado: this.codEstabel})
       this.loadTela = false

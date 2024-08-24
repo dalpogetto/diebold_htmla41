@@ -76,7 +76,7 @@
                     </ng-template> 
  -->
                     <ng-template p-table-cell-template let-column="column" let-row="row">
-                       <div><button class="btn" [style.color]="'#c64840'" [style.font-size]="'24px'" (click)="onMarcarDesmarcar(row)"><i [ngClass]="row.flag === 'X' ? 'bi bi-check-square-fill' : 'bi bi-square'"></i></button></div>
+                       <div><button class="btn" style="border: none; width: auto; background-color: transparent;" [style.color]="'#c64840'" [style.font-size]="'24px'" (click)="onMarcarDesmarcar(row)"><i [ngClass]="row.flag === 'X' ? 'bi bi-check-square-fill' : 'bi bi-square'"></i></button></div>
                     </ng-template>
 
                 </po-table>
@@ -306,7 +306,7 @@
           <div class="po-md-12" style="margin-bottom: 10px;">
               <po-checkbox name="tag-enc" formControlName="tag-enc" p-label="ENC Não Informada" (p-change)="tagEnc()"> </po-checkbox>
           </div>
-          <div class="po-md-4"><po-input name="nr-enc" formControlName="nr-enc" p-label="Número ENC"></po-input></div>
+          <div class="po-md-4"><po-input name="nr-enc" formControlName="nr-enc" p-label="Número ENC" [p-maxlength]=9></po-input></div>
           <div class="po-md-4"><po-input name="Serie-enc" formControlName="Serie-enc" p-label="Série ENC"></po-input></div>
           <div class="po-md-4" style="margin-top: 33px;">
             <po-button p-icon="bi bi-plus" [p-disabled]="lDisabled" (p-click)="onCadEnc()" p-help="Cadastro de Enc" p-tooltip="Incluir Nova ENC"></po-button></div>

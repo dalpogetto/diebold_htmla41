@@ -212,6 +212,7 @@ export class TotvsService {
       { property: 'codLocaliza', label: 'Local' },
       { property: 'kit', label: 'Kit' },
       { property: 'itPrincipal', label: 'Principal' },
+      { property: 'numOS', label: "NumOS"}
 
       /*  { property: 'seqOrdem', label: "Ordem"},
     { property: 'notaAnt', label: "Nota"}, */
@@ -666,11 +667,7 @@ export class TotvsService {
   //---------------------- COMBOBOX ESTABELECIMENTOS
   //Retorno transformado no formato {label: xxx, value: yyyy}
   public ObterEstabelecimentos(params?: any) {
-    return this.http
-      .get<any>(`${this._url}/ObterEstab`, {
-        params: params,
-        headers: headersTotvs,
-      })
+    return this.http.get<any>(`${this._url}/ObterEstab`, {params: params, headers: headersTotvs})
       .pipe(
         map((item) => {
           return item.items.map((item: any) => {
@@ -841,6 +838,13 @@ export class TotvsService {
       .post(`${this._url}/ObterNotas`, params, { headers: headersTotvs })
       .pipe(take(1));
   }
+
+  public ObterPrimeiraNota(params?: any) {
+    return this.http
+      .post(`${this._url}/ObterPrimeiraNota`, params, { headers: headersTotvs })
+      .pipe(take(1));
+  }
+
 
   //---------------------- Salvar registro
   public Salvar(params?: any) {

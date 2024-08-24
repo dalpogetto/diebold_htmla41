@@ -103,8 +103,8 @@ readonly options: Array<PoRadioGroupOption> = [
         }
       })
 
-      let paramsNota: any = {CodEstab: this.codEstabel,CodTecnico: this.codUsuario, NrProcess: this.nrProcess};
-      this.srvTotvs.ObterNotas(paramsNota).subscribe({
+      let paramsNota: any = {CodEstab: this.codEstabel,CodTecnico: this.codUsuario, NrProcess: this.nrProcess}
+      this.srvTotvs.ObterPrimeiraNota(paramsNota).subscribe({
         next: (response: any) => {
           if (response.nfs)
           this.infoPrimeiraNota = response.nfs[0];

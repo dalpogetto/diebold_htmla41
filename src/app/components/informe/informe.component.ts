@@ -118,7 +118,7 @@ export class InformeComponent {
     'serie-ins': ['0'],
     'Serie-Nf-Saida': [''],
     'serie-ret': ['0'],
-    'nr-enc': ['0'],
+    'nr-enc': ['0',[Validators.maxLength(9)]],
     'Serie-enc': [''],
     'ret-transp': [1],
     'tag-enc': [false],
