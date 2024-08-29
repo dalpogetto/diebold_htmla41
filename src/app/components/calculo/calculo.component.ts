@@ -343,14 +343,14 @@ readonly acaoLogar: PoModalAction = {
 
       //---------------Passo - Resumo
       if ((passo.label === "ExtraKit") && (!this.usuarioLogado)){
-        if ((environment.totvs_header as any)["CompanyId"] === undefined){
+       /*  if ((environment.totvs_header as any)["CompanyId"] === undefined){
           this.codUsuario="1888"
           this.senha="guigui"
         }
-        else{
+        else{ */
           this.codUsuario=''
           this.senha=''
-        }
+        //}
         this.loginModal?.open()
         return false
       }
@@ -861,8 +861,8 @@ readonly acaoLogar: PoModalAction = {
       
         this.srvDialog.confirm({
           title: "GERAÇÃO INFORME OS",
-          literals: { cancel: 'Arquivo', confirm: 'Impressão' },
-          message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> SELECIONE UMA OPÇÃO</span></div>",
+          literals: { cancel: 'Cancelar', confirm: 'Gerar Arquivo' },
+          message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> DESEJA GERAR O INFORME DE OS ?</span></div>",
           confirm: () => {
             this.loadTela = true
             this.labelLoadTela='Gerando Pedido Execução'
@@ -888,27 +888,7 @@ readonly acaoLogar: PoModalAction = {
            
           },
           cancel: () => {
-            this.loadTela=true
-            this.labelLoadTela='Gerando Pedido Execução'
-            let paramsArquivo:any={iExecucao: 1, cRowId: this.listaOrdens[0]['c-rowId']}
-            this.srvTotvs46.ImprimirOS(paramsArquivo).subscribe({
-              next: (response:any)=>{
-
-                //Arquivo Gerado
-                let params:any={nrProcess: this.processoInfo, situacao:'IOS'}
-                this.srvTotvs46.ObterArquivo(params).subscribe({
-                  next:(item:any)=>{
-                    this.arquivoInfoOS = item.items[0].nomeArquivo
-                  }
-                })
-                
-                this.loadTela=false
-                  this.srvNotification.success('Gerado pedido de execução : ' + response.NumPedExec)
-                  //Atualizar Situacao do Processo
-                  this.srvTotvs.EmitirParametros({processoSituacao: 'IMPRESSO'})
-              },
-              error: (e)=> {this.loadTela = false}
-              })
+           
           }
         })
     }

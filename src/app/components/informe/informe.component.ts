@@ -795,6 +795,7 @@ export class InformeComponent {
       literals: { cancel: 'Cancelar', confirm: 'Gerar Arquivo' },
       message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> DESEJA GERAR O INFORME DE OS ?</span></div>",
       confirm: () => {
+        this.telaTimerFoiFechada = false
         this.labelPedExec = ''
         this.labelTimer = 'Gerando pedido de execução ...'
         this.labelTimerDetail = ''
@@ -823,7 +824,7 @@ export class InformeComponent {
                       this.labelTimer = 'Aguarde a liberação do arquivo...  '
 
                       //Limitar o numero de calls em 15
-                      if (n > 25){
+                      if (n > 55){
                         this.sub.unsubscribe()
                         this.telaTimer?.close()
                       }
@@ -861,31 +862,7 @@ export class InformeComponent {
         });
       },
       cancel: () => {
-       /*  this.loadTela = true;
-        let paramsArquivo: any = {
-          iExecucao: 1,
-          cRowId: this.listaOrdens[0]['c-rowId'],
-        };
-        this.srvTotvs46.ImprimirOS(paramsArquivo).subscribe({
-          next: (response: any) => {
-            //Arquivo Gerado
-            let params: any = { nrProcess: this.nrProcesso, situacao: 'IOS' };
-            this.srvTotvs46.ObterArquivo(params).subscribe({
-              next: (item: any) => {
-                this.listaArquivos = item.items;
-              },
-            });
-            this.loadTela = false;
-            this.srvNotification.success(
-              'Gerado pedido de execução : ' + response.NumPedExec
-            );
-            //Atualizar Situacao do Processo
-            this.srvTotvs.EmitirParametros({ processoSituacao: 'IMPRESSO' });
-          },
-          error: (e) => {
-            this.loadTela = false;
-          },
-        }); */
+       
       },
     });
   }
