@@ -179,10 +179,10 @@ export class InformeComponent {
 
   acaoCancelarTimer: PoModalAction = {
     action: () => {
-      this.sub.unsubscribe()
-      this.telaTimer?.close()
+      this.fecharTimer()
+      
     },
-    label: 'Cancelar',
+    label: 'Fechar',
   };
 
   acaoSairEncPendente: PoModalAction = {
@@ -246,6 +246,7 @@ export class InformeComponent {
   labelTimer:string='Aguarde a liberação do arquivo...'
   labelTimerDetail:string=''
   labelPedExec:string=''
+  telaTimerFoiFechada:boolean=false
 
   
 
@@ -380,7 +381,15 @@ export class InformeComponent {
   ];
 
   limparArquivo(){
-    this.listaArquivos=[]
+    this.listaArquivos=[] 
+  }
+
+  fecharTimer(){
+    if(this.sub !== undefined){
+       this.sub.unsubscribe()
+    }
+    this.telaTimer?.close()
+    this.telaTimerFoiFechada=true
   }
 
   onSeriesPendentes(){
@@ -783,13 +792,13 @@ export class InformeComponent {
   onImpressao() {
     this.srvDialog.confirm({
       title: 'GERAÇÃO INFORME OS',
-      literals: { cancel: 'Cancelar', confirm: 'Impressão' },
-      message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> DESEJA IMPRIMIR O INFORME DE OS ?</span></div>",
+      literals: { cancel: 'Cancelar', confirm: 'Gerar Arquivo' },
+      message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> DESEJA GERAR O INFORME DE OS ?</span></div>",
       confirm: () => {
         this.labelPedExec = ''
-        this.labelTimer = 'Gerando pedido de execução, aguarde ...'
+        this.labelTimer = 'Gerando pedido de execução ...'
         this.labelTimerDetail = ''
-        this.acaoCancelarTimer.label='Cancelar'
+        this.acaoCancelarTimer.label='Fechar'
         this.telaTimer?.open()
 
         //this.loadTela = true;
@@ -807,26 +816,37 @@ export class InformeComponent {
             this.srvTotvs46.ObterArquivo(params).subscribe({
               next: (item: any) => {
                 this.listaArquivos = item.items;
-                
-                this.sub = interval(5000).subscribe(n => {
-                     this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec + ' (' + (n * 5).toString() + 's)'
-                     this.labelTimer = 'Aguarde a liberação do arquivo...  '
-                     if(this.listaArquivos[0] === undefined) return
-                     let param:any={numRPW:this.listaArquivos[0].numPedExec}
-                     this.srvTotvs46.piObterSituacaoRPW(param).subscribe({
-                       next: (response:any)=> {
-                         
-                         if (response.ok){
-                           this.sub.unsubscribe()
-                           this.labelPedExec = 'Pedido Execução: Executado com sucesso'
-                           this.labelTimer = "Arquivo liberado !"
-                           this.labelTimerDetail = "Utilize o Log de Arquivos para visualizar o arquivo gerado"
-                           this.acaoCancelarTimer.label='Fechar'
-                         }
-                       }
-                     })
-                    
-                });
+                if (!this.telaTimerFoiFechada){
+                  this.sub = interval(5000).subscribe(n => {
+                     // console.log(n) 
+                      this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec + ' (' + (n * 5).toString() + 's)'
+                      this.labelTimer = 'Aguarde a liberação do arquivo...  '
+
+                      //Limitar o numero de calls em 15
+                      if (n > 25){
+                        this.sub.unsubscribe()
+                        this.telaTimer?.close()
+                      }
+
+                      if(this.listaArquivos[0] === undefined) return
+                      let param:any={numRPW:this.listaArquivos[0].numPedExec}
+                      this.srvTotvs46.piObterSituacaoRPW(param).subscribe({
+                        next: (response:any)=> {
+                          
+                          if (response.ok){
+                            this.sub.unsubscribe()
+                            this.labelPedExec = 'Pedido Execução: Executado com sucesso'
+                            this.labelTimer = "Arquivo liberado !"
+                            this.labelTimerDetail = "Utilize o Log de Arquivos para visualizar o arquivo gerado"
+                            this.acaoCancelarTimer.label='Fechar'
+                          }
+                        }
+                      })
+                      
+                  })
+                }
+                else
+                  this.telaTimerFoiFechada = false
               },
             });
 
@@ -1330,7 +1350,9 @@ export class InformeComponent {
   }
 
   //Selecionar OS
-  onSelecionarOS(obj?: any | null) {}
+  onSelecionarOS(obj?: any | null) {
+    console.log(obj)
+  }
 
   public onTecnicoChange(obj:string){
     //Limpar listas
