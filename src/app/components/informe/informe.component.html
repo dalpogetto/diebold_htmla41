@@ -147,6 +147,16 @@
 
   </po-accordion>
 
+  <po-modal #timer [p-title]=labelPedExec
+                              p-size="sm" 
+                              p-click-out="false" 
+                              [p-hide-close]="true"
+                              [p-hide-close]="true"
+                              [p-primary-action]="acaoCancelarTimer">
+        <p class="po-font-title">{{labelTimer}}</p>  
+        <p class="po-font-text-large">{{labelTimerDetail}}</p>                    
+  </po-modal>
+  
   <po-modal #telaIncluirOrdem p-title="Incluir Ordem Serviço"
                               p-size="auto" 
                               p-click-out="false" 

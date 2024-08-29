@@ -219,6 +219,17 @@ obterColunasArquivos(): Array<PoTableColumn> {
                    .pipe(take(1));
   }
 
+  public EliminarArquivo(params?: any){
+    return this.http.get(`${this._url}/EliminarArquivo`, {params:params, headers:headersTotvs})
+                   .pipe(take(1));
+  }
+
+  public piObterSituacaoRPW(params?: any){
+    return this.http.get(`${this._url}/piObterSituacaoRPW`, {params:params, headers:headersTotvs})
+                   .pipe(take(1));
+  }
+
+
 
 
 

@@ -6,9 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { ExcelService } from '../../services/excel-service.service';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService46 } from '../../services/totvs-service-46.service';
-import { environment } from '../../../environments/environment';
 import { BtnDownloadComponent } from '../btn-download/btn-download.component';
 import { NgIf } from '@angular/common';
+import { environment } from '../../../environments/environment.prod';
 
 
 @Component({
@@ -172,6 +172,7 @@ readonly acaoLogar: PoModalAction = {
   readonly acaoDetalhe: PoPageAction = {
     action: () => { this.mostrarDetalhe=false}, label: 'Fechar'}
 
+  
 
 
 //------------------------------------------------------------------------------------- Constructor
@@ -342,8 +343,14 @@ readonly acaoLogar: PoModalAction = {
 
       //---------------Passo - Resumo
       if ((passo.label === "ExtraKit") && (!this.usuarioLogado)){
-        this.codUsuario=''
-        this.senha=''
+        if ((environment.totvs_header as any)["CompanyId"] === undefined){
+          this.codUsuario="1888"
+          this.senha="guigui"
+        }
+        else{
+          this.codUsuario=''
+          this.senha=''
+        }
         this.loginModal?.open()
         return false
       }
@@ -786,7 +793,7 @@ readonly acaoLogar: PoModalAction = {
             { property: 'itCodigo', label: "Item"},
             { property: 'descItem', label: "Descrição", width: '300px'},
             { property: 'qtPagar', label: 'Qt. a Entregar', type: 'number', color:"color-07", visible:true},
-            { property: 'qtSaldo', label: 'Saldo Disp', type: 'number'},
+            { property: 'qtSaldo', label: 'Saldo Teórico', type: 'number'},
             { property: 'codLocaliza', label: "Local"}
           ]
 

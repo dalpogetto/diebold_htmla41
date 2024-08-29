@@ -6,7 +6,7 @@ import { Component,
   ElementRef} from '@angular/core';
 
   import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent, PoLoadingModule, PoAccordionModule, PoWidgetModule, PoFieldModule, PoIconModule, PoButtonModule, PoTooltipModule, PoTableModule, PoTagModule, PoModalModule, PoDatepickerModule, PoRadioGroupModule, PoCheckboxModule } from '@po-ui/ng-components';
-  import { delay, Subscription } from 'rxjs';
+  import { delay, interval, Subscription } from 'rxjs';
 import { TotvsService46 } from '../../services/totvs-service-46.service';
   import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TotvsService } from '../../services/totvs-service.service';
@@ -63,6 +63,11 @@ export class InformeComponent {
   @ViewChild('telaIncluirItemOrdem', { static: true }) telaIncluirItemOrdem:
     | PoModalComponent
     | undefined;
+
+    @ViewChild('timer', { static: true }) telaTimer:
+    | PoModalComponent
+    | undefined;
+  
   @ViewChild('gridOrdens', { static: true }) gridOrdens:
     | PoTableComponent
     | undefined;
@@ -172,15 +177,20 @@ export class InformeComponent {
     label: 'Gravar',
   };
 
+  acaoCancelarTimer: PoModalAction = {
+    action: () => {
+      this.sub.unsubscribe()
+      this.telaTimer?.close()
+    },
+    label: 'Cancelar',
+  };
+
   acaoSairEncPendente: PoModalAction = {
     action: () => {
       this.telaSeriesPendentes?.close();
     },
     label: 'Sair',
   };
-
-  
-  
 
   //---Variaveis
   loadTela: boolean = false;
@@ -232,6 +242,10 @@ export class InformeComponent {
   arquivoInfoOS: string = '';
   urlSpool: string = '';
   numSerieItem:string=''
+
+  labelTimer:string='Aguarde a liberação do arquivo...'
+  labelTimerDetail:string=''
+  labelPedExec:string=''
 
   
 
@@ -301,7 +315,8 @@ export class InformeComponent {
   readonly acaoIncluirOrdem: PoModalAction = {
     label: 'Salvar Ordem',
     action: () => {
-      this.incluirOrdem();
+      this.incluirOrdem()
+      this.limparArquivo()
     },
     loading: this.loadIncluirOrdem,
     disabled: !this.formOrdem.valid,
@@ -310,7 +325,8 @@ export class InformeComponent {
   readonly acaoAlterarOrdem: PoModalAction = {
     label: 'Salvar',
     action: () => {
-      this.alterarOrdem();
+      this.alterarOrdem()
+      this.limparArquivo()
     },
     loading: this.loadIncluirOrdem,
     disabled: !this.formOrdem.valid,
@@ -327,7 +343,8 @@ export class InformeComponent {
   readonly acaoIncluirItemOrdem: PoModalAction = {
     label: 'Salvar',
     action: () => {
-      this.okIncluirItemOrdem();
+      this.okIncluirItemOrdem()
+      this.limparArquivo()
     },
   };
 
@@ -341,7 +358,8 @@ export class InformeComponent {
   readonly acaoIncluirEnc: PoModalAction = {
     label: 'Salvar',
     action: () => {
-      this.okIncluirEnc();
+      this.okIncluirEnc()
+      this.limparArquivo()
     },
   };
 
@@ -361,8 +379,13 @@ export class InformeComponent {
     },
   ];
 
+  limparArquivo(){
+    this.listaArquivos=[]
+  }
+
   onSeriesPendentes(){
-     this.telaSeriesPendentes?.open()
+    this.limparArquivo()
+    this.telaSeriesPendentes?.open()
 
     let params: any = {codEmitente: this.form.controls.codUsuario.value, codEstabel: this.form.controls.codEstabel.value};
    
@@ -429,6 +452,7 @@ export class InformeComponent {
 
   //---Inicializar
   ngOnInit(): void {
+    this.limparArquivo()
     this.urlSpool = environment.totvs_spool;
 
     //--- Titulo Tela
@@ -483,6 +507,7 @@ export class InformeComponent {
   }
 
   onMarcarDesmarcar(obj: any) {
+    this.limparArquivo()
     if (obj.flag === 'X') this.onDesmarcar(obj);
     else this.onMarcar(obj);
   }
@@ -547,6 +572,7 @@ export class InformeComponent {
 
     //Abrir Tela Enc
     this.telaIncluirEnc?.open();
+    this.limparArquivo()
   }
 
   onLeaveDefeito(){
@@ -757,28 +783,55 @@ export class InformeComponent {
   onImpressao() {
     this.srvDialog.confirm({
       title: 'GERAÇÃO INFORME OS',
-      literals: { cancel: 'Arquivo', confirm: 'Impressão' },
-      message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> SELECIONE UMA OPÇÃO</span></div>",
+      literals: { cancel: 'Cancelar', confirm: 'Impressão' },
+      message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> DESEJA IMPRIMIR O INFORME DE OS ?</span></div>",
       confirm: () => {
-        this.loadTela = true;
+        this.labelPedExec = ''
+        this.labelTimer = 'Gerando pedido de execução, aguarde ...'
+        this.labelTimerDetail = ''
+        this.acaoCancelarTimer.label='Cancelar'
+        this.telaTimer?.open()
+
+        //this.loadTela = true;
         let paramsArquivo: any = {
           iExecucao: 2,
           cRowId: this.listaOrdens[0]['c-rowId'],
         };
         this.srvTotvs46.ImprimirOS(paramsArquivo).subscribe({
           next: (response: any) => {
+            this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec
+            this.labelTimer = 'Coletando informações do rpw...'
+
             //Arquivo Gerado
             let params: any = { nrProcess: this.nrProcesso, situacao: 'IOS' };
             this.srvTotvs46.ObterArquivo(params).subscribe({
               next: (item: any) => {
                 this.listaArquivos = item.items;
+                
+                this.sub = interval(5000).subscribe(n => {
+                     this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec + ' (' + (n * 5).toString() + 's)'
+                     this.labelTimer = 'Aguarde a liberação do arquivo...  '
+                     if(this.listaArquivos[0] === undefined) return
+                     let param:any={numRPW:this.listaArquivos[0].numPedExec}
+                     this.srvTotvs46.piObterSituacaoRPW(param).subscribe({
+                       next: (response:any)=> {
+                         
+                         if (response.ok){
+                           this.sub.unsubscribe()
+                           this.labelPedExec = 'Pedido Execução: Executado com sucesso'
+                           this.labelTimer = "Arquivo liberado !"
+                           this.labelTimerDetail = "Utilize o Log de Arquivos para visualizar o arquivo gerado"
+                           this.acaoCancelarTimer.label='Fechar'
+                         }
+                       }
+                     })
+                    
+                });
               },
             });
 
             this.loadTela = false;
-            this.srvNotification.success(
-              'Gerado pedido de execução : ' + response.NumPedExec
-            );
+           // this.srvNotification.success('Gerado pedido de execução : ' + response.NumPedExec );
             //Atualizar Situacao do Processo
             this.srvTotvs.EmitirParametros({ processoSituacao: 'IMPRESSO' });
           },
@@ -788,7 +841,7 @@ export class InformeComponent {
         });
       },
       cancel: () => {
-        this.loadTela = true;
+       /*  this.loadTela = true;
         let paramsArquivo: any = {
           iExecucao: 1,
           cRowId: this.listaOrdens[0]['c-rowId'],
@@ -812,12 +865,13 @@ export class InformeComponent {
           error: (e) => {
             this.loadTela = false;
           },
-        });
+        }); */
       },
     });
   }
 
   onIncluirItemOrdem() {
+    this.limparArquivo()
     this.formItemOrdem.reset();
     //cRowId da Ordem
     this.cRowId = this.ordemSelecionada['c-rowId'];
@@ -847,6 +901,7 @@ export class InformeComponent {
   }
 
   onAlterarItemOrdem(obj: any) {
+    this.limparArquivo()
     //cRowId do Item da Ordem
     this.cRowId = obj['c-rowId'];
     this.formItemOrdem.controls['it-codigo'].disable();
@@ -868,6 +923,7 @@ export class InformeComponent {
       message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span></div>",
       literals: { cancel: 'Não', confirm: 'Sim' },
       confirm: () => {
+        this.limparArquivo()
         let params: any = {
           nrProcess: this.nrProcesso,
           cRowId: obj['c-rowId'],
@@ -887,12 +943,14 @@ export class InformeComponent {
   onNumeroSeriePendente() {}
 
   onIncluirOrdem() {
+    this.limparArquivo()
     this.formOrdem.controls.numOS.setValue(0);
     this.formOrdem.controls.Chamado.setValue(0);
     this.telaIncluirOrdem?.open();
   }
 
   onAlterarOrdem(obj: any) {
+    this.limparArquivo()
     this.ordemSelecionada = obj;
     this.formOrdem.controls.numOS.setValue(obj.NumOS);
     this.formOrdem.controls.Chamado.setValue(obj.Chamado);
@@ -900,6 +958,7 @@ export class InformeComponent {
   }
 
   incluirOrdem() {
+    this.limparArquivo()
     this.loadIncluirOrdem = true;
     //Setar os valores que estao na tela
     this.formOrdem.controls.codEmitente.setValue(
@@ -934,6 +993,7 @@ export class InformeComponent {
   }
 
   alterarOrdem() {
+    this.limparArquivo()
     this.loadIncluirOrdem = true;
     //Setar os valores que estao na tela
     this.formOrdem.controls.numOS.setValue(this.ordemSelecionada.NumOS);
@@ -967,12 +1027,14 @@ export class InformeComponent {
   }
 
   onExcluirOrdem(obj: any) {
+    
     this.ordemSelecionada = obj;
     this.srvDialog.confirm({
       title: 'CONFIRMAÇÃO',
       message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR REGISTRO ?</span></div>",
       literals: { cancel: 'Não', confirm: 'Sim' },
       confirm: () => {
+        this.limparArquivo()
         this.loadGridOrdem = true;
         let params: any = { cRowId: this.ordemSelecionada['c-rowId'] };
         this.srvTotvs46.ExcluirOrdem(params).subscribe({
@@ -1020,6 +1082,7 @@ export class InformeComponent {
   }
 
   onLogar() {
+    this.limparArquivo()
     this.loadTela = true;
     let params: any = {
       codEstabel: this.form.controls.codEstabel.value,
@@ -1086,7 +1149,7 @@ export class InformeComponent {
               response.nrProcesso
             );
 
-            //Arquivo Gerado
+            /* - VAlterArquivo Gerado
             let params: any = {
               nrProcess: response.nrProcesso,
               situacao: 'IOS',
@@ -1098,6 +1161,7 @@ export class InformeComponent {
                 this.listaArquivos = item.items;
               },
             });
+            */
 
             //Processo ativo
             this.nrProcesso = response.nrProcesso;
@@ -1131,6 +1195,8 @@ export class InformeComponent {
       },
       error: (e) => {},
     });
+
+    
   }
 
   resetarVariaveis() {
@@ -1152,6 +1218,7 @@ export class InformeComponent {
 
   //Marcar
   onMarcar(obj: any | null) {
+    this.limparArquivo()
     this.ordemSelecionada = obj;
     this.loadGridOrdem = true;
     let params: any = {
@@ -1176,6 +1243,7 @@ export class InformeComponent {
 
   //Desmarcar
   onDesmarcar(obj: any | null) {
+    this.limparArquivo()
     this.ordemSelecionada = obj;
     this.loadGridOrdem = true;
     let params: any = { cRowId: this.ordemSelecionada['c-rowId'] };
@@ -1196,6 +1264,7 @@ export class InformeComponent {
   }
 
   onMarcarMoto(obj: any | null) {
+    this.limparArquivo()
     this.ordemSelecionada = obj;
     if (obj.situacao === 'M') return;
 
@@ -1231,6 +1300,7 @@ export class InformeComponent {
   }
 
   onDesmarcarMoto(obj: any | null) {
+    this.limparArquivo()
     this.ordemSelecionada = obj;
     if (obj.situacao !== 'M') return;
 
@@ -1358,5 +1428,18 @@ export class InformeComponent {
     win?.print();
     win?.document.close();
     win?.close();
+  }
+
+  teste(){
+    if(this.listaArquivos[0] === undefined) return
+    let param:any={numRPW:this.listaArquivos[0].numPedExec}
+    console.log(param)
+    this.srvTotvs46.piObterSituacaoRPW(param).subscribe({
+      next: (response:any)=> {
+        console.log(response)
+        if (response.ok)
+          this.sub.unsubscribe()
+      }
+    })
   }
 }

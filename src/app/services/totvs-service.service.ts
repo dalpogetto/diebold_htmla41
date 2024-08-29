@@ -156,7 +156,7 @@ export class TotvsService {
         visible: true,
       },
       /* { property: 'qtRuim', label: 'Ruim', type: 'number', color:"color-07", visible:true}, */
-      { property: 'qtSaldo', label: 'Saldo Disp', type: 'number' },
+      { property: 'qtSaldo', label: 'Saldo Teórico', type: 'number' },
       { property: 'codLocaliza', label: 'Local' },
       { property: 'kit', label: 'Kit' },
       { property: 'itPrincipal', label: 'Principal' },
@@ -212,10 +212,8 @@ export class TotvsService {
       { property: 'codLocaliza', label: 'Local' },
       { property: 'kit', label: 'Kit' },
       { property: 'itPrincipal', label: 'Principal' },
-      { property: 'numOS', label: "NumOS"}
-
-      /*  { property: 'seqOrdem', label: "Ordem"},
-    { property: 'notaAnt', label: "Nota"}, */
+      { property: 'numOS', label: "NumOS"},
+      { property: 'notaAnt', label: "Nota"}, 
     ];
   }
 
@@ -238,9 +236,9 @@ export class TotvsService {
       { property: 'kit', label: 'Kit' },
       { property: 'itPrincipal', label: 'Principal' },
 
-      /* { property: 'seqOrdem', label: "Ordem"},
-    { property: 'notaAnt', label: "Nota"}, */
-    ];
+     { property: 'seqOrdem', label: "Ordem"},
+    { property: 'notaAnt', label: "Nota"}, 
+      ];
   }
 
   obterColunasSemSaldo(): Array<PoTableColumn> {
