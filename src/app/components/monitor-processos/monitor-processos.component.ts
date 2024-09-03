@@ -36,6 +36,7 @@ redirectTo!:string
 mostrarLabel:boolean=false
 colunas!:PoTableColumn[]
 lista!:any[]
+labelContador:string[]=[]
 
 //--- Actions
 readonly acoes: PoTableAction[] = [
@@ -101,6 +102,11 @@ public onListar(){
     next: (response:any)=>{
       this.lista =[]
       this.lista = (response.items as any[]).sort(this.srvTotvs.ordenarCampos(['nr-process']));
+      this.labelContador[0] = this.lista.filter(o=> o.situacao === 'E').length.toString()
+      this.labelContador[1] = this.lista.filter(o=> o.situacao === 'S').length.toString()
+      this.labelContador[2] = this.lista.filter(o=> o.situacao === 'R').length.toString()
+      this.labelContador[3] = this.lista.filter(o=> o.situacao === 'B').length.toString()
+      this.labelContador[4] = this.lista.filter(o=> o.situacao === 'L').length.toString()
       this.srvTotvs.SetarMonitor({listaEstab: this.listaEstabelecimentos, listaGrid: this.lista, estabSelecionado: this.codEstabel})
       this.loadTela = false
     },

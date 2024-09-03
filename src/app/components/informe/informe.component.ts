@@ -412,6 +412,7 @@ export class InformeComponent {
 
   //Montar o objeto para salvar informacoes do item da os
   onLeaveNumSerieItem(obj:any){
+    this.limparArquivo()
     //console.log(obj)
     let params: any = {
       cRowId: obj['c-rowId'],
@@ -430,6 +431,7 @@ export class InformeComponent {
 
   //Montar o objeto para salvar informacoes do item da os
   onLeaveNumSerieItemPendente(obj:any){
+    this.limparArquivo()
     let params: any = { itCodigo: obj['it-codigo'], numSerieItem: obj['num-serie-it'] };
     this.loadGridEnc = true;
     this.srvTotvs46.ValidarSerie(params).subscribe({
@@ -443,11 +445,12 @@ export class InformeComponent {
   }
 
   onFocusNumSerie(obj:any){
-    //console.log("Focus Row", obj)
+    this.limparArquivo()
     this.gridEnc?.selectRow(obj)
   }
 
   onGravarListaNumSerieItem(){
+    this.limparArquivo()
     let params: any = { paramsTela: this.listaEnc};
     this.srvTotvs46.GravarListaNumSerieItem(params).subscribe({
       next: (response: any) => {
@@ -626,17 +629,20 @@ export class InformeComponent {
     
     //Enviar o codigo do emitente no campo c-rowId para este caso especifico
     params.items["c-rowId"] = this.form.controls.codUsuario.value
+    params.items["CodFilial"] = this.form.controls.codEstabel.value
 
     this.loadModal = true;
     this.srvTotvs46.LeaveNFSOS(params).subscribe({
       next: (response: any) => {
+       
         let retorno = response.item[0]
+        console.log("resposta", retorno)
         if (retorno === undefined) return
 
-        this.formItemOrdem.controls['Quantidade'].setValue(retorno['quantidade'])
+        this.formItemOrdem.controls['Quantidade'].setValue(retorno['Quantidade'])
         this.formItemOrdem.controls['nf-saida'].setValue(retorno['nf-saida'])
-        this.formItemOrdem.controls['Serie-Nf-Saida'].setValue(retorno['serie-saida'])
-        this.formItemOrdem.controls['Nat-Operacao'].setValue(retorno['nat-operacao'])
+        this.formItemOrdem.controls['Serie-Nf-Saida'].setValue(retorno['Serie-Nf-Saida'])
+        this.formItemOrdem.controls['Nat-Operacao'].setValue(retorno['Nat-Operacao'])
         this.loadModal = false;
       },
       error: (e) => {
