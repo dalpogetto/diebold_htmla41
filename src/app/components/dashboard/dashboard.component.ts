@@ -249,6 +249,13 @@ verificarNotas() {
   }
 
   onReprocessarNotas() {
+    console.log(this.cRPW)
+
+    if (this.cRPW.toUpperCase().includes('EXECUTANDO / EXECUTANDO PEDIDO') || this.cRPW.toUpperCase().includes('NÃO EXECUTADO')){
+      this.srvNotification.error('Não é permitido o reprocessamento com RPW em execução !')
+      return
+    }
+
     this.srvDialog.confirm({
       title: 'REPROCESSAR NOTAS',
       message:
