@@ -626,6 +626,7 @@ export class TotvsService {
       { property: 'nr-process', label: 'Processo' },
       { property: 'cod-emitente', label: 'Técnico' },
       { property: 'nome-abrev', label: 'Nome' },
+      { property: 'num-ped-exec', label: 'Num Ped Exec', type:'cellTemplate' },
       { property: 'opcoes', label: 'Ações Disponíveis', type: 'cellTemplate' },
     ];
   }

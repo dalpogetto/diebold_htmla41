@@ -2,6 +2,7 @@
 
 .menuGrid {
   display: flex;
+  gap: 5px;
   justify-content: space-between;
   width: 200px;
 }
@@ -15,7 +16,7 @@
 
 .btn {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   align-items: center;
   align-content: center;
   /* background-color: transparent;
