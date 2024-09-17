@@ -247,6 +247,7 @@ export class InformeComponent {
   labelTimerDetail:string=''
   labelPedExec:string=''
   telaTimerFoiFechada:boolean=false
+  alturaGrid:number=window.innerHeight - 355
 
   
 

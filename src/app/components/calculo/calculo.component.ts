@@ -64,6 +64,8 @@ lblStepExecutar: string = 'Montar Resumo';
 qtde=0
 
 //------- Listas
+alturaStepper:number=window.innerHeight - 155
+alturaGrid:number=window.innerHeight - 295
 listaEstabelecimentos!: any[]
 listaTecnicos!: any[]
 listaTransp!: any[]
@@ -459,8 +461,10 @@ readonly acaoLogar: PoModalAction = {
               let paramsE: any = { CodEstab: this.codEstabelecimento, CodTecnico: this.codTecnico, NrProcess: this.processoInfo, Extrakit: listaET }
               this.srvTotvs.PrepararResumo(paramsE).subscribe({
                 next: (response:any) => {
+                  console.log("Resumo", response)
 
-                    if (response !== null){
+                    if (response !== null && (response.items as any[]).length > 0){
+                     
                       //Obter as listas da requisicao
                       this.listaResumo = response.items
                       this.listaSemSaldo = response.semsaldo
@@ -475,7 +479,9 @@ readonly acaoLogar: PoModalAction = {
                     }
                     else
                     {
-                      this.srvNotification.warning("Não existem dados para cálculo do técnico ")
+                      this.srvNotification.error("Técnico não possui saldo de terceiro para cálculo ")
+                      this.stepper?.first()
+                      return
                     }
 
                 },

@@ -88,6 +88,9 @@ export class DashboardComponent {
   listaErros!: any[];
   sub!: Subscription;
   urlSpool:string=''
+  alturaGridLog:number=window.innerHeight - 355
+  alturaGridEntra:number=window.innerHeight - 305
+  alturaGridSai:number=window.innerHeight - 385
 
   acaoLogin: PoModalAction = {
     action: () => {
@@ -274,6 +277,7 @@ verificarNotas() {
 
         this.srvTotvs.ReprocessarCalculo(params).subscribe({
           next: (response: any) => {
+           
             this.srvNotification.success('Execução do cálculo realizada com sucesso ! Processo RPW: ' + response.rpw)
 
             setTimeout(() => {

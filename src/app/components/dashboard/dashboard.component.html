@@ -26,7 +26,7 @@
     <po-accordion-item p-label="Logs do Processo">
       <po-widget>
 
-        <po-table [p-items]="listaErros" [p-striped]="true" [p-sort]="true" 
+        <po-table [p-items]="listaErros" [p-striped]="true" [p-sort]="true" [p-height]="alturaGridLog"
           [p-columns]="colunasErro" [p-hide-table-search]="true"
           [p-hide-columns-manager]="true">
 
@@ -48,7 +48,7 @@
       <po-widget>
         <!-- <po-progress [p-value]="percNFE" [p-show-percentage]="true" p-text="Notas processadas"></po-progress>
         <po-divider></po-divider> -->
-        <po-table [p-items]="listaNFE" [p-striped]="true" [p-sort]="true" [p-height]="350"
+        <po-table [p-items]="listaNFE" [p-striped]="true" [p-sort]="true" [p-height]="alturaGridEntra"
           [p-columns]="colunasNFE" [p-hide-table-search]="true" [p-hide-columns-manager]="true" />
       </po-widget>
     </po-accordion-item>
@@ -67,7 +67,7 @@
         <!-- <po-progress [p-value]="percNFS" [p-show-percentage]="true" p-text="Notas processadas"></po-progress>
         <po-divider></po-divider> -->
 
-        <po-table [p-items]="listaNFS" [p-striped]="true" [p-sort]="true" [p-height]="350"
+        <po-table [p-items]="listaNFS" [p-striped]="true" [p-sort]="true" [p-height]="alturaGridSai"
           [p-columns]="colunasNFS" [p-hide-table-search]="true" [p-hide-columns-manager]="true" />
       </po-widget>
     </po-accordion-item>

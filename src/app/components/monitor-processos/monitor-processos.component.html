@@ -22,7 +22,7 @@
 </div>
 <po-table [p-items]="lista" 
           [p-striped]="true" 
-          [p-height]="400"
+          [p-height]="alturaGrid"
           p-container="true"
           [p-columns]="colunas" 
           [p-sort]="true"
@@ -53,6 +53,7 @@
                     <div [ngClass]="row.situacao === 'R' ? 'show' : 'hide'"><button class="btn"  (click)="Reparos(row)"><p><i class="bi bi-tools"></i> Reparos</p></button></div>
                     <div [ngClass]="row.situacao === 'B' ? 'show' : 'hide'"><button class="btn"  (click)="Embalagem(row)"><p><i class="bi bi-box2"></i> Embalagem</p></button></div>
                     <div [ngClass]="row.situacao === 'L' ? 'show' : 'hide'"><button class="btn"  (click)="ResumoFinal(row)"><p><i class="bi bi-printer"></i> Resumo Final</p></button></div>
+                  <!--   <div><button class="btn" style="background-color: lightcoral ; color:black; "  (click)="onReprocessarNotas(row)"><p><i class="bi bi-calendar2-check"></i> Reprocessar Notas</p></button></div> -->
                 </div>
             }
           </ng-template>

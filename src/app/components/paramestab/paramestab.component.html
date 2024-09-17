@@ -2,8 +2,15 @@
   <po-button p-label="Nova Filial" (p-click)="onNovo()" p-icon="bi bi-plus" p-kind="primary"></po-button>
 </div>
 <div class="po-md-12">
-  <po-table [p-items]="lista" [p-actions]="opcoes" [p-loading]="loadTela" [p-striped]="true" [p-columns]="colunas"
-    [p-hide-table-search]="false" [p-hide-columns-manager]="true" p-container="true" [p-height]="400" />
+  <po-table [p-items]="lista" 
+            [p-actions]="opcoes" 
+            [p-loading]="loadTela" 
+            [p-striped]="true" 
+            [p-columns]="colunas"
+            [p-hide-table-search]="false" 
+            [p-hide-columns-manager]="true" 
+            p-container="true" 
+            [p-height]="alturaGrid" />
 
 </div>
 <div style="margin-left: 20px;">

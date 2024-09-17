@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PoModalAction, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoFieldModule, PoIconModule, PoButtonModule, PoTableModule } from '@po-ui/ng-components';
+import { PoModalAction, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoFieldModule, PoIconModule, PoButtonModule, PoTableModule, PoDialogService } from '@po-ui/ng-components';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +19,8 @@ private srvTotvs = inject(TotvsService)
 private srvNotification = inject(PoNotificationService);
 private router = inject(Router)
 private route = inject(ActivatedRoute)
+private srvDialog = inject(PoDialogService);
+  
 
 
 
@@ -37,6 +39,8 @@ mostrarLabel:boolean=false
 colunas!:PoTableColumn[]
 lista!:any[]
 labelContador:string[]=[]
+alturaGrid:number=window.innerHeight - 255
+
 
 //--- Actions
 readonly acoes: PoTableAction[] = [
@@ -63,6 +67,7 @@ readonly acoes: PoTableAction[] = [
 ngOnInit(): void {
 
   this.mostrarLabel=false
+  
 
   this.colunas = this.srvTotvs.obterColunasMonitor()
   this.srvTotvs.EmitirParametros({ tituloTela: 'HTMLA41 - MONITOR ACOMPANHAMENTO DE PROCESSOS', estabInfo:''});
@@ -160,6 +165,41 @@ AbrirTela(obj:any, cTela:string){
       this.srvTotvs.EmitirParametros({estabInfo: estab.label, tecInfo: `${obj['cod-emitente']} ${obj['nome-abrev']}`, processoInfo:response.nrProcesso, processoSituacao: response.situacaoProcesso})
       this.router.navigate([cTela])
     },
+  });
+}
+
+onReprocessarNotas(obj:any) {
+  
+  this.srvDialog.confirm({
+    title: 'REPROCESSAR NOTAS',
+    message:
+       "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA REPROCESSAMENTO ?</span></div><p>O reprocessamento só deve ser usado com a certeza da parada do processamento normal.</p>",
+      
+
+    confirm: () => {
+      this.loadTela = true;
+      let params: any = {
+        paramsTela: {
+          codEstab: obj['cod-estabel'],
+          codEmitente: obj['cod-emitente'],
+          nrProcess: obj['nr-process']
+        },
+      };
+
+      this.srvTotvs.ReprocessarCalculo(params).subscribe({
+        next: (response: any) => {
+          console.log(response)
+          this.srvNotification.success('Execução do cálculo realizada com sucesso ! Processo RPW: ' + response.rpw)
+          this.onListar()
+          this.loadTela = false;
+        },
+        error: (e) => {
+         // this.srvNotification.error('Ocorreu um erro na requisição')
+          this.loadTela = false;
+        },
+      });
+    },
+    cancel: () => this.srvNotification.error('Cancelada pelo usuário'),
   });
 }
 

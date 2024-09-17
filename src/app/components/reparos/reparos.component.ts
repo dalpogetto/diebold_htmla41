@@ -37,6 +37,7 @@ listaTemp = new Array<any>
 colunasReparos!:PoTableColumn[]
 cJustificativa:string=''
 itemSelecionado:any
+alturaGrid:number=window.innerHeight - 355
 
 readonly acaoSalvar: PoModalAction = {
   label: 'Salvar',

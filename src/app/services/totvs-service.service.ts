@@ -28,6 +28,8 @@ export class TotvsService {
   serieSaida = signal('');
   serieEntra = signal('');
 
+  public alturaGrid:number=window.innerHeight - 255
+
   //Lista Transportadora e Entrega
   listaTransp = signal<any[]>([]);
   listaEntrega = signal<any[]>([]);
@@ -582,43 +584,43 @@ export class TotvsService {
     return [
       {
         property: 'situacao',
-        label: 'Situação',
+        label: 'Sit',
         type: 'label',
         labels: [
           {
             value: 'I',
             color: 'color-08',
-            label: 'Impresso',
+            label: 'I',
             textColor: 'white',
           },
           {
             value: 'B',
             color: 'color-03',
-            label: 'Embalagem',
+            label: 'B',
             textColor: 'white',
           },
           {
             value: 'E',
             color: 'color-09',
-            label: 'Entradas',
+            label: 'E',
             textColor: 'white',
           },
           {
             value: 'S',
             color: 'color-10',
-            label: 'Saídas',
+            label: 'S',
             textColor: 'white',
           },
           {
             value: 'R',
             color: 'color-01',
-            label: 'Reparo',
+            label: 'R',
             textColor: 'white',
           },
           {
-            value: 'L',
+            value: 'RL',
             color: 'color-07',
-            label: 'Resumo Final',
+            label: 'RF',
             textColor: 'white',
           },
         ],

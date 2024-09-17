@@ -46,6 +46,7 @@ export class ParamestabComponent {
 
 
   //Declaracao de Variaveis
+  alturaGrid:number=window.innerHeight - 205
   codEmitente: number = 0
   codEmitenteNaoTipado: any = 0 
 
