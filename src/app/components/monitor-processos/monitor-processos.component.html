@@ -3,7 +3,7 @@
   </div>
 
 <div class="selecao">
-    <div style="width: 45%;">
+    <div style="width: 50%; margin-left: 20px;">
         <po-combo [ngModel]="codEstabel" (ngModelChange)="codEstabel = $event" 
             [p-options]="listaEstabelecimentos"  p-icon="bi bi-pin-map"
             [p-placeholder]="placeHolderEstabelecimento" p-clean="true">
@@ -19,6 +19,7 @@
         </po-combo>
     </div>
     <div><po-button p-icon="bi bi-check2" (p-click)="onListar()" ></po-button></div>
+    <div style="display: flex; justify-content: end; flex-grow: 1; margin-right: 20px;"><po-button p-tooltip="Reprocessar Processos com Erro" p-icon="bi bi-arrow-clockwise" (p-click)="onReprocessarErros()" p-danger="true" ></po-button></div>
 </div>
 <po-table [p-items]="lista" 
           [p-striped]="true" 
@@ -53,7 +54,7 @@
                     <div [ngClass]="row.situacao === 'R' ? 'show' : 'hide'"><button class="btn"  (click)="Reparos(row)"><p><i class="bi bi-tools"></i> Reparos</p></button></div>
                     <div [ngClass]="row.situacao === 'B' ? 'show' : 'hide'"><button class="btn"  (click)="Embalagem(row)"><p><i class="bi bi-box2"></i> Embalagem</p></button></div>
                     <div [ngClass]="row.situacao === 'L' ? 'show' : 'hide'"><button class="btn"  (click)="ResumoFinal(row)"><p><i class="bi bi-printer"></i> Resumo Final</p></button></div>
-                  <!--   <div><button class="btn" style="background-color: lightcoral ; color:black; "  (click)="onReprocessarNotas(row)"><p><i class="bi bi-calendar2-check"></i> Reprocessar Notas</p></button></div> -->
+                 <!--    <div><button class="btn" style="background-color: lightcoral ; color:black; border: 1px solid black"  (click)="onReprocessarNotas(row)"><p><i class="bi bi-calendar2-check"></i> Reprocessar Notas</p></button></div> -->
                 </div>
             }
           </ng-template>

@@ -625,6 +625,7 @@ export class TotvsService {
           },
         ],
       },
+      { property: 'fase', label: 'Fase' },
       { property: 'nr-process', label: 'Processo' },
       { property: 'cod-emitente', label: 'Técnico' },
       { property: 'nome-abrev', label: 'Nome' },
@@ -950,6 +951,12 @@ export class TotvsService {
         params,
         headers: headersTotvs,
       })
+      .pipe(take(1));
+  }
+
+  public ReprocessarErros(params?: any) {
+    return this.http
+      .post(`${this._url}/ReprocessarErros`, params, { headers: headersTotvs })
       .pipe(take(1));
   }
 

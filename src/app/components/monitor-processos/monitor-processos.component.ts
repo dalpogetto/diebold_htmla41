@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PoModalAction, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoFieldModule, PoIconModule, PoButtonModule, PoTableModule, PoDialogService } from '@po-ui/ng-components';
+import { PoModalAction, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoFieldModule, PoIconModule, PoButtonModule, PoTableModule, PoDialogService, PoTooltipModule } from '@po-ui/ng-components';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +11,7 @@ import { NgIf, NgClass } from '@angular/common';
     templateUrl: './monitor-processos.component.html',
     styleUrls: ['./monitor-processos.component.css'],
     standalone: true,
-    imports: [NgIf, PoLoadingModule, PoFieldModule, FormsModule, PoIconModule, PoButtonModule, PoTableModule, NgClass]
+    imports: [NgIf, PoLoadingModule, PoFieldModule, FormsModule, PoIconModule, PoButtonModule, PoTableModule, NgClass, PoTooltipModule]
 })
 export class MonitorProcessosComponent {
 
@@ -203,6 +203,39 @@ onReprocessarNotas(obj:any) {
   });
 }
 
+onReprocessarErros() {
+  if(this.codEstabel === '') return
+  
+  this.srvDialog.confirm({
+    title: 'REPROCESSAR PROCESSOS COM ERRO',
+    message:
+       "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA REPROCESSAMENTO DE ERROS ?</span></div><p>O reprocessamento recriará novos pedidos de execução para os processos.</p>",
+      
+
+    confirm: () => {
+      this.loadTela = true;
+      let params: any = {
+        paramsTela: {
+          codEstab: this.codEstabel,
+        },
+      };
+
+      this.srvTotvs.ReprocessarErros(params).subscribe({
+        next: (response: any) => {
+          console.log(response)
+          this.srvNotification.success('Reprocessamento executado com sucesso !')
+          this.onListar()
+          this.loadTela = false;
+        },
+        error: (e) => {
+         // this.srvNotification.error('Ocorreu um erro na requisição')
+          this.loadTela = false;
+        },
+      });
+    },
+    cancel: () => this.srvNotification.error('Cancelada pelo usuário'),
+  });
+}
 
 
 }
