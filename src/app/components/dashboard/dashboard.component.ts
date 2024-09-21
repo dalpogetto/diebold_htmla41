@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoButtonModule, PoTooltipModule, PoAccordionModule, PoWidgetModule, PoTableModule, PoModalModule } from '@po-ui/ng-components';
+import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoButtonModule, PoTooltipModule, PoAccordionModule, PoWidgetModule, PoTableModule, PoModalModule, PoTableRowTemplateDirective } from '@po-ui/ng-components';
 import { Subscription, delay, interval } from 'rxjs';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
@@ -24,6 +24,10 @@ import { NgIf, UpperCasePipe } from '@angular/common';
         BtnDownloadComponent,
         PoModalModule,
         UpperCasePipe,
+        
+        
+        
+        
     ],
 })
 export class DashboardComponent {
@@ -48,6 +52,8 @@ export class DashboardComponent {
   tabNFE: boolean = true;
   codEstabel: string = '';
   codUsuario: string = '';
+  rowItem:any=[]
+  loadGrid=false
 
   //Progress Counter
   percNFE = 0
@@ -80,17 +86,23 @@ export class DashboardComponent {
   listaTecnicos!: any[];
 
   //---Grids de Notas
-  colunasNFS!: PoTableColumn[];
-  colunasNFE!: PoTableColumn[];
-  colunasErro!: PoTableColumn[];
-  listaNFS!: any[];
-  listaNFE!: any[];
-  listaErros!: any[];
+  colunasNFS!: PoTableColumn[]
+  colunasNFE!: PoTableColumn[]
+  colunasErro!: PoTableColumn[]
+  colunasItensNota!:PoTableColumn[]
+  listaNFS!: any[]
+  listaNFE!: any[]
+  listaErros!: any[]
+  listaItems!:any[]
   sub!: Subscription;
   urlSpool:string=''
   alturaGridLog:number=window.innerHeight - 355
   alturaGridEntra:number=window.innerHeight - 305
   alturaGridSai:number=window.innerHeight - 385
+
+  mostrarDetalhe(row:any, index: number) {
+    return true;
+  }
 
   acaoLogin: PoModalAction = {
     action: () => {
@@ -123,6 +135,32 @@ export class DashboardComponent {
     },
   ];
 
+  ObterItensNFE(obj:any){
+    this.loadGrid=true
+    this.listaItems=[]
+    let params: any = {tipo: 'E', chave: `${obj['serie-docto']};${obj['nro-docto']};${obj['cod-emitente']};${obj['nat-operacao']}`};
+    this.srvTotvs.ObterItensNota(params).subscribe({
+      next:(response:any)=>{
+        this.listaItems = response.itemsNota;
+        this.loadGrid=false
+      }
+    })
+  }
+
+  ObterItensNFS(obj:any){
+    this.loadGrid=true
+    this.listaItems=[]
+    let params: any = {tipo: 'S', chave: `${obj['cod-estabel']};${obj['serie']};${obj['nr-nota-fis']}`};
+    this.srvTotvs.ObterItensNota(params).subscribe({
+      next:(response:any)=>{
+        this.listaItems = response.itemsNota;
+        this.loadGrid=false
+      }
+    })
+
+  }
+   
+
   ngOnInit(): void {
 
     this.esconderPainel();
@@ -134,6 +172,7 @@ export class DashboardComponent {
     this.colunasNFE = this.srvTotvs.obterColunasEntradas();
     this.colunasNFS = this.srvTotvs.obterColunasSaidas();
     this.colunasErro = this.srvTotvs.obterColunasErrosProcessamento();
+    this.colunasItensNota = this.srvTotvs.obterColunasItensNota()
 
     //Login Unico
     this.srvTotvs.ObterUsuario().subscribe({

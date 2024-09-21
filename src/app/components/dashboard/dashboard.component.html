@@ -48,8 +48,26 @@
       <po-widget>
         <!-- <po-progress [p-value]="percNFE" [p-show-percentage]="true" p-text="Notas processadas"></po-progress>
         <po-divider></po-divider> -->
-        <po-table [p-items]="listaNFE" [p-striped]="true" [p-sort]="true" [p-height]="alturaGridEntra"
-          [p-columns]="colunasNFE" [p-hide-table-search]="true" [p-hide-columns-manager]="true" />
+        <po-table [p-items]="listaNFE" 
+                  [p-striped]="true" 
+                  [p-sort]="true" 
+                  [p-loading]="loadGrid"
+                  [p-height]="alturaGridEntra"
+                  [p-columns]="colunasNFE" 
+                  [p-hide-table-search]="true" 
+                  [p-hide-columns-manager]="true"
+                  (p-expanded)="ObterItensNFE($event)"
+                  >
+                  <ng-template p-table-row-template let-rowItem let-i="rowIndex" [p-table-row-template-show]="mostrarDetalhe">
+                    <po-table [p-columns]="colunasItensNota" 
+                              [p-items]="listaItems"
+                              [p-height]="300"
+                              [p-hide-table-search]="true" 
+                              [p-hide-columns-manager]="true" >
+
+                    </po-table>
+                  </ng-template>
+          </po-table>   
       </po-widget>
     </po-accordion-item>
     <po-accordion-item #item2 p-label="Notas Fiscais de SAÍDA" p-tooltip="2">
@@ -67,8 +85,25 @@
         <!-- <po-progress [p-value]="percNFS" [p-show-percentage]="true" p-text="Notas processadas"></po-progress>
         <po-divider></po-divider> -->
 
-        <po-table [p-items]="listaNFS" [p-striped]="true" [p-sort]="true" [p-height]="alturaGridSai"
-          [p-columns]="colunasNFS" [p-hide-table-search]="true" [p-hide-columns-manager]="true" />
+        <po-table [p-items]="listaNFS" 
+                  [p-striped]="true" 
+                  [p-sort]="true" 
+                  [p-loading]="loadGrid"
+                  [p-height]="alturaGridSai"
+                  [p-columns]="colunasNFS"
+                  [p-hide-table-search]="true" 
+                  (p-expanded)="ObterItensNFS($event)"
+                  [p-hide-columns-manager]="true">
+                  <ng-template p-table-row-template let-rowItem let-i="rowIndex" [p-table-row-template-show]="mostrarDetalhe">
+                    <po-table [p-columns]="colunasItensNota" 
+                              [p-items]="listaItems"
+                              [p-height]="200"
+                              [p-hide-table-search]="true" 
+                              [p-hide-columns-manager]="true" >
+
+                    </po-table>
+                  </ng-template>
+        </po-table>
       </po-widget>
     </po-accordion-item>
   </po-accordion>

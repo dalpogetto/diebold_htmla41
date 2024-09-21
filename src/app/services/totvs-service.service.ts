@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject, map, of, take, tap } from 'rxjs';
 import { Observable } from 'rxjs';
 
-import { PoTableColumn } from '@po-ui/ng-components';
+import { PoTableColumn, PoTableDetail } from '@po-ui/ng-components';
 import { Usuario } from '../interfaces/usuario';
 import { Monitor } from '../interfaces/monitor';
 import { environment } from '../../environments/environment';
@@ -48,6 +48,7 @@ export class TotvsService {
 
   private reg!: any;
   _url = environment.totvs_url;
+ 
 
   constructor(private http: HttpClient) {}
 
@@ -258,6 +259,27 @@ export class TotvsService {
       { property: 'qtSaldo', label: 'Saldo Teórico', type: 'number' },
       { property: 'kit', label: 'Kit' },
     ];
+  }
+
+  colDetalhe: PoTableDetail = {
+    columns: [
+      { property: 'package' },
+      { property: 'tour' },
+      { property: 'time', label: 'Departure time', type: 'time', format: 'HH:mm' },
+      { property: 'distance', label: 'Distance (Miles)', type: 'number', format: '1.0-5' }
+    ],
+    typeHeader: 'top'
+  };
+
+  obterColunasItensNota():Array<PoTableColumn>{
+    return[
+    { property: 'seq', label: 'Seq' },
+    { property: 'it-codigo', label: 'Item' },
+    { property: 'desc-item', label: 'Descrição' },
+    { property: 'qtde', label: 'Qtde' },
+    { property: 'cod-depos', label: 'Depos' },
+    { property: 'cod-localiz', label: 'Localiz' },
+  ];
   }
 
   obterColunasEntradas(): Array<PoTableColumn> {
@@ -957,6 +979,15 @@ export class TotvsService {
   public ReprocessarErros(params?: any) {
     return this.http
       .post(`${this._url}/ReprocessarErros`, params, { headers: headersTotvs })
+      .pipe(take(1));
+  }
+
+  public ObterItensNota(params?: any) {
+    return this.http
+      .get(`${this._url}/ObterItensNota`, {
+        params,
+        headers: headersTotvs,
+      })
       .pipe(take(1));
   }
 
