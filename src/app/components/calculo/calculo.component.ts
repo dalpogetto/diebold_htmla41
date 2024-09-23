@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { PoMenuItem, PoModalAction, PoModalComponent, PoPageAction, PoRadioGroupOption, PoStepperComponent, PoTableAction, PoTableColumn, PoTableComponent, PoNotificationService, PoDialogService, PoNotification, PoButtonComponent, PoLoadingModule, PoStepperModule, PoWidgetModule, PoDividerModule, PoFieldModule, PoIconModule, PoTableModule, PoButtonModule, PoTooltipModule, PoRadioGroupModule, PoModalModule } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
-import { catchError, delay, elementAt } from 'rxjs';
+import { catchError, delay, elementAt, interval, Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { ExcelService } from '../../services/excel-service.service';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService46 } from '../../services/totvs-service-46.service';
 import { BtnDownloadComponent } from '../btn-download/btn-download.component';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { environment } from '../../../environments/environment.prod';
 
 
@@ -23,6 +23,7 @@ import { environment } from '../../../environments/environment.prod';
       PoDividerModule, 
       PoFieldModule, 
       FormsModule, 
+      NgClass,
       PoIconModule, 
       PoTableModule, 
       PoButtonModule,
@@ -40,6 +41,10 @@ export class CalculoComponent {
 @ViewChild('loginModal', { static: true }) loginModal: PoModalComponent | undefined;
 @ViewChild('stepper', { static: true }) stepper: PoStepperComponent | undefined;
 @ViewChild('abrirArquivo', { static: true }) abrirArquivo: | PoModalComponent | undefined;
+@ViewChild('timer', { static: true }) telaTimer:
+    | PoModalComponent
+    | undefined;
+  
 
 
 acaoImprimir: PoModalAction = {
@@ -131,6 +136,15 @@ nomeArquivo: string = '';
 
 urlInfoOs:string=''
 arquivoInfoOS:string=''
+telaTimerFoiFechada = false
+labelPedExec = ''
+labelTimer = 'Gerando pedido de execução ...'
+labelTimerDetail = ''
+sub!: Subscription;
+
+listaArquivos!: any[];
+  
+
 
 
 
@@ -174,6 +188,13 @@ readonly acaoLogar: PoModalAction = {
   readonly acaoDetalhe: PoPageAction = {
     action: () => { this.mostrarDetalhe=false}, label: 'Fechar'}
 
+    acaoCancelarTimer: PoModalAction = {
+      action: () => {
+        this.fecharTimer()
+        
+      },
+      label: 'Fechar',
+    };
   
 
 
@@ -217,6 +238,7 @@ readonly acaoLogar: PoModalAction = {
 
     //--- Parametros iniciais da tela
     this.loadTela = false
+    this.arquivoInfoOS = ''
     this.tipoCalculo = '1'
     this.colunasKit = this.srvTotvs.obterColunasSaldoTerc()
 
@@ -242,6 +264,15 @@ readonly acaoLogar: PoModalAction = {
     //this.cdRef.detectChanges()
   }
 
+  fecharTimer(){
+    if(this.sub !== undefined){
+       this.sub.unsubscribe()
+    }
+    this.telaTimer?.close()
+    this.telaTimerFoiFechada=true
+  }
+
+
   //-------------------------------------------------------- Metodos
 
     //------- Stepper
@@ -249,6 +280,7 @@ readonly acaoLogar: PoModalAction = {
 
       //---------------- Consistir Passo 1
       if ((passo.label === "Técnico") && ((this.codEstabelecimento === '') || (this.codTecnico === ''))){
+        this.arquivoInfoOS = ''
 
         this.srvNotification.error('Estabelecimento e Ténico não foram preenchidos corretamente');
         return false;
@@ -462,7 +494,6 @@ readonly acaoLogar: PoModalAction = {
               let paramsE: any = { CodEstab: this.codEstabelecimento, CodTecnico: this.codTecnico, NrProcess: this.processoInfo, Extrakit: listaET }
               this.srvTotvs.PrepararResumo(paramsE).subscribe({
                 next: (response:any) => {
-                  console.log("Resumo", response)
 
                     if (response !== null && (response.items as any[]).length > 0){
                      
@@ -865,7 +896,84 @@ readonly acaoLogar: PoModalAction = {
         this.srvNotification.error('Não existem ordens para o técnico')
         return 
       }
-      
+
+      this.srvDialog.confirm({
+        title: 'GERAÇÃO INFORME OS',
+        literals: { cancel: 'Cancelar', confirm: 'Gerar Arquivo' },
+        message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> DESEJA GERAR O INFORME DE OS ?</span></div>",
+        confirm: () => {
+          this.telaTimerFoiFechada = false
+          this.labelPedExec = ''
+          this.labelTimer = 'Gerando pedido de execução ...'
+          this.labelTimerDetail = ''
+          this.acaoCancelarTimer.label='Fechar'
+          this.telaTimer?.open()
+  
+          //this.loadTela = true;
+          let paramsArquivo: any = {
+            iExecucao: 2,
+            cRowId: this.listaOrdens[0]['c-rowId'],
+          };
+          this.srvTotvs46.ImprimirOS(paramsArquivo).subscribe({
+            next: (response: any) => {
+              this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec
+              this.labelTimer = 'Coletando informações do rpw...'
+  
+              //Arquivo Gerado
+             
+              let params: any = { nrProcess: this.processoInfo, situacao: 'IOS' };
+              this.srvTotvs46.ObterArquivo(params).subscribe({
+                next: (item: any) => {
+                  this.arquivoInfoOS = item.items[0].nomeArquivo
+                  if (!this.telaTimerFoiFechada){
+                    this.sub = interval(5000).subscribe(n => {
+                       // console.log(n) 
+                        this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec + ' (' + (n * 5).toString() + 's)'
+                        this.labelTimer = 'Aguarde a liberação do arquivo...  '
+  
+                        //Limitar o numero de calls em 15
+                        if (n > 55){
+                          this.sub.unsubscribe()
+                          this.telaTimer?.close()
+                        }
+  
+                        
+                        let param2:any={numRPW:response.NumPedExec}
+                        this.srvTotvs46.piObterSituacaoRPW(param2).subscribe({
+                          next: (response:any)=> {
+                            if (response.ok){
+                              this.sub.unsubscribe()
+                              this.labelPedExec = 'Pedido Execução: Executado com sucesso'
+                              this.labelTimer = "Arquivo liberado !"
+                              this.labelTimerDetail = "Utilize o Log de Arquivos para visualizar o arquivo gerado"
+                              this.acaoCancelarTimer.label='Fechar'
+                            }
+                          }
+                        })
+                        
+                    })
+                  }
+                  else
+                    this.telaTimerFoiFechada = false
+                },
+              });
+  
+              this.loadTela = false;
+             // this.srvNotification.success('Gerado pedido de execução : ' + response.NumPedExec );
+              //Atualizar Situacao do Processo
+              this.srvTotvs.EmitirParametros({ processoSituacao: 'IMPRESSO' });
+            },
+            error: (e) => {
+              this.loadTela = false;
+            },
+          });
+        },
+        cancel: () => {
+         
+        },
+      });
+  
+      /*
         this.srvDialog.confirm({
           title: "GERAÇÃO INFORME OS",
           literals: { cancel: 'Cancelar', confirm: 'Gerar Arquivo' },
@@ -898,6 +1006,7 @@ readonly acaoLogar: PoModalAction = {
            
           }
         })
+          */
     }
 
     onAbrirArquivo(obj: any) {
