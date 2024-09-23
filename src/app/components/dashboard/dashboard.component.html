@@ -59,9 +59,11 @@
                   (p-expanded)="ObterItensNFE($event)"
                   >
                   <ng-template p-table-row-template let-rowItem let-i="rowIndex" [p-table-row-template-show]="mostrarDetalhe">
+                    
                     <po-table [p-columns]="colunasItensNota" 
                               [p-items]="listaItems"
                               [p-height]="300"
+                              p-container="true"
                               [p-hide-table-search]="true" 
                               [p-hide-columns-manager]="true" >
 
@@ -95,8 +97,10 @@
                   (p-expanded)="ObterItensNFS($event)"
                   [p-hide-columns-manager]="true">
                   <ng-template p-table-row-template let-rowItem let-i="rowIndex" [p-table-row-template-show]="mostrarDetalhe">
+                    
                     <po-table [p-columns]="colunasItensNota" 
                               [p-items]="listaItems"
+                              p-container="true"
                               [p-height]="200"
                               [p-hide-table-search]="true" 
                               [p-hide-columns-manager]="true" >

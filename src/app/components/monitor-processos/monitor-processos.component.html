@@ -30,6 +30,44 @@
           [p-hide-table-search]="false" 
           [p-hide-columns-manager]="true">
           <ng-template p-table-cell-template let-column="column" let-row="row">
+           
+            @if(column.property === 'situacao'){
+                @if(row['situacao'] === 'E'){
+                    <div class='po-font-text' style="display: flex;justify-content: center; align-items: first baseline;color:white; background-color: var(--color-09);border-radius: 50%; padding: 1px;text-align: center">
+                        <div> {{ row['situacao']}}</div>
+                        <div class="po-font-text-smaller">{{ row['fase']}}</div>  
+                    </div>
+                }
+                @else {
+                    @if(row['situacao'] === 'B'){ 
+                        <div class='po-font-text' style="display: flex;justify-content: center; color:white; background-color: var(--color-03);border-radius: 50%; padding: 1px;text-align: center">
+                            {{ row['situacao']}}
+                        </div>
+                    }
+                    @else if(row['situacao'] === 'S'){ 
+                        <div class='po-font-text' style="display: flex;justify-content: center; color:white; background-color: var(--color-10);border-radius: 50%; padding: 1px;text-align: center">
+                            {{ row['situacao']}}
+                        </div>
+                    }
+                    @else if(row['situacao'] === 'R'){ 
+                        <div class='po-font-text' style="display: flex;justify-content: center; color:white; background-color: var(--color-01);border-radius: 50%; padding: 1px;text-align: center">
+                            {{ row['situacao']}}
+                        </div>
+                    }
+                    @else if(row['situacao'] === 'L'){ 
+                        <div class='po-font-text' style="display: flex;justify-content: center; color:white; background-color: var(--color-07);border-radius: 50%; padding: 1px;text-align: center">
+                            {{ row['situacao']}}
+                        </div>
+                    }
+                }
+            }
+           <!--  @if(column.property === 'fase'){
+                @if(row['situacao'] === 'E'){
+                    <div style="display: flex; justify-content: center; align-items:end">
+                        <div class="po-font-text-smaller" class="po-font-text-smaller" style="color:white; background-color: var(--color-09);border: 1px solid var(--color-09); border-radius: 4px; padding: 1px;text-align: center">{{ row['fase']}}</div>  
+                    </div>
+                }
+            } -->
             @if(column.property === 'num-ped-exec'){
                
                 <div style="display: flex; align-items: center; gap:5px;padding: 1px;border-radius: 4px;">

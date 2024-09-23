@@ -46,7 +46,7 @@ export class EmbalagemComponent {
   loadTela:boolean=false
   listaGrid!:any[]
   colunas!:any[]
-  infoPrimeiraNota!:{"cod-estabel":string, "serie": string, "nr-nota-fis": string}
+  infoPrimeiraNota!:{"cod-estabel":'', "serie": '', "nr-nota-fis": ''}
 
   pesoBruto:number=0
   
@@ -85,14 +85,15 @@ readonly options: Array<PoRadioGroupOption> = [
   
 
    ngOnInit(): void {
-     
+      this.infoPrimeiraNota={"cod-estabel":'', "serie": '', "nr-nota-fis": ''}
       this.srvTotvs.EmitirParametros({tituloTela: 'HTMLA41 - INFORMAÇÕES DE EMBALAGEM'});
       this.colunas=this.srvTotvs.obterColunasEmbalagem()
-     // this.loadTela=true
+      this.loadTela=true
 
       //Login Unico
       this.srvTotvs.ObterUsuario().subscribe({
         next:(response:Usuario)=>{
+          
           if(response ===undefined) return
             this.codEstabel = response.codEstabelecimento
             this.codUsuario = response.codUsuario
@@ -106,9 +107,12 @@ readonly options: Array<PoRadioGroupOption> = [
       let paramsNota: any = {CodEstab: this.codEstabel,CodTecnico: this.codUsuario, NrProcess: this.nrProcess}
       this.srvTotvs.ObterPrimeiraNota(paramsNota).subscribe({
         next: (response: any) => {
-          if (response.nfs)
-          this.infoPrimeiraNota = response.nfs[0];
-          this.titleEmbal = `Embalagem Nota: ${this.infoPrimeiraNota["cod-estabel"]}-${this.infoPrimeiraNota["serie"]}-${this.infoPrimeiraNota["nr-nota-fis"]}`
+          if ((response.nfs as any[]).length > 0){
+            this.infoPrimeiraNota = response.nfs[0];
+            console.log('primeira', response)
+            this.titleEmbal = `Embalagem Nota: ${this.infoPrimeiraNota["cod-estabel"]}-${this.infoPrimeiraNota["serie"]}-${this.infoPrimeiraNota["nr-nota-fis"]}`
+            
+          }
           this.loadTela=false
         },
         error: (e) => {this.loadTela=false},

@@ -259,6 +259,7 @@ readonly acaoLogar: PoModalAction = {
       if ((passo.label === "Técnico") && (this.codEstabelecimento !== '') && (this.codTecnico !== '')){
 
         this.loadTela=true
+        this.labelLoadTela="Obtendo campos estab"
 
          //Atualizar informações do Técnico e Estabelecimento
          let estab = this.listaEstabelecimentos.find(o => o.value === this.codEstabelecimento)
