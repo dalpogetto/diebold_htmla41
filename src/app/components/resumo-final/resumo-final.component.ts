@@ -1,12 +1,13 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { PoDialogService, PoNotificationService, PoTableColumn, PoTableLiterals, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTableModule } from '@po-ui/ng-components';
+import { PoDialogService, PoNotificationService, PoTableColumn, PoTableLiterals, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTableModule, PoModalModule, PoModalComponent, PoModalAction } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
 import { TotvsService46 } from '../../services/totvs-service-46.service';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../../interfaces/usuario';
 import { BtnDownloadComponent } from '../btn-download/btn-download.component';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
+import { interval, Subscription } from 'rxjs';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { NgIf } from '@angular/common';
     templateUrl: './resumo-final.component.html',
     styleUrl: './resumo-final.component.css',
     standalone: true,
-    imports: [NgIf, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTableModule, BtnDownloadComponent]
+    imports: [NgIf, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTableModule, BtnDownloadComponent, PoModalModule,NgClass]
 })
 export class ResumoFinalComponent implements OnInit {
   private srvTotvs = inject(TotvsService)
@@ -22,6 +23,12 @@ export class ResumoFinalComponent implements OnInit {
   private srvDialog  = inject(PoDialogService)
   private srvNotification = inject(PoNotificationService)
   private router = inject(Router)
+
+
+  @ViewChild('timer', { static: true }) telaTimer:
+  | PoModalComponent
+  | undefined;
+
 
   arquivoInfoOS:string=''
   urlInfoOs:string=''
@@ -31,6 +38,29 @@ export class ResumoFinalComponent implements OnInit {
   nrProcess:string=''
   codEstabel:string=''
   loadTela:boolean=false
+
+  labelTimer:string='Aguarde a liberação do arquivo...'
+  labelTimerDetail:string=''
+  labelPedExec:string=''
+  telaTimerFoiFechada:boolean=false
+  sub!: Subscription;
+  
+  
+  acaoCancelarTimer: PoModalAction = {
+    action: () => {
+      this.fecharTimer()
+      
+    },
+    label: 'Fechar',
+  };
+
+  fecharTimer(){
+    if(this.sub !== undefined){
+       this.sub.unsubscribe()
+    }
+    this.telaTimer?.close()
+    this.telaTimerFoiFechada=true
+  }
 
    //---Inicializar
    ngOnInit(): void {
@@ -93,6 +123,80 @@ export class ResumoFinalComponent implements OnInit {
         cancel: () => {}
       });
   }
+
+  onImpressao() {
+    this.srvDialog.confirm({
+      title: 'ARQUIVO CONFERÊNCIA DE OS',
+      literals: { cancel: 'Cancelar', confirm: 'Gerar Arquivo' },
+      message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> GERAR ARQUIVO ?</span></div>",
+      confirm: () => {
+        this.telaTimerFoiFechada = false
+        this.labelPedExec = ''
+        this.labelTimer = 'Gerando pedido de execução ...'
+        this.labelTimerDetail = ''
+        this.acaoCancelarTimer.label='Fechar'
+        this.telaTimer?.open()
+
+        //this.loadTela = true;
+        let params:any={iExecucao:2, nrProcess:this.nrProcess}
+        this.srvTotvs.ImprimirConfOS(params).subscribe({
+            next: (response: any) => {
+              this.labelPedExec = 'Pedido Execução'
+              this.labelTimer = 'Coletando informações do rpw...'
+
+              //Arquivo Gerado
+              let params2:any={nrProcess: this.nrProcess, situacao:'L'}
+              this.srvTotvs46.ObterArquivo(params2).subscribe({
+                   next: (item: any) => {
+                this.listaArquivos = item.items;
+                if (!this.telaTimerFoiFechada){
+                  this.sub = interval(5000).subscribe(n => {
+                     // console.log(n) 
+                      this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec + ' (' + (n * 5).toString() + 's)'
+                      this.labelTimer = 'Aguarde a liberação do arquivo...  '
+
+                      //Limitar o numero de calls em 15
+                      if (n > 55){
+                        this.sub.unsubscribe()
+                        this.telaTimer?.close()
+                      }
+
+                      if(this.listaArquivos[0] === undefined) return
+                      let param:any={numRPW:this.listaArquivos[0].numPedExec}
+                      this.srvTotvs46.piObterSituacaoRPW(param).subscribe({
+                        next: (response:any)=> {
+                          
+                          if (response.ok){
+                            this.sub.unsubscribe()
+                            this.labelPedExec = 'Pedido Execução: Executado com sucesso'
+                            this.labelTimer = "Arquivo liberado !"
+                            this.labelTimerDetail = "Utilize o Log de Arquivos para visualizar o arquivo gerado"
+                            this.acaoCancelarTimer.label='Fechar'
+                          }
+                        }
+                      })
+                      
+                  })
+                }
+                else
+                  this.telaTimerFoiFechada = false
+              },
+            });
+
+            this.loadTela = false;
+           
+          },
+          error: (e) => {
+            this.loadTela = false;
+          },
+        });
+      },
+      cancel: () => {
+       
+      },
+    });
+  }
+
 
   onFinalizar(){
     this.srvDialog.confirm({

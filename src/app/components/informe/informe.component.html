@@ -204,7 +204,7 @@
           
           <div class="flex-row">
             <div class="label"><label>Num Enc:</label></div>
-            <div><po-input formControlName="nr-enc"/></div>
+            <div><po-input formControlName="nr-enc" [p-maxlength]="9"/></div>
             
             <div class="label"><label>Série Enc:</label></div>
             <div><po-input formControlName="Serie-enc"/></div>
@@ -353,7 +353,7 @@
             <ng-template p-table-cell-template let-column="column" let-row="row">
              
               <div class="enc" *ngIf="column.property === 'nr-enc'">
-                <i class="bi bi-upc"></i><input [(ngModel)]="row['nr-enc']" name="nr-enc" (focus)="onFocusNumSerie(row)">
+                <i class="bi bi-upc"></i><input [(ngModel)]="row['nr-enc']" name="nr-enc" (focus)="onFocusNumSerie(row)" maxlength="9">
               </div>
               <div class="serie" *ngIf="column.property === 'num-serie-it'">
                 <i class="bi bi-upc"></i><input [(ngModel)]="row['num-serie-it']" name="num-serie-it" (blur)="onLeaveNumSerieItemPendente(row)" (focus)="onFocusNumSerie(row)" >
