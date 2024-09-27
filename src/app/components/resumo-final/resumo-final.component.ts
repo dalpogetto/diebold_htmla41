@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PoDialogService, PoNotificationService, PoTableColumn, PoTableLiterals, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTableModule, PoModalModule, PoModalComponent, PoModalAction } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
@@ -8,6 +8,7 @@ import { Usuario } from '../../interfaces/usuario';
 import { BtnDownloadComponent } from '../btn-download/btn-download.component';
 import { NgClass, NgIf } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
+import { RpwComponent } from "../rpw/rpw.component";
 
 
 @Component({
@@ -15,7 +16,7 @@ import { interval, Subscription } from 'rxjs';
     templateUrl: './resumo-final.component.html',
     styleUrl: './resumo-final.component.css',
     standalone: true,
-    imports: [NgIf, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTableModule, BtnDownloadComponent, PoModalModule,NgClass]
+    imports: [NgIf, PoLoadingModule, PoWidgetModule, PoButtonModule, PoTableModule, BtnDownloadComponent, PoModalModule,NgClass,RpwComponent]
 })
 export class ResumoFinalComponent implements OnInit {
   private srvTotvs = inject(TotvsService)
@@ -29,7 +30,7 @@ export class ResumoFinalComponent implements OnInit {
   | PoModalComponent
   | undefined;
 
-
+  numPedExec=signal(0)
   arquivoInfoOS:string=''
   urlInfoOs:string=''
   urlSpool:string=''
@@ -130,26 +131,30 @@ export class ResumoFinalComponent implements OnInit {
       literals: { cancel: 'Cancelar', confirm: 'Gerar Arquivo' },
       message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> GERAR ARQUIVO ?</span></div>",
       confirm: () => {
-        this.telaTimerFoiFechada = false
-        this.labelPedExec = ''
-        this.labelTimer = 'Gerando pedido de execução ...'
-        this.labelTimerDetail = ''
-        this.acaoCancelarTimer.label='Fechar'
-        this.telaTimer?.open()
+        this.numPedExec.update(()=> 1)
+       // this.telaTimerFoiFechada = false
+      //  this.labelPedExec = ''
+       // this.labelTimer = 'Gerando pedido de execução ...'
+       // this.labelTimerDetail = ''
+       // this.acaoCancelarTimer.label='Fechar'
+       // this.telaTimer?.open()
 
         //this.loadTela = true;
         let params:any={iExecucao:2, nrProcess:this.nrProcess}
         this.srvTotvs.ImprimirConfOS(params).subscribe({
             next: (response: any) => {
-              this.labelPedExec = 'Pedido Execução'
-              this.labelTimer = 'Coletando informações do rpw...'
+             // this.labelPedExec = 'Pedido Execução'
+             // this.labelTimer = 'Coletando informações do rpw...'
+             
 
               //Arquivo Gerado
               let params2:any={nrProcess: this.nrProcess, situacao:'L'}
               this.srvTotvs46.ObterArquivo(params2).subscribe({
                    next: (item: any) => {
                 this.listaArquivos = item.items;
-                if (!this.telaTimerFoiFechada){
+                this.numPedExec.update(()=> response.NumPedExec)
+               
+               /* if (!this.telaTimerFoiFechada){
                   this.sub = interval(5000).subscribe(n => {
                      // console.log(n) 
                       this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec + ' (' + (n * 5).toString() + 's)'
@@ -180,6 +185,7 @@ export class ResumoFinalComponent implements OnInit {
                 }
                 else
                   this.telaTimerFoiFechada = false
+                */
               },
             });
 

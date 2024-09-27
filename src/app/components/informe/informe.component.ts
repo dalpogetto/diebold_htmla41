@@ -859,8 +859,6 @@ export class InformeComponent {
             });
 
             this.loadTela = false;
-           // this.srvNotification.success('Gerado pedido de execução : ' + response.NumPedExec );
-            //Atualizar Situacao do Processo
             this.srvTotvs.EmitirParametros({ processoSituacao: 'IMPRESSO' });
           },
           error: (e) => {

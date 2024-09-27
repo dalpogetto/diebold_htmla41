@@ -202,7 +202,7 @@ readonly acoesGrid: PoTableAction[] = [
 
  onEditar(obj:any){
   this.itemSelecionado = obj
-  this.itCodigoEquiv = this.itemSelecionado["it-codigo-equiv"]
+  this.itCodigoEquiv = (this.itemSelecionado["it-codigo-equiv"] as string).replaceAll('.','').replaceAll('-','')
   this.qtdEquiv = this.itemSelecionado["qt-equiv"]
   this.numSerie = this.itemSelecionado["num-serie-it"]
   this.telaAlterar?.open()

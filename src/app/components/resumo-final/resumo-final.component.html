@@ -36,3 +36,8 @@ p-click-out="false"
 <p class="po-font-title"><i  [ngClass]="labelTimer === 'Arquivo liberado !' ? 'bi bi-alarm-fill' : 'bi bi-alarm'"></i> {{labelTimer}}</p>  
 <p class="po-font-text-large">{{labelTimerDetail}}</p> 
 </po-modal>
+
+<rpw-acomp [numPedExec]="numPedExec()"
+           [intervalo]="5000" 
+           [tentativas]="50">
+</rpw-acomp>

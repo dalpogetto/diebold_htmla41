@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PoModalAction, PoModalComponent, PoNotificationService, PoModalModule, PoFieldModule, PoIconModule, PoButtonModule, PoTableModule, PoWidgetModule, PoWidgetComponent, PoI18nService, PoI18nModule } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
@@ -7,6 +7,7 @@ import { DecimalPipe, NgIf } from '@angular/common';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 import { PoI18nConfig } from '@po-ui/ng-components';
+import { RpwComponent } from "../rpw/rpw.component";
 
 
 const i18nConfig: PoI18nConfig = {
@@ -28,22 +29,21 @@ const i18nConfig: PoI18nConfig = {
     styleUrls: ['./seletor.component.css'],
     standalone: true,
     imports: [NgIf,
-      
-       PoFieldModule, 
-      FormsModule,
-       PoIconModule,
-        FormsModule, 
-        PoButtonModule,
-        PoTableModule,
-        PoWidgetModule,
-      ReactiveFormsModule,
-      NgxMaskDirective,
-      DecimalPipe,
-      NgxMaskPipe]
+    PoFieldModule,
+    FormsModule,
+    PoIconModule,
+    FormsModule,
+    PoButtonModule,
+    PoTableModule,
+    PoWidgetModule,
+    ReactiveFormsModule,
+    NgxMaskDirective,
+    DecimalPipe,
+    NgxMaskPipe, RpwComponent]
 })
 export class SeletorComponent {
 
-private srvTotvs = inject(TotvsService)
+public srvTotvs = inject(TotvsService)
 private srvNotification = inject(PoNotificationService);
 private route = inject(ActivatedRoute)
 private router = inject(Router)
@@ -51,7 +51,7 @@ private router = inject(Router)
 
 @ViewChild('loginModal', { static: true }) loginModal: | PoModalComponent | undefined;
 
-
+numPedExec=signal(0)
 
   //ListasCombo
 listaEstabelecimentos!: any[];
@@ -89,11 +89,15 @@ colunas:any[]=[
 lista:any[]=[{campo:150.50, descricao:'teste'}, {campo:32.35, descricao:'teste'}, {campo:1601.351, descricao:'teste'}]
 
 
+mostrarEvento(obj:any){
 
+}
 
 ngOnInit(): void {
   this.form.controls['Inclusao'].patchValue('só no sapatinho')
   PoI18nModule.config(i18nConfig)
+ 
+  this.numPedExec.update(()=>1639623)
  
 
   /*

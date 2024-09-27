@@ -72,7 +72,7 @@
                
                 <div style="display: flex; align-items: center; gap:5px;padding: 1px;border-radius: 4px;">
                     @if(row['desc-ped-exec'] === 'Executando Pedido'){
-                    <div class="po-font-text-smaller" style=" color:white;background-color: var(--color-10);border: 2px solid var(--color-10); border-radius: 4px; min-width: 30px; text-align: center;padding:0 2px">{{row['desc-ped-exec']}}...</div>
+                    <div class="po-font-text-smaller" style=" color:white;background-color: var(--color-10);border: 2px solid var(--color-10); border-radius: 4px; min-width: 30px; text-align: center;padding:0 2px">{{row['desc-ped-exec']}}<div class='loading po-font-text-smaller'>...</div></div>
                     }
                     @else if(row['desc-ped-exec'] === 'Execução com Sucesso'){
                         <div class="po-font-text-smaller" style="border: 2px solid var(--color-10); border-radius: 4px; min-width: 30px; text-align: center;padding:0 2px">{{row['desc-ped-exec']}}</div>
