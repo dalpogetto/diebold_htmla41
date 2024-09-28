@@ -22,9 +22,10 @@ export class RpwComponent {
 
   //Signals variaveis
   numPedExec = input(0)
-  tentativas = input(0)
-  intervalo = input(0)
-  execPedEvent = output<boolean>();
+  tentativas = input(2)
+  intervalo = input(500)
+  terminoEvent = output<boolean>();
+  
 
   //Tela Modal
   @ViewChild('timer', { static: true }) telaTimer:
@@ -34,26 +35,28 @@ export class RpwComponent {
 
   //Variaveis locais
   sub!:Subscription
-  labelTimer:string='Aguarde a liberação do arquivo...'
+  labelTimer:string='Obtendo dados RPW'
   labelTimerDetail:string=''
-  labelPedExec:string=''
+  labelPedExec:string='Pedido Execução'
   telaTimerFoiFechada:boolean=false
+
+  
 
   //contructor
   constructor(){
     effect(() => {
-      
+     
+      //Num Pedido Exec igual a 1 - Apresenta a tela 
       if (this.numPedExec() === 1) {
-        this.labelPedExec = 'Pedido Execução'
-        this.labelTimer = 'Enviando dados para o RPW...'
         this.telaTimer?.open()
       }
 
+      //Num Pedido Exec para acompanhamento 
       if (this.numPedExec() > 1) {
         this.sub = interval(this.intervalo()).subscribe(n => {
-          // console.log(n) 
-           this.labelPedExec = 'Pedido Execução:' + this.numPedExec() + ' (' + (n * 5).toString() + 's)'
-           this.labelTimer = 'Aguarde a liberação do arquivo...  '
+           console.log(n) 
+           this.labelPedExec = 'Pedido Execução: ' + this.numPedExec() + ' (' + (n * 5).toString() + 's)'
+           this.labelTimer = 'Aguarde geração do arquivo'
 
            //Controle de Numero de Tentativas
            if (n > this.tentativas()){
@@ -67,11 +70,12 @@ export class RpwComponent {
              next: (response:any)=> {
                if (response.ok){
                  this.sub.unsubscribe()
-                 this.labelPedExec = 'Pedido Execução: Executado com sucesso'
+                 this.labelPedExec = 'Pedido Execução: OK'
                  this.labelTimer = "Arquivo liberado !"
                  this.labelTimerDetail = "Utilize o Log de Arquivos para visualizar o arquivo gerado"
                  this.acaoCancelarTimer.label='Fechar'
-                 this.execPedEvent.emit(true)
+                 this.terminoEvent.emit(true)
+                 console.log(n)
                }
              }
            })
@@ -82,14 +86,11 @@ export class RpwComponent {
 
   //Variavel do Modal
   acaoCancelarTimer: PoModalAction = {
-    action: () => {
-      this.fecharTimer()
-      
-    },
+    action: () => { this.fecharTimer() },
     label: 'Fechar',
   };
 
-  //Encerrar o subscribe
+  //Controle fechamento de tela
   fecharTimer(){
     if(this.sub !== undefined){
        this.sub.unsubscribe()

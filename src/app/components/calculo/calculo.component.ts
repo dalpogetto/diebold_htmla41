@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { PoMenuItem, PoModalAction, PoModalComponent, PoPageAction, PoRadioGroupOption, PoStepperComponent, PoTableAction, PoTableColumn, PoTableComponent, PoNotificationService, PoDialogService, PoNotification, PoButtonComponent, PoLoadingModule, PoStepperModule, PoWidgetModule, PoDividerModule, PoFieldModule, PoIconModule, PoTableModule, PoButtonModule, PoTooltipModule, PoRadioGroupModule, PoModalModule } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
 import { catchError, delay, elementAt, interval, Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { TotvsService46 } from '../../services/totvs-service-46.service';
 import { BtnDownloadComponent } from '../btn-download/btn-download.component';
 import { NgClass, NgIf } from '@angular/common';
 import { environment } from '../../../environments/environment.prod';
+import { RpwComponent } from '../rpw/rpw.component';
 
 
 @Component({
@@ -30,7 +31,8 @@ import { environment } from '../../../environments/environment.prod';
       PoTooltipModule, 
       BtnDownloadComponent, 
       PoRadioGroupModule, 
-      PoModalModule]
+      PoModalModule,
+      RpwComponent]
 })
 export class CalculoComponent {
 
@@ -136,14 +138,8 @@ nomeArquivo: string = '';
 
 urlInfoOs:string=''
 arquivoInfoOS:string=''
-telaTimerFoiFechada = false
-labelPedExec = ''
-labelTimer = 'Gerando pedido de execução ...'
-labelTimerDetail = ''
-sub!: Subscription;
-
 listaArquivos!: any[];
-  
+numPedExec=signal(0)  
 
 
 
@@ -188,13 +184,6 @@ readonly acaoLogar: PoModalAction = {
   readonly acaoDetalhe: PoPageAction = {
     action: () => { this.mostrarDetalhe=false}, label: 'Fechar'}
 
-    acaoCancelarTimer: PoModalAction = {
-      action: () => {
-        this.fecharTimer()
-        
-      },
-      label: 'Fechar',
-    };
   
 
 
@@ -263,15 +252,6 @@ readonly acaoLogar: PoModalAction = {
 
     //this.cdRef.detectChanges()
   }
-
-  fecharTimer(){
-    if(this.sub !== undefined){
-       this.sub.unsubscribe()
-    }
-    this.telaTimer?.close()
-    this.telaTimerFoiFechada=true
-  }
-
 
   //-------------------------------------------------------- Metodos
 
@@ -902,13 +882,10 @@ readonly acaoLogar: PoModalAction = {
         literals: { cancel: 'Cancelar', confirm: 'Gerar Arquivo' },
         message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> DESEJA GERAR O INFORME DE OS ?</span></div>",
         confirm: () => {
-          this.telaTimerFoiFechada = false
-          this.labelPedExec = ''
-          this.labelTimer = 'Gerando pedido de execução ...'
-          this.labelTimerDetail = ''
-          this.acaoCancelarTimer.label='Fechar'
-          this.telaTimer?.open()
-  
+
+          //Inicializar acompanhamento rpw
+          this.numPedExec.update(() => 1)
+
           //this.loadTela = true;
           let paramsArquivo: any = {
             iExecucao: 2,
@@ -916,51 +893,19 @@ readonly acaoLogar: PoModalAction = {
           };
           this.srvTotvs46.ImprimirOS(paramsArquivo).subscribe({
             next: (response: any) => {
-              this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec
-              this.labelTimer = 'Coletando informações do rpw...'
-  
+
+              //Acompanhar rpw
+              this.numPedExec.update(() => response.NumPedExec)
+    
               //Arquivo Gerado
              
               let params: any = { nrProcess: this.processoInfo, situacao: 'IOS' };
               this.srvTotvs46.ObterArquivo(params).subscribe({
                 next: (item: any) => {
                   this.arquivoInfoOS = item.items[0].nomeArquivo
-                  if (!this.telaTimerFoiFechada){
-                    this.sub = interval(5000).subscribe(n => {
-                       // console.log(n) 
-                        this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec + ' (' + (n * 5).toString() + 's)'
-                        this.labelTimer = 'Aguarde a liberação do arquivo...  '
-  
-                        //Limitar o numero de calls em 15
-                        if (n > 55){
-                          this.sub.unsubscribe()
-                          this.telaTimer?.close()
-                        }
-  
-                        
-                        let param2:any={numRPW:response.NumPedExec}
-                        this.srvTotvs46.piObterSituacaoRPW(param2).subscribe({
-                          next: (response:any)=> {
-                            if (response.ok){
-                              this.sub.unsubscribe()
-                              this.labelPedExec = 'Pedido Execução: Executado com sucesso'
-                              this.labelTimer = "Arquivo liberado !"
-                              this.labelTimerDetail = "Utilize o Log de Arquivos para visualizar o arquivo gerado"
-                              this.acaoCancelarTimer.label='Fechar'
-                            }
-                          }
-                        })
-                        
-                    })
-                  }
-                  else
-                    this.telaTimerFoiFechada = false
-                },
-              });
+                }})
   
               this.loadTela = false;
-             // this.srvNotification.success('Gerado pedido de execução : ' + response.NumPedExec );
-              //Atualizar Situacao do Processo
               this.srvTotvs.EmitirParametros({ processoSituacao: 'IMPRESSO' });
             },
             error: (e) => {
@@ -973,40 +918,6 @@ readonly acaoLogar: PoModalAction = {
         },
       });
   
-      /*
-        this.srvDialog.confirm({
-          title: "GERAÇÃO INFORME OS",
-          literals: { cancel: 'Cancelar', confirm: 'Gerar Arquivo' },
-          message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> DESEJA GERAR O INFORME DE OS ?</span></div>",
-          confirm: () => {
-            this.loadTela = true
-            this.labelLoadTela='Gerando Pedido Execução'
-            let paramsArquivo:any={iExecucao: 2, cRowId: this.listaOrdens[0]['c-rowId']}
-            this.srvTotvs46.ImprimirOS(paramsArquivo).subscribe({
-              next: (response:any)=>{
-
-                 //Arquivo Gerado
-                 let params:any={nrProcess: this.processoInfo, situacao:'IOS'}
-                 this.srvTotvs46.ObterArquivo(params).subscribe({
-                   next:(item:any)=>{
-                     this.arquivoInfoOS = item.items[0].nomeArquivo
-                   }
-                 })
-
-                this.loadTela = false
-                this.srvNotification.success('Gerado pedido de execução : ' + response.NumPedExec)
-                //Atualizar Situacao do Processo
-                this.srvTotvs.EmitirParametros({processoSituacao: 'IMPRESSO'})
-              },
-              error: (e)=> {this.loadTela = false}
-              })
-           
-          },
-          cancel: () => {
-           
-          }
-        })
-          */
     }
 
     onAbrirArquivo(obj: any) {

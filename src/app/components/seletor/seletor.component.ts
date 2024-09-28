@@ -88,17 +88,20 @@ colunas:any[]=[
         { property: 'campo', label: 'Valor', type: 'number', format:'1.3-3'}]
 lista:any[]=[{campo:150.50, descricao:'teste'}, {campo:32.35, descricao:'teste'}, {campo:1601.351, descricao:'teste'}]
 
-
 mostrarEvento(obj:any){
-
+  
 }
 
 ngOnInit(): void {
   this.form.controls['Inclusao'].patchValue('só no sapatinho')
   PoI18nModule.config(i18nConfig)
- 
-  this.numPedExec.update(()=>1639623)
- 
+
+  setTimeout(
+    ()=> { this.numPedExec.update(()=> 1 )},1000)
+
+  setTimeout(
+    ()=> { this.numPedExec.update(()=> 1641307 )},1000)
+  
 
   /*
 

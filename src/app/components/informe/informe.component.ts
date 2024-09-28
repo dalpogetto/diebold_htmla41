@@ -3,7 +3,8 @@ import { Component,
   OnInit,
   ViewChild, ChangeDetectorRef,
   QueryList,
-  ElementRef} from '@angular/core';
+  ElementRef,
+  signal} from '@angular/core';
 
   import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent, PoLoadingModule, PoAccordionModule, PoWidgetModule, PoFieldModule, PoIconModule, PoButtonModule, PoTooltipModule, PoTableModule, PoTagModule, PoModalModule, PoDatepickerModule, PoRadioGroupModule, PoCheckboxModule } from '@po-ui/ng-components';
   import { delay, interval, Subscription } from 'rxjs';
@@ -16,6 +17,7 @@ import { ExcelService } from '../../services/excel-service.service';
 import { environment } from '../../../environments/environment';
 import { BtnDownloadComponent } from '../btn-download/btn-download.component';
 import { NgIf, NgClass } from '@angular/common';
+import { RpwComponent } from '../rpw/rpw.component';
 
 
 @Component({
@@ -42,6 +44,7 @@ import { NgIf, NgClass } from '@angular/common';
         PoDatepickerModule,
         PoRadioGroupModule,
         PoCheckboxModule,
+        RpwComponent
     ],
 })
 export class InformeComponent {
@@ -177,13 +180,7 @@ export class InformeComponent {
     label: 'Gravar',
   };
 
-  acaoCancelarTimer: PoModalAction = {
-    action: () => {
-      this.fecharTimer()
-      
-    },
-    label: 'Fechar',
-  };
+ 
 
   acaoSairEncPendente: PoModalAction = {
     action: () => {
@@ -242,12 +239,8 @@ export class InformeComponent {
   arquivoInfoOS: string = '';
   urlSpool: string = '';
   numSerieItem:string=''
-
-  labelTimer:string='Aguarde a liberação do arquivo...'
-  labelTimerDetail:string=''
-  labelPedExec:string=''
-  telaTimerFoiFechada:boolean=false
   alturaGrid:number=window.innerHeight - 355
+  numPedExec=signal(0)
 
   
 
@@ -385,13 +378,6 @@ export class InformeComponent {
     this.listaArquivos=[] 
   }
 
-  fecharTimer(){
-    if(this.sub !== undefined){
-       this.sub.unsubscribe()
-    }
-    this.telaTimer?.close()
-    this.telaTimerFoiFechada=true
-  }
 
   onSeriesPendentes(){
     this.limparArquivo()
@@ -802,12 +788,8 @@ export class InformeComponent {
       literals: { cancel: 'Cancelar', confirm: 'Gerar Arquivo' },
       message: "<div class='dlg'><i class='bi bi-exclamation-circle po-font-subtitle'></i><span class='po-font-text-large-bold'> DESEJA GERAR O INFORME DE OS ?</span></div>",
       confirm: () => {
-        this.telaTimerFoiFechada = false
-        this.labelPedExec = ''
-        this.labelTimer = 'Gerando pedido de execução ...'
-        this.labelTimerDetail = ''
-        this.acaoCancelarTimer.label='Fechar'
-        this.telaTimer?.open()
+        //Inicializar acompanhamento rpw
+        this.numPedExec.update(() => 1)
 
         //this.loadTela = true;
         let paramsArquivo: any = {
@@ -816,47 +798,17 @@ export class InformeComponent {
         };
         this.srvTotvs46.ImprimirOS(paramsArquivo).subscribe({
           next: (response: any) => {
-            this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec
-            this.labelTimer = 'Coletando informações do rpw...'
+
+            //Acompanhar rpw
+            this.numPedExec.update(() => response.NumPedExec)
 
             //Arquivo Gerado
             let params: any = { nrProcess: this.nrProcesso, situacao: 'IOS' };
             this.srvTotvs46.ObterArquivo(params).subscribe({
               next: (item: any) => {
                 this.listaArquivos = item.items;
-                if (!this.telaTimerFoiFechada){
-                  this.sub = interval(5000).subscribe(n => {
-                     // console.log(n) 
-                      this.labelPedExec = 'Pedido Execução: ' + response.NumPedExec + ' (' + (n * 5).toString() + 's)'
-                      this.labelTimer = 'Aguarde a liberação do arquivo...  '
-
-                      //Limitar o numero de calls em 15
-                      if (n > 55){
-                        this.sub.unsubscribe()
-                        this.telaTimer?.close()
-                      }
-
-                      if(this.listaArquivos[0] === undefined) return
-                      let param:any={numRPW:this.listaArquivos[0].numPedExec}
-                      this.srvTotvs46.piObterSituacaoRPW(param).subscribe({
-                        next: (response:any)=> {
-                          
-                          if (response.ok){
-                            this.sub.unsubscribe()
-                            this.labelPedExec = 'Pedido Execução: Executado com sucesso'
-                            this.labelTimer = "Arquivo liberado !"
-                            this.labelTimerDetail = "Utilize o Log de Arquivos para visualizar o arquivo gerado"
-                            this.acaoCancelarTimer.label='Fechar'
-                          }
-                        }
-                      })
-                      
-                  })
                 }
-                else
-                  this.telaTimerFoiFechada = false
-              },
-            });
+              });
 
             this.loadTela = false;
             this.srvTotvs.EmitirParametros({ processoSituacao: 'IMPRESSO' });
