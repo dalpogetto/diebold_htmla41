@@ -48,6 +48,9 @@ export class RpwComponent {
      
       //Num Pedido Exec igual a 1 - Apresenta a tela 
       if (this.numPedExec() === 1) {
+         this.labelTimer='Obtendo dados RPW'
+         this.labelPedExec='Pedido Execução'
+         this.labelTimerDetail = ''
         this.telaTimer?.open()
       }
 

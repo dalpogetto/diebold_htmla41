@@ -474,6 +474,7 @@ readonly acaoLogar: PoModalAction = {
               let paramsE: any = { CodEstab: this.codEstabelecimento, CodTecnico: this.codTecnico, NrProcess: this.processoInfo, Extrakit: listaET }
               this.srvTotvs.PrepararResumo(paramsE).subscribe({
                 next: (response:any) => {
+                  console.log("Preparar Resumo",response)
 
                     if (response !== null && (response.items as any[]).length > 0){
                      
@@ -790,6 +791,39 @@ readonly acaoLogar: PoModalAction = {
             next: (response: any) => {}
           })
 
+          this.srvNotification.success("Registro eliminados com sucesso !")
+        },
+        cancel:  () => { }
+      })
+
+
+    }
+
+    public onEliminarTodosPagamentos(){
+      this.srvDialog.confirm({
+        title: 'ELIMINAR TODOS PAGAMENTOS',
+        message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> DESEJA ELIMINAR PAGAMENTOS ?</span></div>",
+        literals: {"cancel": "Não", "confirm": "Sim"},
+        confirm: () => {
+
+          this.itemsDetalhe.forEach(item=>{
+
+            //Tirar da lista de Resumo
+            let idx = this.itemsResumo.findIndex(o => o.id === item.id)
+            this.itemsResumo.splice(idx, 1)
+
+            //Apagar na base
+            let param:any={id:item.id, codEstabel:this.codEstabelecimento, codTecnico:this.codTecnico}
+            this.srvTotvs.EliminarPorId(param).subscribe({next: (response: any) => {}})
+
+          })
+          this.itemsDetalhe=[]
+          //Atualiar label de tela
+          this.tituloDetalhe = `Pagamentos: ${this.itemsDetalhe.length} registros`
+
+          //Atualizar contadores tela de resumos
+          this.AtualizarLabelsContadores();
+          
           this.srvNotification.success("Registro eliminados com sucesso !")
         },
         cancel:  () => { }

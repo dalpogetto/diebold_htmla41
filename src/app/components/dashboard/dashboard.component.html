@@ -77,11 +77,17 @@
     <po-accordion-item #item2 p-label="Notas Fiscais de SAÍDA" p-tooltip="2">
        <po-widget>
         <div class="efetivacaoInfo">
-          <div>
+          <div style="display: flex; gap: 10px;">
             <po-button (p-click)="onForcarEfetivarProcesso()" 
                       p-icon="bi bi-check-lg" 
                       p-label="Efetivar Processo" 
                       p-danger="true">
+            </po-button>
+
+            <po-button (p-click)="onReenviarNotasSefaz()" 
+              p-icon="bi bi-arrow-up-circle" 
+              p-label="Reenviar Notas SEFAZ" 
+              >
             </po-button>
           </div>
           

@@ -962,6 +962,15 @@ export class TotvsService {
       .pipe(take(1));
   }
 
+  public ReenviarNotasSefaz(params?: any) {
+    return this.http
+      .get(`${this._url}/ReenviarNotasSefaz`, {
+        params,
+        headers: headersTotvs,
+      })
+      .pipe(take(1));
+  }
+
   public ReprocessarErros(params?: any) {
     return this.http
       .post(`${this._url}/ReprocessarErros`, params, { headers: headersTotvs })

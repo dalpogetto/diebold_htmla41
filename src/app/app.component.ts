@@ -66,6 +66,13 @@ export class AppComponent {
       shortLabel: 'FT0904',
       action: () => this.AbrirProgramaTotvs('ftp/ft0904.w'),
     },
+
+    {
+      label: 'Itens x Localização (ESAA002)',
+      icon: 'bi bi-printer',
+      shortLabel: 'ESAA002',
+      action: () => this.AbrirProgramaTotvs('esp/esaa002.w'),
+    },
    
     /* {
       label: 'Refactory Calculo',

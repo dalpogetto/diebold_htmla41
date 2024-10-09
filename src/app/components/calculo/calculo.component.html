@@ -244,6 +244,9 @@
                 [p-actions]="opcoesGridPagto"
       />
       <po-modal-footer [p-disabled-align]="false">
+        @if(tituloDetalhe !== undefined && tituloDetalhe.toUpperCase().includes('PAGAMENTO')){
+          <po-button p-label="Eliminar TODOS" (p-click)="this.onEliminarTodosPagamentos()" p-icon="bi bi-trash" [p-loading]="loadExcel" p-danger="true"> </po-button>
+        }
         <po-button p-label="Exportar para excel" (p-click)="this.onExportarExcel()" p-icon="bi bi-file-earmark-excel" [p-loading]="loadExcel"> </po-button>
         <po-button p-kind="primary" p-label="Fechar" (p-click)="this.detailsModal.close()" p-icon="bi bi-door-closed"> </po-button>
       </po-modal-footer>
@@ -285,8 +288,8 @@
   </po-modal>
 
   <rpw-acomp [numPedExec]="numPedExec()" 
-           [intervalo]="5000" 
-           [tentativas]="50">
+             [intervalo]="5000" 
+             [tentativas]="50">
   </rpw-acomp>
  
 
