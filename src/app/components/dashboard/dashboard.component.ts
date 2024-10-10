@@ -197,7 +197,7 @@ onReenviarNotasSefaz(){
   this.srvDialog.confirm({
     title: 'REENVIAR NOTAS SEFAZ',
     message:
-    "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA REENVIO ?</span></div><p>Serão reenviadas as notas que estão aguardando autorização do SEFAZ.</p>",
+    "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA REENVIO DE NOTAS PENDENTES?</span></div><p>Serão reenviadas as notas que estão aguardando autorização do SEFAZ.</p>",
 
     confirm: () => {
       this.loadTela = true;
@@ -208,7 +208,14 @@ onReenviarNotasSefaz(){
 
       this.srvTotvs.ReenviarNotasSefaz(params).subscribe({
         next: (response: any) => {
-          this.router.navigate(['monitor']) 
+          if (response.numPedExec === 0)
+             this.srvNotification.error('Não existem notas pendentes para atualizar no SEFAZ')
+          else{
+             this.srvNotification.success('Reenvio de Notas executado. Criado pedido de execução: ' + response.numPedExec)
+             this.verificarNotas()
+          }
+
+          this.loadTela = false;
         },
         error: (e) => {
          
