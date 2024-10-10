@@ -193,6 +193,10 @@ export class DashboardComponent {
   }
 
 onReenviarNotasSefaz(){
+  if (this.cRPW.toUpperCase().includes('EXECUTANDO / EXECUTANDO PEDIDO') || this.cRPW.toUpperCase().includes('NÃO EXECUTADO')){
+    this.srvNotification.error('Não é permitido o Reenvio de Notas com RPW em execução !')
+    return
+  }
 
   this.srvDialog.confirm({
     title: 'REENVIAR NOTAS SEFAZ',
