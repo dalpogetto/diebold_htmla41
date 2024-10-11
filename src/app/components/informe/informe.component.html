@@ -115,10 +115,25 @@
                     [p-hide-table-search]="false" 
                     [p-hide-columns-manager]="true">
                     <ng-template p-table-cell-template let-column="column" let-row="row">
-                      <div class="serie">
+                      @if(row.atividade === '113'){
+                        @if(column.property === 'it-codigo'){
+                          <h4 [style.background]="'#c64840'" [style.color]="'white'">{{row['it-codigo']}}</h4>
+                        }
+                        @if(column.property === 'atividade'){
+                          <h4 [style.background]="'#c64840'" [style.color]="'white'">{{row['atividade']}}</h4>
+                        }
+                      }
+                      @else{
+                        @if(column.property === 'it-codigo'){
+                          <h4>{{row['it-codigo']}}</h4>
+                        }
+                        @if(column.property === 'atividade'){
+                          <h4>{{row['atividade']}}</h4>
+                        }
+                      }
+                      <div class="serie" *ngIf="column.property === 'num-serie-it'">
                         <i class="bi bi-upc"></i><input [(ngModel)]="row['num-serie-it']" name="num-serie-it" (blur)="onLeaveNumSerieItem(row)">
                       </div>
-                     
                     </ng-template>
             </po-table>
          

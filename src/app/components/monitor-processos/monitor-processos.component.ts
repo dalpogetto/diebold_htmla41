@@ -101,12 +101,11 @@ ngOnInit(): void {
 
 
 public onListar(){
+  this.lista =[]
   this.loadTela=true;
   let params:any={codEstabel: this.codEstabel}
   this.srvTotvs.ObterProcessosEstab(params).subscribe({
     next: (response:any)=>{
-      console.log("Lista", response)
-      this.lista =[]
       this.lista = (response.items as any[]).sort(this.srvTotvs.ordenarCampos(['nr-process']));
       this.labelContador[0] = this.lista.filter(o=> o.situacao === 'E').length.toString()
       this.labelContador[1] = this.lista.filter(o=> o.situacao === 'S').length.toString()

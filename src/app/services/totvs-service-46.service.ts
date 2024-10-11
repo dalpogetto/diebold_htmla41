@@ -40,15 +40,15 @@ export class TotvsService46 {
 obterColunasItems(): Array<PoTableColumn> {
   return [
     { property: 'tt-seqIT', label: "Seq" },
-    { property: 'it-codigo', label: "Item" },
+    { property: 'it-codigo', label: "Item", type:'cellTemplate' },
     { property: 'Serie-Nf-Saida', label: "Série"},
     { property: 'nf-saida', label: "Nota Saída" },
     { property: 'Nat-Operacao', label: "Nat Oper" },
     { property: 'Quantidade', label: "Qtde" },
     { property: 'nr-enc', label: "Nr Enc" },
+    { property: 'atividade', label: "Atv", type:'cellTemplate' },
     { property: 'Evento', label: "Evento" },
     {property:'num-serie-it', label: "Num Serie Garantia", type:'cellTemplate'},
-   /*  { property: 'num-serie-it', label: "Num Serie Garantia" }, */
     { property: 'serie-ret', label: "Série Ret." },
     { property: 'serie-ins', label: "Série Inst." },
     { property: 'envelope-seguranca', label: "Env.Seg" },
