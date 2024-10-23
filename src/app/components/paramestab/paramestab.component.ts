@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TotvsService } from '../../services/totvs-service.service';
 import { NgIf } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -25,10 +26,12 @@ export class ParamestabComponent {
   private srvDialog = inject(PoDialogService)
   private formBuilder = inject(FormBuilder);
   private cdRef = inject(ChangeDetectorRef);
+  private router = inject(Router)
 
   //---------- Acessar a DOM
   @ViewChild('cadModal', { static: true }) cadModal: | PoModalComponent | undefined
   @ViewChild('codEstabel', { static: true }) comboEstab: | PoComboComponent | undefined
+  @ViewChild('loginModal', { static: true }) loginModal: PoModalComponent | undefined;
 
    //Formulario
    public form = this.formBuilder.group({
@@ -43,6 +46,29 @@ export class ParamestabComponent {
     nomeTranspSai: [''],
     nomeEstabel: [''],
   });
+  loadBotao:boolean=false;
+
+  acaoLogin: PoModalAction = {
+    action: () => {
+      this.onLogarUsuario();
+    },
+    label: 'Login',
+    
+  };
+
+  acaoLoginCancel: PoModalAction = {
+    action: () => {
+      this.router.navigate(['home'])
+    },
+    label: 'Cancelar'
+  };
+
+
+  readonly acaoLogar: PoModalAction = {
+    action: () => { this.onLogarUsuario()}, label: 'Login' };
+
+  codUsuario:string=''
+  senha:string=''
 
 
   //Declaracao de Variaveis
@@ -53,7 +79,7 @@ export class ParamestabComponent {
   nomeEmitente: string = ''
   nomeEmitenteNaoTipado: any = ''
   
-
+  codEstabelecimento:string=''
   listaEmitente: string[] = []
   listaEmitenteNaoTipada: any[] = []
 
@@ -110,8 +136,30 @@ export class ParamestabComponent {
     alert ("botao acionado")
   }
 
+  onLogarUsuario(){
+    this.acaoLogin.loading=true;
+    let paramsLogin: any = {CodEstabel: this.codEstabelecimento, CodUsuario: this.codUsuario, Senha: this.senha}
+    //Chamar servico de login
+    this.srvTotvs.LoginAdmin(paramsLogin).subscribe({
+      next: (response: any) => {
+           if(response.senhaValida){
+            this.acaoLogin.loading=false;
+               this.loginModal?.close()
+               this.listar();
+              
+              }
+            else{
+              this.acaoLogin.loading=false;
+              this.srvNotification.error(response.mensagem)
+            }  
+        }
+      })
+    }
+
+
   //---Inicializar
   ngOnInit(): void {
+    this.loadTela=true;
 
     //--- Titulo Tela
     this.srvTotvs.EmitirParametros({estabInfo:'', tecInfo:'', processoInfo:'', tituloTela: 'HTMLA41 - PARÂMETROS DA FILIAL', dashboard: false})
@@ -121,15 +169,15 @@ export class ParamestabComponent {
 
     //Tempo Mensagem
     this.srvNotification.setDefaultDuration(3000)
-
-    //Listar no grid
-    this.listar()
-
+    
     //Carregar combo de estabelecimentos
     this.srvTotvs.ObterEstabelecimentos().subscribe({
       next: (response: any) => {
         this.listaEstabelecimentos = (response as any[]).sort(
           this.srvTotvs.ordenarCampos(['label']))
+          this.loginModal?.open()
+          this.loadTela=false
+          this.codEstabelecimento= this.listaEstabelecimentos[0].value
       },
       error: (e) => {
         //this.srvNotification.error('Ocorreu um erro na requisição')

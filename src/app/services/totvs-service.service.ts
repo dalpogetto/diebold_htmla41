@@ -67,7 +67,7 @@ export class TotvsService {
 
   //--------------------- INTERPRETADOR RESULTADO DE ERROS/WARNING
   public tratarErros(mensagem: any): string {
-    if (mensagem.messages == !undefined) return mensagem.message;
+    if (mensagem.messages == undefined) return mensagem.message;
     return '';
   }
 
@@ -822,6 +822,13 @@ export class TotvsService {
   public LoginAlmoxarifado(params?: any) {
     return this.http
       .post(`${this._url}/LoginAlmoxa`, params, { headers: headersTotvs })
+      .pipe(take(1));
+  }
+
+  //---------------------- Login
+  public LoginAdmin(params?: any) {
+    return this.http
+      .post(`${this._url}/LoginAdmin`, params, { headers: headersTotvs })
       .pipe(take(1));
   }
 

@@ -356,6 +356,10 @@ verificarNotas() {
 
         this.srvTotvs.ReprocessarCalculo(params).subscribe({
           next: (response: any) => {
+            if (response === null || response === undefined){
+              this.srvNotification.error('A situação não permite reprocessamento !')
+              return 
+            }
            
             this.srvNotification.success('Execução do cálculo realizada com sucesso ! Processo RPW: ' + response.rpw)
 
