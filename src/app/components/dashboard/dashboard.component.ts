@@ -24,10 +24,6 @@ import { NgIf, UpperCasePipe } from '@angular/common';
         BtnDownloadComponent,
         PoModalModule,
         UpperCasePipe,
-        
-        
-        
-        
     ],
 })
 export class DashboardComponent {
@@ -331,7 +327,6 @@ verificarNotas() {
   }
 
   onReprocessarNotas() {
-    console.log(this.cRPW)
 
     if (this.cRPW.toUpperCase().includes('EXECUTANDO / EXECUTANDO PEDIDO') || this.cRPW.toUpperCase().includes('NÃO EXECUTADO')){
       this.srvNotification.error('Não é permitido o reprocessamento com RPW em execução !')
@@ -356,6 +351,7 @@ verificarNotas() {
 
         this.srvTotvs.ReprocessarCalculo(params).subscribe({
           next: (response: any) => {
+            
             if (response === null || response === undefined){
               this.srvNotification.error('A situação não permite reprocessamento !')
               return 

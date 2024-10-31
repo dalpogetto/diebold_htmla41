@@ -474,7 +474,6 @@ readonly acaoLogar: PoModalAction = {
               let paramsE: any = { CodEstab: this.codEstabelecimento, CodTecnico: this.codTecnico, NrProcess: this.processoInfo, Extrakit: listaET }
               this.srvTotvs.PrepararResumo(paramsE).subscribe({
                 next: (response:any) => {
-                  console.log("Preparar Resumo",response)
 
                     if (response !== null && (response.items as any[]).length > 0){
                      

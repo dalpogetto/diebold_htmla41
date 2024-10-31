@@ -217,6 +217,7 @@ export class TotvsService {
       { property: 'itPrincipal', label: 'Principal' },
       { property: 'numOS', label: "NumOS"},
       { property: 'notaAnt', label: "Nota"}, 
+      
     ];
   }
 
@@ -595,49 +596,11 @@ export class TotvsService {
   obterColunasMonitor(): Array<PoTableColumn> {
     return [
       { property: 'situacao', label:' ', type:'cellTemplate', width:'45px'},
-      /* {
-        property: 'situacao',
-        label: 'Sit',
-        width:'60px',
-        type: 'label',
-        labels: [
-          {
-            value: 'B',
-            color: 'color-03',
-            label: 'B',
-            textColor: 'white',
-          },
-          {
-            value: 'E',
-            color: 'color-09',
-            label: 'E',
-            textColor: 'white',
-          },
-          {
-            value: 'S',
-            color: 'color-10',
-            label: 'S',
-            textColor: 'white',
-          },
-          {
-            value: 'R',
-            color: 'color-01',
-            label: 'R',
-            textColor: 'white',
-          },
-          {
-            value: 'L',
-            color: 'color-07',
-            label: 'RE',
-            textColor: 'white',
-          },
-        ],
-      },
-      { property: 'fase', label:' ', type:'cellTemplate', width:'45px', sortable:false},
-       */{ property: 'nr-process', label: 'Processo' },
+      { property: 'nr-process', label: 'Processo' },
       { property: 'cod-emitente', label: 'Técnico' },
       { property: 'nome-abrev', label: 'Nome' },
       { property: 'num-ped-exec', label: 'Num Ped Exec', type:'cellTemplate' },
+      { property: 'nome-almoxa', label: 'Almox' },
       { property: 'opcoes', label: 'Ações Disponíveis', type: 'cellTemplate' },
     ];
   }

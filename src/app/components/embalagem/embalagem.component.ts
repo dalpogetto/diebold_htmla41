@@ -109,7 +109,6 @@ readonly options: Array<PoRadioGroupOption> = [
         next: (response: any) => {
           if ((response.nfs as any[]).length > 0){
             this.infoPrimeiraNota = response.nfs[0];
-            console.log('primeira', response)
             this.titleEmbal = `Embalagem Nota: ${this.infoPrimeiraNota["cod-estabel"]}-${this.infoPrimeiraNota["serie"]}-${this.infoPrimeiraNota["nr-nota-fis"]}`
             
           }
@@ -144,8 +143,12 @@ readonly options: Array<PoRadioGroupOption> = [
             x['peso-bru'] = x['peso-bru'].replace(',', '.') 
 
           })
+          let dadosNota:any= {"cod-estabel": this.infoPrimeiraNota["cod-estabel"], 
+                               "serie": this.infoPrimeiraNota["serie"], 
+                               "nr-nota-fis": this.infoPrimeiraNota["nr-nota-fis"]}
 
-          let paramsTela: any = { paramsTela: this.listaGrid[0] }
+          let paramsTela: any = {paramsTela: { ...dadosNota, ...this.listaGrid[0] }}
+          
           this.srvTotvs.InformarEmbalagem(paramsTela).subscribe({
             next: (response: any) => {
               

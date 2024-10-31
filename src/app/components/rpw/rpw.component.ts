@@ -57,7 +57,6 @@ export class RpwComponent {
       //Num Pedido Exec para acompanhamento 
       if (this.numPedExec() > 1) {
         this.sub = interval(this.intervalo()).subscribe(n => {
-           console.log(n) 
            this.labelPedExec = 'Pedido Execução: ' + this.numPedExec() + ' (' + (n * 5).toString() + 's)'
            this.labelTimer = 'Aguarde geração do arquivo'
 
@@ -78,7 +77,6 @@ export class RpwComponent {
                  this.labelTimerDetail = "Utilize o Log de Arquivos para visualizar o arquivo gerado"
                  this.acaoCancelarTimer.label='Fechar'
                  this.terminoEvent.emit(true)
-                 console.log(n)
                }
              }
            })

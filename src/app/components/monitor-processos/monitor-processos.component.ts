@@ -67,8 +67,6 @@ readonly acoes: PoTableAction[] = [
 ngOnInit(): void {
 
   this.mostrarLabel=false
-  
-
   this.colunas = this.srvTotvs.obterColunasMonitor()
   this.srvTotvs.EmitirParametros({ tituloTela: 'HTMLA41 - MONITOR ACOMPANHAMENTO DE PROCESSOS', estabInfo:''});
 
@@ -86,19 +84,21 @@ ngOnInit(): void {
     this.placeHolderEstabelecimento = 'Aguarde, carregando lista...';
     this.srvTotvs.ObterEstabelecimentos().subscribe({
       next: (response: any) => {
-        this.listaEstabelecimentos = (response as any[]).sort(
-          this.srvTotvs.ordenarCampos(['label']));
-        
+        this.listaEstabelecimentos = (response as any[]).sort(this.srvTotvs.ordenarCampos(['label']))
         this.placeHolderEstabelecimento = 'Selecione um estabelecimento';
       },
       error: (e) => {
-        //this.srvNotification.error('Ocorreu um erro na requisição');
         return;
       },
+      complete: ()=>{
+        if(this.listaEstabelecimentos.length === 1){
+          this.codEstabel = this.listaEstabelecimentos[0].value
+          this.onListar()
+        }
+      }
     });
   }
 }
-
 
 public onListar(){
   this.lista =[]
@@ -187,7 +187,6 @@ onReprocessarNotas(obj:any) {
 
       this.srvTotvs.ReprocessarCalculo(params).subscribe({
         next: (response: any) => {
-          console.log(response)
           this.srvNotification.success('Execução do cálculo realizada com sucesso ! Processo RPW: ' + response.rpw)
           this.onListar()
           this.loadTela = false;
@@ -221,7 +220,6 @@ onReprocessarErros() {
 
       this.srvTotvs.ReprocessarErros(params).subscribe({
         next: (response: any) => {
-          console.log(response)
           this.srvNotification.success('Reprocessamento executado com sucesso !')
           this.onListar()
           this.loadTela = false;

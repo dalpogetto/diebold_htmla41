@@ -4,5 +4,5 @@ export const environment = {
   totvs_url: '/api/integracao/aat/v1/apiesaa041',
   totvs46_url: '/api/integracao/aat/v1/apiesaa046',
   totvs_header:{},
-  totvs_spool:'https://brspupapl01.ad.diebold.com/spool/'
+  totvs_spool:'http://brsptotvs04/spool/'
 };
