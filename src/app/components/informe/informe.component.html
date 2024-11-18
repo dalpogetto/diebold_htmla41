@@ -57,6 +57,7 @@
         <div class="po-md-5">
           <div class="po-md-12 botoesOS" *ngIf=" this.mostrarDados === true">
             <po-button p-tooltip="Gerar Informe OS" (p-click)="onImpressao()" p-icon="bi bi-printer"></po-button>
+            <btnDownload p-tooltip="Baixar Informe OS" [nomeArquivo]="arquivoInfoOS" [mostrarNomeArquivo]="false" style="height: 43px;"></btnDownload>
             <po-button p-tooltip="Nova OS" p-icon="bi bi-plus" p-kind="primary" p-kind="primary" (p-click)="onIncluirOrdem()"></po-button>
           </div>
                 <po-table [p-items]="listaOrdens" class="po-font-smaller" #gridOrdens 

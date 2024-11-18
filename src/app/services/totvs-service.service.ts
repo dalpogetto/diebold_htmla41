@@ -241,7 +241,8 @@ export class TotvsService {
       { property: 'itPrincipal', label: 'Principal' },
 
      { property: 'seqOrdem', label: "Ordem"},
-    { property: 'notaAnt', label: "Nota"}, 
+    { property: 'notaAnt', label: "Nota"},
+    { property: 'temPagto', label: "temPagto"}, 
       ];
   }
 

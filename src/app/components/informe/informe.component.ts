@@ -807,6 +807,7 @@ export class InformeComponent {
             this.srvTotvs46.ObterArquivo(params).subscribe({
               next: (item: any) => {
                 this.listaArquivos = item.items;
+                this.arquivoInfoOS = item.items[0].nomeArquivo;
                 }
               });
 
@@ -968,7 +969,7 @@ export class InformeComponent {
 
         this.gridOrdens?.updateItem(this.ordemSelecionada, registro);
         this.listaOrdens = this.gridOrdens?.items as any[];
-        this.gridOrdens?.unselectRows();
+    //    this.gridOrdens?.unselectRows();
         this.telaAlterarOrdem?.close();
         this.atualizarContadores();
         this.loadIncluirOrdem = false;
@@ -1103,20 +1104,6 @@ export class InformeComponent {
               response.nrProcesso
             );
 
-            /* - VAlterArquivo Gerado
-            let params: any = {
-              nrProcess: response.nrProcesso,
-              situacao: 'IOS',
-            };
-            this.srvTotvs46.ObterArquivo(params).subscribe({
-              next: (item: any) => {
-                if (item ===null) return
-               
-                this.listaArquivos = item.items;
-              },
-            });
-            */
-
             //Processo ativo
             this.nrProcesso = response.nrProcesso;
 
@@ -1172,6 +1159,7 @@ export class InformeComponent {
 
   //Marcar
   onMarcar(obj: any | null) {
+
     this.limparArquivo()
     this.ordemSelecionada = obj;
     this.loadGridOrdem = true;
@@ -1182,12 +1170,10 @@ export class InformeComponent {
     this.srvTotvs46.Marcar(params).subscribe({
       next: (response: any) => {
         this.loadGridOrdem = false;
-        let registro = {
-          ...this.ordemSelecionada,
-          value: (this.ordemSelecionada.flag = 'X'),
-        };
+        let registro = { ...this.ordemSelecionada, value: (this.ordemSelecionada.flag = 'X')}
         this.gridOrdens?.updateItem(this.ordemSelecionada, registro);
-        //this.srvNotification.success("Registro alterado com sucesso !" )
+        //this.atualizarTela()
+        this.selecionarOrdem(this.ordemSelecionada)
       },
       error: (e) => {
         this.loadGridOrdem = false;
@@ -1204,12 +1190,9 @@ export class InformeComponent {
     this.srvTotvs46.Desmarcar(params).subscribe({
       next: (response: any) => {
         this.loadGridOrdem = false;
-        let registro = {
-          ...this.ordemSelecionada,
-          value: (this.ordemSelecionada.flag = ''),
-        };
+        let registro = {...this.ordemSelecionada, value: (this.ordemSelecionada.flag = '')}
         this.gridOrdens?.updateItem(this.ordemSelecionada, registro);
-        //this.srvNotification.success("Registro alterado com sucesso !" )
+        this.selecionarOrdem(this.ordemSelecionada)
       },
       error: (e) => {
         this.loadGridOrdem = false;
@@ -1397,5 +1380,50 @@ export class InformeComponent {
           this.sub.unsubscribe()
       }
     })
+  }
+
+  atualizarTela(){
+    let params: any = {
+      codEstabel: this.form.controls.codEstabel.value,
+      codUsuario: this.form.controls.codUsuario.value,
+      senha: this.form.controls.senha.value,
+      origem: 'informe',
+    };
+  this.srvTotvs46.ObterDados(params).subscribe({
+    next: (response: any) => {
+      //Info Estabelecimento e Tecnico Painel Menu
+      let estab = this.listaEstabelecimentos.find(
+        (o) => o.value === this.form.controls.codEstabel.value
+      );
+      let tec = this.listaTecnicos.find(
+        (o) => o.value === this.form.controls.codUsuario.value
+      );
+      this.srvTotvs.EmitirParametros({
+        estabInfo: estab.label,
+        tecInfo: tec.label,
+      });
+
+      //Cabecalho Accordion
+      this.cTag = response.tela[0].os;
+      this.mostrarDados = true;
+
+      if (response.ordens !== undefined) {
+        //Listas e Observacao
+        this.listaOrdens = response.ordens;
+        this.listaItens = response.itens;
+        this.edObservacao =
+          response.itens !== undefined ? response.itens[0].edobservacao : '';
+
+        //Detalhe Painel de Informacoes
+        this.cOS = response.ordens[0].NumOS;
+        this.cChamado = response.ordens[0].Chamado;
+        this.ordemSelecionada = this.listaOrdens[0];
+      }
+
+      //Painel Contadores
+      this.cUsadas = response.tela[0].usada;
+      this.cBrancas = response.tela[0].branco;
+      this.cTotal = response.tela[0].TOTAL;
+    }})
   }
 }

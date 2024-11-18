@@ -145,7 +145,7 @@ readonly acoesGrid: PoTableAction[] = [
         //Enviar a lista de reparos e justificativa
         let params:any={itemsReparo:this.gridReparos?.items}
 
-        if (lExcecao === true){
+        if (lExcecao === true && this.listaReparos.length > 0){
           this.srvDialog.confirm({
             title: 'EQUIVALENCIA POR EXCEÇÃO',
             message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EQUIVALÊNCIA POR EXCEÇÃO ?</span></div>",

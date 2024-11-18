@@ -386,7 +386,7 @@ readonly acaoLogar: PoModalAction = {
 
         //PARCIAL
         else if (event === "2"){
-           this.itemsResumo = this.listaResumo.filter(o => (o.qtPagar > 0 && !o.soEntrada) || (o.soEntrada) || (o.qtRenovar > 0 && o.temPagto))
+           this.itemsResumo = this.listaResumo.filter(o => (o.qtPagar > 0 && !o.soEntrada) || (o.soEntrada) || (o.qtRenovar > 0 && o.temPagto) || (o.qtExtrakit > 0 && o.temPagto))
            //Regra: Se Renovacao possuir qtdes desabilitar o botao Aprovar Sem Saida 
            this.itemsResumo.forEach(item => {
               if (item.qtRenovar > 0){
