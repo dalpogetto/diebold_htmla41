@@ -124,6 +124,17 @@ Etiqueta(obj:any){
 
 }
 
+AbrirESAA059(obj:any){
+
+  let params:any={NrProcess:obj['nr-process']}
+  this.srvTotvs.SetarVariaveisGlobais(params).subscribe({
+    next: (response: any) => {
+      let params: any = { program: 'esp/esaa059.w', params: '' };
+      this.srvTotvs.AbrirProgramaTotvs(params).subscribe({
+        next: (response: any) => {}});
+    }});
+}
+
 NotasFiscais(obj:any){
   this.AbrirTela(obj, 'dashboard')
 }

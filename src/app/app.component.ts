@@ -36,11 +36,18 @@ export class AppComponent {
       link: '/',
       shortLabel: 'Home',
     },
-    {
+     {
       label: 'Informe Ordem de Serviço',
       icon: 'bi bi-clipboard-data',
       link: '/informe',
       shortLabel: 'Informe',
+    },
+ 
+    {
+      label: 'Informe Ordem de Serviço',
+      icon: 'bi bi-clipboard-data',
+      link: '/informe2',
+      shortLabel: 'Informe2',
     },
     {
       label: 'Cálculo Auto Atendimento',

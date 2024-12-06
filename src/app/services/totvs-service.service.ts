@@ -806,6 +806,16 @@ export class TotvsService {
       .pipe(take(1));
   }
 
+   //---------------------- Variaveis Globais
+   public SetarVariaveisGlobais(params?: any) {
+    return this.http
+      .get(`${this._url}/SetarVariaveisGlobais`, {
+        params,
+        headers: headersTotvs,
+      })
+      .pipe(take(1));
+  }
+
   //---------------------- Processo
   public ObterNrProcesso(params?: any) {
     return this.http

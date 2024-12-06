@@ -20,11 +20,11 @@ export class TotvsService46 {
   constructor(private http: HttpClient ) { }
 
   //--------------------- INTERPRETADOR RESULTADO DE ERROS/WARNING
-  public tratarErros(mensagem:any):string{
+ /*  public tratarErros(mensagem:any):string{
      if (mensagem.messages ==! undefined)
         return mensagem.message
       return '';
-  }
+  } */
 
   //---------- Colunas Enc Series Pendentes
   obterColunasSeriesPendentes() :Array<PoTableColumn> {
@@ -48,7 +48,7 @@ obterColunasItems(): Array<PoTableColumn> {
     { property: 'nr-enc', label: "Nr Enc" },
     { property: 'atividade', label: "Atv", type:'cellTemplate' },
     { property: 'Evento', label: "Evento" },
-    {property:'num-serie-it', label: "Num Serie Garantia", type:'cellTemplate'},
+    { property: 'num-serie-it', label: "Num Serie Garantia", type:'cellTemplate'},
     { property: 'serie-ret', label: "Série Ret." },
     { property: 'serie-ins', label: "Série Inst." },
     { property: 'envelope-seguranca', label: "Env.Seg" },
@@ -67,6 +67,33 @@ obterColunasOrdens(): Array<PoTableColumn> {
     { property: 'situacao', label: "Sit" },
     { property: 'Chamado', label: "Chamado"},
     { property: 'Serie', label: "Série" },
+  ];
+}
+
+obterColunasOrdens2(): Array<PoTableColumn> {
+  return [
+   
+    { property: 'NumOS', label: "NumOs", color:'color-03' },
+    { property: 'situacao', label: "Sit", color:'color-03' },
+    { property: 'Chamado', label: "Chamado", color:'color-03'},
+    { property: 'Serie', label: "Série", color:'color-03' },
+    { property: 'opcoes', label: "Flag", type:'cellTemplate', width:'60px'},
+    { property: 'tt-seqIT', label: "Seq" },
+    { property: 'it-codigo', label: "Item", type:'cellTemplate' },
+    { property: 'Serie-Nf-Saida', label: "Série"},
+    { property: 'nf-saida', label: "Nota Saída" },
+    { property: 'Nat-Operacao', label: "Nat Oper" },
+    { property: 'Quantidade', label: "Qtde" },
+    { property: 'nr-enc', label: "Nr Enc" },
+    { property: 'atividade', label: "Atv", type:'cellTemplate' },
+    { property: 'Evento', label: "Evento" },
+    { property: 'num-serie-it', label: "Num Serie Garantia", type:'cellTemplate'},
+    { property: 'serie-ret', label: "Série Ret." },
+    { property: 'serie-ins', label: "Série Inst." },
+    { property: 'envelope-seguranca', label: "Env.Seg" },
+    { property: 'nr-alertas', label: "Versão" },
+    { property: 'id-solicita', label: "Monitor" },
+    { property: 'nr-pedido', label: "Pedido" },
   ];
 }
 
@@ -119,6 +146,12 @@ obterColunasArquivos(): Array<PoTableColumn> {
   //---------------------- 
   public ObterDados(params?: any){
     return this.http.get(`${this._url}/ObterDados`, {params:params, headers:headersTotvs})
+                   .pipe(take(1));
+  }
+
+  //---------------------- 
+  public ObterDados2(params?: any){
+    return this.http.get(`${this._url}/ObterDados2`, {params:params, headers:headersTotvs})
                    .pipe(take(1));
   }
 
