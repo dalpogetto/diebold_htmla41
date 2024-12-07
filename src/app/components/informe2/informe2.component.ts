@@ -245,6 +245,7 @@ export class Informe2Component {
   selectedItem:any
   selection:any
   lIncluirItemOrdem:boolean=false
+  cTitulo:string=''
 
   
 
@@ -969,6 +970,7 @@ export class Informe2Component {
     //Criar a Ordem Servico
     this.srvTotvs46.CriarOrdem(params).subscribe({
       next: (response: any) => {
+        console.log("Incluir OS", response)
         this.atualizarTela()
       },
       error: (e) => {
@@ -1040,6 +1042,7 @@ export class Informe2Component {
     this.gridOrdens?.selectRowItem(obj)
     this.cOS = obj.NumOS;
     this.cChamado = obj.Chamado;
+    this.cTitulo=`ITEMS OS - [ NumOS: ${this.cOS} - Chamado: ${this.cChamado} ]`
     this.edObservacao = obj.edobservacao
     this.itemSelecionado = obj;
     this.formItemOrdem.patchValue(obj);

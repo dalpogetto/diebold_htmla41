@@ -157,6 +157,7 @@
              [intervalo]="5000" 
              [tentativas]="50">
   </rpw-acomp>
+  
     
     <po-modal #telaIncluirOrdem p-title="Incluir Ordem Serviço"
                                 p-size="auto" 
@@ -276,7 +277,7 @@
       </form>
     </po-modal>
   
-    <po-modal #telaIncluirItemOrdem p-title="Item Ordem Serviço"
+    <po-modal #telaIncluirItemOrdem [p-title]="cTitulo"
                                 p-size="auto" 
                                 p-click-out="false" 
                                 [p-primary-action]="acaoIncluirItemOrdem" 
