@@ -55,6 +55,7 @@ export class Informe2Component {
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   private srvExcel = inject(ExcelService);
+  private elementosHTML = inject (ElementRef)
 
   //---------- Acessar a DOM
   @ViewChild('telaIncluirOrdem', { static: true }) telaIncluirOrdem:
@@ -1094,6 +1095,9 @@ export class Informe2Component {
           this.ordemSelecionada = this.listaOrdens[0];
         }
 
+       // let listaRows = this.elementosHTML.nativeElement.querySelectorAll('.po-table-row') as HTMLElement
+       // console.log("ListaRows", listaRows)
+
         //Painel Contadores
         this.cUsadas = response.tela[0].usada;
         this.cBrancas = response.tela[0].branco;
@@ -1137,6 +1141,11 @@ export class Informe2Component {
       error: (e) => {
         this.loadTela = false;
         this.resetarVariaveis();
+      },
+      complete() {
+
+          //let elementos = document.getElementsByClassName('.po-table-group-row')
+          //console.log("Elementos", elementos)
       },
     });
   }
