@@ -851,7 +851,7 @@ readonly acaoLogar: PoModalAction = {
           this.srvExcel.exportarParaExcel('RESUMO DE ' + titulo.toUpperCase(),
                                       subTitulo.toUpperCase(),
                                       colunasPag,
-                                      this.itemsDetalhe,
+                                      this.itemsDetalhe.sort(this.ordenarCampos(['codLocaliza', 'itCodigo'])),
                                       'Resumo',
                                       'Plan1')
 
@@ -860,7 +860,7 @@ readonly acaoLogar: PoModalAction = {
         this.srvExcel.exportarParaExcel('RESUMO DE ' + titulo.toUpperCase(),
                                         subTitulo.toUpperCase(),
                                         this.colunasDetalhe,
-                                        this.itemsDetalhe,
+                                        this.itemsDetalhe.sort(this.ordenarCampos(['codLocaliza', "itCodigo"])),
                                         'Resumo',
                                         'Plan1')
       }

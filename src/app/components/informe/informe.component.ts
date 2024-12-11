@@ -452,7 +452,14 @@ export class InformeComponent {
   //---Inicializar
   ngOnInit(): void {
     this.limparArquivo()
-    this.urlSpool = environment.totvs_spool;
+
+    this.srvTotvs46
+      .ObterCadastro({tabela: 'spool', codigo: ''})
+      .subscribe({
+        next: (response: any) => {
+          this.urlSpool = response.desc
+        }})
+    
 
     //--- Titulo Tela
     this.srvTotvs.EmitirParametros({ tituloTela: 'HTMLA46 - INFORME DE OS' });

@@ -78,7 +78,8 @@ obterColunasOrdens2(): Array<PoTableColumn> {
     { property: 'Chamado', label: "Chamado", color:'color-03'},
     { property: 'Serie', label: "Série", color:'color-03' },
     { property: 'opcoes', label: "Flag", type:'cellTemplate', width:'60px'},
-    { property: 'tt-seqIT', label: "Seq" },
+    { property: 'tt-seqIT', label: "Seq" }, 
+   /*  { property: 'sequencia', label: "Seq" }, */
     { property: 'it-codigo', label: "Item", type:'cellTemplate' },
     { property: 'Serie-Nf-Saida', label: "Série"},
     { property: 'nf-saida', label: "Nota Saída" },

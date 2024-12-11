@@ -17,7 +17,7 @@ export const environment = {
     'CompanyId': 1
   },
   
-  totvs_spool: 'http://10.151.120.56/SPOOL/'
+ 
   
 };
 

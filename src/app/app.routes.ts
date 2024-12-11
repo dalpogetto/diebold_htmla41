@@ -3,7 +3,7 @@ import { Routes } from "@angular/router";
 export const APP_ROUTES: Routes=[
     {path: '', redirectTo: '/home', pathMatch: 'full'},
     {path:'home', loadComponent:()=> import('../app/components/home/home.component').then(c=>c.HomeComponent)},
-    {path:'informe', loadComponent:()=> import('../app/components/informe/informe.component').then(c=>c.InformeComponent)},
+   /*  {path:'informe', loadComponent:()=> import('../app/components/informe/informe.component').then(c=>c.InformeComponent)}, */
     {path:'informe2', loadComponent:()=> import('../app/components/informe2/informe2.component').then(c=>c.Informe2Component)},
     {path:'dashboard', loadComponent:()=> import('../app/components/dashboard/dashboard.component').then(c=>c.DashboardComponent)},
     {path:'calculo', loadComponent:()=> import('../app/components/calculo/calculo.component').then(c=>c.CalculoComponent)},

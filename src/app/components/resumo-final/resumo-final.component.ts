@@ -66,7 +66,13 @@ export class ResumoFinalComponent implements OnInit {
    //---Inicializar
    ngOnInit(): void {
 
-    this.urlSpool = environment.totvs_spool
+    this.srvTotvs46
+      .ObterCadastro({tabela: 'spool', codigo: ''})
+      .subscribe({
+        next: (response: any) => {
+          this.urlSpool = response.desc
+        }})
+
     this.colunasArquivos = this.srvTotvs46.obterColunasArquivos()
 
     //--- Titulo Tela

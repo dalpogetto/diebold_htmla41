@@ -36,12 +36,12 @@ export class AppComponent {
       link: '/',
       shortLabel: 'Home',
     },
-     {
+    /*  {
       label: 'Informe Ordem de Serviço',
       icon: 'bi bi-clipboard-data',
       link: '/informe',
       shortLabel: 'Informe',
-    },
+    }, */
  
     {
       label: 'Informe Ordem de Serviço',
@@ -75,10 +75,16 @@ export class AppComponent {
     },
 
     {
-      label: 'Itens x Localização (ESAA002)',
+      label: 'Itens x Localiza (ESAA002)',
       icon: 'bi bi-printer',
       shortLabel: 'ESAA002',
       action: () => this.AbrirProgramaTotvs('esp/esaa002.w'),
+    },
+    {
+      label: 'Reimpressão Reparos (ESAA059)',
+      icon: 'bi bi-upc-scan',
+      shortLabel: 'ESAA059',
+      action: () => this.AbrirProgramaTotvs('esp/esaa059.w'),
     },
    
     /* {

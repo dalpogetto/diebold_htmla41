@@ -7,6 +7,7 @@ import { TotvsService } from '../../services/totvs-service.service';
 import { environment } from '../../../environments/environment';
 import { BtnDownloadComponent } from '../btn-download/btn-download.component';
 import { NgIf, UpperCasePipe } from '@angular/common';
+import { TotvsService46 } from '../../services/totvs-service-46.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -40,6 +41,7 @@ export class DashboardComponent {
 
   //---Injection
   private srvTotvs = inject(TotvsService);
+  private srvTotvs46 = inject(TotvsService46)
   private srvNotification = inject(PoNotificationService);
   private srvDialog = inject(PoDialogService);
   private router = inject(Router)
@@ -162,13 +164,19 @@ export class DashboardComponent {
     this.esconderPainel();
     //--- Informacoes iniciais tela
     this.srvTotvs.EmitirParametros({ tituloTela: 'HTMLA41 - DASHBOARD DE NOTAS FISCAIS'});
-    this.urlSpool = environment.totvs_spool
 
     //Colunas grids
     this.colunasNFE = this.srvTotvs.obterColunasEntradas();
     this.colunasNFS = this.srvTotvs.obterColunasSaidas();
     this.colunasErro = this.srvTotvs.obterColunasErrosProcessamento();
     this.colunasItensNota = this.srvTotvs.obterColunasItensNota()
+
+    this.srvTotvs46
+    .ObterCadastro({tabela: 'spool', codigo: ''})
+    .subscribe({
+      next: (response: any) => {
+        this.urlSpool = response.desc
+      }})
 
     //Login Unico
     this.srvTotvs.ObterUsuario().subscribe({

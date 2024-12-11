@@ -461,7 +461,13 @@ export class Informe2Component {
   //---Inicializar
   ngOnInit(): void {
     this.limparArquivo()
-    this.urlSpool = environment.totvs_spool;
+    
+    this.srvTotvs46
+      .ObterCadastro({tabela: 'spool', codigo: ''})
+      .subscribe({
+        next: (response: any) => {
+          this.urlSpool = response.desc
+        }})
 
     //--- Titulo Tela
     this.srvTotvs.EmitirParametros({ tituloTela: 'HTMLA46 - INFORME DE OS' });
@@ -851,7 +857,8 @@ export class Informe2Component {
   //Usada para Inclusao e Edicao Item Ordem
   okIncluirItemOrdem() {
     this.loadGrid=true
-    this.telaIncluirItemOrdem?.close();
+    
+    
     let params: any = {
       nrProcess: this.nrProcesso,
       cRowId: this.cRowId,
@@ -859,12 +866,14 @@ export class Informe2Component {
     };
     this.srvTotvs46.GravarItemOS(params).subscribe({
       next: (response: any) => {
-        
+        this.telaIncluirItemOrdem?.close();
         this.formItemOrdem.reset()
         this.formItemOrdem.enable()
         this.atualizarTela()
         },
-      error: (e) => {this.loadGrid = false},
+      error: (e) => {
+        
+        this.loadGrid = false},
     });
   }
 

@@ -260,6 +260,7 @@ export class TotvsService {
       },
       { property: 'qtSaldo', label: 'Saldo Teórico', type: 'number' },
       { property: 'kit', label: 'Kit' },
+      { property: 'codLocaliza', label: 'Local' },
     ];
   }
 
