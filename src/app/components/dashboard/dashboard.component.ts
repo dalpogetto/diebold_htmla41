@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoButtonModule, PoTooltipModule, PoAccordionModule, PoWidgetModule, PoTableModule, PoModalModule, PoTableRowTemplateDirective } from '@po-ui/ng-components';
+import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoButtonModule, PoTooltipModule, PoAccordionModule, PoWidgetModule, PoTableModule, PoModalModule, PoTableRowTemplateDirective, PoFieldModule, PoIconModule } from '@po-ui/ng-components';
 import { Subscription, delay, interval } from 'rxjs';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 import { BtnDownloadComponent } from '../btn-download/btn-download.component';
 import { NgIf, UpperCasePipe } from '@angular/common';
 import { TotvsService46 } from '../../services/totvs-service-46.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-dashboard',
@@ -25,6 +26,10 @@ import { TotvsService46 } from '../../services/totvs-service-46.service';
         BtnDownloadComponent,
         PoModalModule,
         UpperCasePipe,
+        PoModalModule,
+        PoFieldModule, 
+        FormsModule, 
+        PoIconModule, 
     ],
 })
 export class DashboardComponent {
@@ -39,6 +44,10 @@ export class DashboardComponent {
     @ViewChild(PoAccordionItemComponent, { static: true }) item1!: PoAccordionItemComponent;
     @ViewChild(PoAccordionItemComponent, { static: true }) item2!: PoAccordionItemComponent;
 
+    //Referencia ao componente de login
+    @ViewChild('loginModal_login', { static: true }) loginModal_login: PoModalComponent | undefined;
+
+
   //---Injection
   private srvTotvs = inject(TotvsService);
   private srvTotvs46 = inject(TotvsService46)
@@ -49,7 +58,10 @@ export class DashboardComponent {
   //---Variaveis
   tabNFE: boolean = true;
   codEstabel: string = '';
+  codEstabelecimento_login:string=''
   codUsuario: string = '';
+  codUsuario_login:string=''
+  senha_login:string=''
   rowItem:any=[]
   loadGrid=false
 
@@ -97,6 +109,22 @@ export class DashboardComponent {
   alturaGridLog:number=window.innerHeight - 355
   alturaGridEntra:number=window.innerHeight - 305
   alturaGridSai:number=window.innerHeight - 385
+
+  //----- Tela Login
+acaoLogin_login: PoModalAction = {
+  action: () => {
+    this.onLogarUsuario()
+  },
+  label: 'Login',
+  
+};
+
+acaoLogin_cancel: PoModalAction = {
+  action: () => {
+    this.loginModal_login?.close()
+  },
+  label: 'Cancelar'
+};
 
   mostrarDetalhe(row:any, index: number) {
     return true;
@@ -170,6 +198,12 @@ export class DashboardComponent {
     this.colunasNFS = this.srvTotvs.obterColunasSaidas();
     this.colunasErro = this.srvTotvs.obterColunasErrosProcessamento();
     this.colunasItensNota = this.srvTotvs.obterColunasItensNota()
+
+    this.srvTotvs.ObterEstabelecimentos().subscribe({
+      next: (response: any) => {
+        this.listaEstabelecimentos = (response as any[]).sort(this.srvTotvs.ordenarCampos(['label']))
+      },
+    });
 
     this.srvTotvs46
     .ObterCadastro({tabela: 'spool', codigo: ''})
@@ -382,7 +416,6 @@ verificarNotas() {
     });
   }
 
- 
 
   aplicarCorPainel(cor: string) {
     const elemento: HTMLInputElement | null = document.querySelector(
@@ -404,6 +437,54 @@ verificarNotas() {
     if (elemento === null) return;
     elemento.style.display = 'none';
   }
+
+   //---- Chamar a tela de login passando o tipo de calculo
+   onChamarLogin(){
+
+    //Acompanhamento
+    this.acaoLogin_login.loading=false
+
+    //Zerar campos de tela
+    this.codUsuario_login=''
+    this.senha_login=''
+
+    //Sugerir o estabelecimento do usuário
+    this.codEstabelecimento_login = this.codEstabel
+
+    //Abrir a tela de login
+    this.loginModal_login?.open()
+  }  
+
+  //---- Acao Login
+  onLogarUsuario(){
+    //Acompanhamento
+    this.acaoLogin_login.loading=true;
+
+    //Popular parametros de tela
+    let paramsLogin: any = {CodEstabel: this.codEstabelecimento_login, CodUsuario: this.codUsuario_login, Senha: this.senha_login}
+
+    //Chamar servico de login
+    this.srvTotvs.LoginAdmin(paramsLogin).subscribe({
+      next: (response: any) => {
+        
+        if (response.senhaValida){
+            //Acompanhamento
+            this.acaoLogin_login.loading=false
+
+            //Fechar janela
+            this.loginModal_login?.close()
+
+            //Chamar rotina de aprovacao passando o Tipo de Aprovacao
+            this.onForcarEfetivarProcesso()
+        }
+        else{
+          this.acaoLogin_login.loading=false
+          this.srvNotification.error(response.mensagem)
+        }
+        },
+      error:(e)=>{this.acaoLogin_login.loading=false}
+    })
+  }  
 
 
   onImprimirConteudoArquivo() {

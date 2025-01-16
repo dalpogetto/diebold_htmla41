@@ -78,10 +78,20 @@
        <po-widget>
         <div class="efetivacaoInfo">
           <div style="display: flex; gap: 10px;">
-            <po-button (p-click)="onForcarEfetivarProcesso()" 
+
+            
+            <!-- <po-button (p-click)="onForcarEfetivarProcesso()" 
                       p-icon="bi bi-check-lg" 
                       p-label="Efetivar Processo" 
                       p-danger="true">
+            </po-button> -->
+
+            <!-- OPCAO DE EFETIVACAO -->
+
+            <po-button (p-click)="onChamarLogin()" 
+              p-icon="bi bi-check-lg" 
+              p-label="Efetivar Processo" 
+              p-danger="true">
             </po-button>
 
             <po-button (p-click)="onReenviarNotasSefaz()" 
@@ -133,4 +143,40 @@
   <!--    <po-textarea [(ngModel)]="conteudoArquivo" [p-rows]="15"></po-textarea>-->
 
 
+</po-modal>
+
+
+<po-modal #loginModal_login 
+         p-title="Efetuar Login" 
+         p-size="sm" 
+         p-click-out="false"
+         [p-hide-close]=true
+         [p-secondary-action]="acaoLogin_cancel" 
+         [p-primary-action]="acaoLogin_login">
+
+  <div class="po-row">
+    <po-combo [ngModel]="codEstabelecimento_login" (ngModelChange)="codEstabelecimento_login = $event" class="po-md-12"
+      [p-options]="listaEstabelecimentos" p-label="Estabelecimento" p-icon="bi bi-pin-map"
+      p-placeholder="Selecione o estabelecimento" p-clean="true">
+      <ng-template p-combo-option-template let-option>
+        <div class="po-row">
+          <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="bi bi-pin-map"></po-icon>
+          <div class="po-sm-10 po-md-9 po-lg-11">
+            <div class="po-font-text-large-bold">{{ option.label }}</div>
+            <div class="po-font-text-smaller">Filial: {{ option.codFilial }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </po-combo>
+  </div>
+  <div class="po-row">
+    <po-input p-icon="bi bi-person-workspace" class="po-md-12" [(ngModel)]="codUsuario_login" p-mask="999999" p-clean
+      p-label="Usuário">
+    </po-input>
+  </div>
+
+  <div class="po-row">
+    <po-password class="po-md-12" [(ngModel)]="senha_login" p-clean p-label="Senha">
+    </po-password>
+  </div>
 </po-modal>

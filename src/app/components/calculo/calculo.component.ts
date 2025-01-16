@@ -45,8 +45,6 @@ export class CalculoComponent {
 @ViewChild('abrirArquivo', { static: true }) abrirArquivo: | PoModalComponent | undefined;
 @ViewChild('timer', { static: true }) telaTimer: | PoModalComponent | undefined;
 
-//Referencia ao componente de login
-@ViewChild('loginModal_login', { static: true }) loginModal_login: PoModalComponent | undefined;
   
 
 
@@ -145,23 +143,6 @@ arquivoInfoOS:string=''
 listaArquivos!: any[]
 numPedExec=signal(0)
 tipoAprovacao:number=1 
-
-//----- Tela Login
-acaoLogin_login: PoModalAction = {
-  action: () => {
-    this.onLogarUsuarioAprovacao()
-  },
-  label: 'Login',
-  
-};
-
-acaoLogin_cancel: PoModalAction = {
-  action: () => {
-    this.loginModal_login?.close()
-  },
-  label: 'Cancelar'
-};
-
 
 //------ Controle Tela
 mostrarDetalhe:boolean=false
@@ -886,39 +867,7 @@ readonly acaoLogar: PoModalAction = {
        this.loadExcel = false;
     }
 
-  //---- Chamar a tela de login passando o tipo de calculo
-  onChamarLogin(tipoAprov:number){
-
-    //Setar acompanhamento e zerar variaveis
-    this.acaoLogin_login.loading=false
-    this.codUsuario_login=''
-    this.senha_login=''
-
-    //Gravar o tipo de calculo
-    this.tipoAprovacao = tipoAprov
-
-    //Sugerir o estabelecimento do usuário
-    this.codEstabelecimento_login = this.codEstabelecimento
-
-    //Abrir a tela de login
-    this.loginModal_login?.open()
-  }  
-
-  //---- Acao Login
-  onLogarUsuarioAprovacao(){
-    this.acaoLogin_login.loading=true;
-    let paramsLogin: any = {CodEstabel: this.codEstabelecimento_login, CodUsuario: this.codUsuario_login, Senha: this.senha_login}
-
-    //Chamar servico de login
-    this.srvTotvs.LoginUsuario(paramsLogin).subscribe({
-      next: (response: any) => {
-            this.acaoLogin_login.loading=false
-            this.loginModal_login?.close()
-            this.onAprovarCalculo(this.tipoAprovacao)
-        },
-      error:(e)=>{this.acaoLogin_login.loading=false}
-    })
-  }  
+ 
 
   //------------------------------------------------------------------- Botao Aprovar (Resumo calculo)
   public onAprovarCalculo(tipoAprov:number){
