@@ -797,6 +797,13 @@ export class TotvsService {
       .pipe(take(1));
   }
 
+  //---------------------- Login Usuario
+  public LoginUsuario(params?: any) {
+    return this.http
+      .post(`${this._url}/LoginUsuario`, params, { headers: headersTotvs })
+      .pipe(take(1));
+  }
+
   //---------------------- Variaveis Globais
   public ObterVariaveisGlobais(params?: any) {
     return this.http

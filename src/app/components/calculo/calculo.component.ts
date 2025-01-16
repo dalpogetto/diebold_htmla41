@@ -43,9 +43,10 @@ export class CalculoComponent {
 @ViewChild('loginModal', { static: true }) loginModal: PoModalComponent | undefined;
 @ViewChild('stepper', { static: true }) stepper: PoStepperComponent | undefined;
 @ViewChild('abrirArquivo', { static: true }) abrirArquivo: | PoModalComponent | undefined;
-@ViewChild('timer', { static: true }) telaTimer:
-    | PoModalComponent
-    | undefined;
+@ViewChild('timer', { static: true }) telaTimer: | PoModalComponent | undefined;
+
+//Referencia ao componente de login
+@ViewChild('loginModal_login', { static: true }) loginModal_login: PoModalComponent | undefined;
   
 
 
@@ -88,6 +89,7 @@ colunasKit!: Array<PoTableColumn>
 
 //--------- Variaveis Combobox
 codEstabelecimento: string=''
+codEstabelecimento_login: string=''
 codTecnico: string=''
 codTransEnt: string = ''
 codTransSai: string = ''
@@ -108,6 +110,8 @@ tipoCalculo: any;
 //------ Login
 codUsuario:string=''
 senha:string=''
+codUsuario_login:string=''
+senha_login:string=''
 usuarioLogado: boolean=false;
 usuarioTecnico: any;
 
@@ -138,10 +142,25 @@ nomeArquivo: string = '';
 
 urlInfoOs:string=''
 arquivoInfoOS:string=''
-listaArquivos!: any[];
-numPedExec=signal(0)  
+listaArquivos!: any[]
+numPedExec=signal(0)
+tipoAprovacao:number=1 
 
+//----- Tela Login
+acaoLogin_login: PoModalAction = {
+  action: () => {
+    this.onLogarUsuarioAprovacao()
+  },
+  label: 'Login',
+  
+};
 
+acaoLogin_cancel: PoModalAction = {
+  action: () => {
+    this.loginModal_login?.close()
+  },
+  label: 'Cancelar'
+};
 
 
 //------ Controle Tela
@@ -867,12 +886,45 @@ readonly acaoLogar: PoModalAction = {
        this.loadExcel = false;
     }
 
+  //---- Chamar a tela de login passando o tipo de calculo
+  onChamarLogin(tipoAprov:number){
+
+    //Setar acompanhamento e zerar variaveis
+    this.acaoLogin_login.loading=false
+    this.codUsuario_login=''
+    this.senha_login=''
+
+    //Gravar o tipo de calculo
+    this.tipoAprovacao = tipoAprov
+
+    //Sugerir o estabelecimento do usuário
+    this.codEstabelecimento_login = this.codEstabelecimento
+
+    //Abrir a tela de login
+    this.loginModal_login?.open()
+  }  
+
+  //---- Acao Login
+  onLogarUsuarioAprovacao(){
+    this.acaoLogin_login.loading=true;
+    let paramsLogin: any = {CodEstabel: this.codEstabelecimento_login, CodUsuario: this.codUsuario_login, Senha: this.senha_login}
+
+    //Chamar servico de login
+    this.srvTotvs.LoginUsuario(paramsLogin).subscribe({
+      next: (response: any) => {
+            this.acaoLogin_login.loading=false
+            this.loginModal_login?.close()
+            this.onAprovarCalculo(this.tipoAprovacao)
+        },
+      error:(e)=>{this.acaoLogin_login.loading=false}
+    })
+  }  
+
   //------------------------------------------------------------------- Botao Aprovar (Resumo calculo)
   public onAprovarCalculo(tipoAprov:number){
     this.srvDialog.confirm({
       title: 'EXECUÇÃO CÁLCULO',
       message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXECUÇÃO DO CÁLCULO ?</span></div><p>Serão geradas as notas fiscais de entrada e saída.</p>",
-
       confirm: () => {
         this.labelLoadTela = "Gerando execução RPW..."
         this.loadTela = true

@@ -225,8 +225,12 @@
             </div>
             
             <div class="po-md-12" style="margin-top: 20px;">
-              <po-button [p-disabled]="lBtnAprovar" class="po-md-6" p-icon="bi bi-clipboard2-check" p-label="Aprovar" (p-click)="onAprovarCalculo(1)" ></po-button>
-              <po-button [p-disabled]="lBtnAprovarSemE" class="po-md-6" p-icon="bi bi-clipboard2-check" p-label="Aprovar Sem Gerar Saída" (p-click)="onAprovarCalculo(2)" ></po-button>
+             <!--  <po-button [p-disabled]="lBtnAprovar" class="po-md-6" p-icon="bi bi-clipboard2-check" p-label="Aprovar" (p-click)="onAprovarCalculo(1)" ></po-button>
+                   <po-button [p-disabled]="lBtnAprovarSemE" class="po-md-6" p-icon="bi bi-clipboard2-check" p-label="Aprovar Sem Gerar Saída" (p-click)="onAprovarCalculo(2)" ></po-button>
+              --> 
+              <po-button [p-disabled]="lBtnAprovar" class="po-md-6" p-icon="bi bi-clipboard2-check" p-label="Aprovar" (p-click)="onChamarLogin(1)" ></po-button>
+              <po-button [p-disabled]="lBtnAprovarSemE" class="po-md-6" p-icon="bi bi-clipboard2-check" p-label="Aprovar Sem Gerar Saída" (p-click)="onChamarLogin(2)" ></po-button>
+
             </div>
           </po-widget>
       </po-step>
@@ -248,7 +252,7 @@
           <po-button p-label="Eliminar TODOS" (p-click)="this.onEliminarTodosPagamentos()" p-icon="bi bi-trash" [p-loading]="loadExcel" p-danger="true"> </po-button>
         }
         <po-button p-label="Exportar para excel" (p-click)="this.onExportarExcel()" p-icon="bi bi-file-earmark-excel" [p-loading]="loadExcel"> </po-button>
-        <po-button p-kind="primary" p-label="Fechar" (p-click)="this.detailsModal.close()" p-icon="bi bi-door-closed"> </po-button>
+        <po-button p-kind="primary" p-label="Fechar" (p-click)="this.detailsModal?.close()" p-icon="bi bi-door-closed"> </po-button>
       </po-modal-footer>
 
     </po-modal>
@@ -291,6 +295,50 @@
              [intervalo]="5000" 
              [tentativas]="50">
   </rpw-acomp>
+
+  
+  
+  <!-- ETAPA 1: Adicionar o componente po-modal no corpo do html do calculo -->
+  <po-modal #loginModal_login  p-title="Efetuar Login" 
+                         p-size="sm" 
+                         p-click-out="false" 
+                         [p-hide-close]=true
+                         [p-secondary-action]="acaoLogin_cancel"
+                         [p-primary-action]="acaoLogin_login" >
+
+    <div class="po-row">
+        <po-combo [ngModel]="codEstabelecimento_login" (ngModelChange)="codEstabelecimento_login = $event" class="po-md-12"
+         [p-options]="listaEstabelecimentos" p-label="Estabelecimento"
+          p-icon="bi bi-pin-map" p-placeholder="Selecione o estabelecimento" p-clean="true">
+          <ng-template p-combo-option-template let-option>
+            <div class="po-row">
+              <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="bi bi-pin-map"></po-icon>
+              <div class="po-sm-10 po-md-9 po-lg-11">
+                <div class="po-font-text-large-bold">{{ option.label }}</div>
+                <div class="po-font-text-smaller">Filial: {{ option.codFilial }}</div>
+              </div>
+            </div>
+          </ng-template>
+        </po-combo>
+      </div>
+    <div class="po-row">
+      <po-input p-icon="bi bi-person-workspace"
+                class="po-md-12"
+                [(ngModel)]="codUsuario_login" 
+                p-clean
+                
+                p-label="Usuário">
+      </po-input>
+    </div>
+
+    <div class="po-row">
+      <po-password class="po-md-12"
+                   [(ngModel)]="senha_login" 
+                   p-clean
+                   p-label="Senha">
+      </po-password>
+    </div>
+  </po-modal>
  
 
 
