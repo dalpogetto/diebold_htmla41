@@ -144,6 +144,11 @@ listaArquivos!: any[]
 numPedExec=signal(0)
 tipoAprovacao:number=1 
 
+//Labels botoes aprovacao
+lblAprovar = ''
+lblAprovarSemSaida = ''
+lblOpcao=''
+
 //------ Controle Tela
 mostrarDetalhe:boolean=false
 
@@ -212,6 +217,7 @@ readonly acaoLogar: PoModalAction = {
     //--- Login Unico
     this.srvTotvs.ObterUsuario().subscribe({
       next:(response:Usuario)=>{
+        console.log("usuario", response)
         if (response === undefined){
           this.srvTotvs.EmitirParametros({estabInfo:''})
         }
@@ -282,7 +288,7 @@ readonly acaoLogar: PoModalAction = {
 
           //Chamar o mesmo método da tela do Informe porem passando a origem como Calculo
           let params:any={codEstabel: this.codEstabelecimento, codUsuario: this.codTecnico, senha: 'moto', origem:'calculo'}
-          this.srvTotvs46.ObterDados(params).subscribe({
+          this.srvTotvs46.ObterDados2(params).subscribe({
             next: (response: any) => {
                 if(response.ordens !== undefined){
                   this.listaOrdens = response.ordens
@@ -334,10 +340,9 @@ readonly acaoLogar: PoModalAction = {
                 if (this.paramsEstab !== null){
                   this.codTransEnt = this.paramsEstab.codTranspEntra
                   this.codTransSai = this.paramsEstab.codTranspSai
-                  this.codEntrega = this.paramsEstab.codEntrega
+                 // this.codEntrega = this.paramsEstab.codEntrega
                   this.serieSaida = this.paramsEstab.serieSai
                   this.serieEntra = this.paramsEstab.serieEntra
-                  this.codEntrega = this.paramsEstab.codEntrega
                 
                 }
             },
@@ -374,6 +379,10 @@ readonly acaoLogar: PoModalAction = {
 
   //--------------- onChange do RadioGroud Tipo de Calculo
   onTipoCalculo(event: any) {
+    this.lblOpcao = this.options[Number(event-1)].label.toUpperCase()
+    this.lblAprovar = 'Aprovar - ' + this.lblOpcao
+    this.lblAprovarSemSaida = 'Aprovar Sem Saída - ' + this.lblOpcao
+
     this.tipoCalculo = event
 
     this.lBtnAprovar = false
@@ -571,6 +580,8 @@ readonly acaoLogar: PoModalAction = {
   //------------------------------------------------------------- Change Tecnicos - Popular Endereco Entrega
   public onTecnicoChange(obj:string){
     if (obj === undefined) return
+    
+
     //Parametros estabelecimento e tecnico
     let params: any = { codEstabel: this.codEstabelecimento, codTecnico: this.codTecnico }
     //Popular combos entrega
@@ -581,12 +592,24 @@ readonly acaoLogar: PoModalAction = {
           this.listaExtraKit = []
           this.processoInfo = response.nrProcesso
           this.srvTotvs.EmitirParametros({processoInfo: this.processoInfo})
-          this.listaEntrega = (response.listaEntrega as any[]).sort(this.ordenarCampos(['label']));
-          //this.codEntrega = "Padrão"
+          this.listaEntrega = (response.listaEntrega as any[]).sort(this.ordenarCampos(['label']))
+          this.codEntrega = ''
+
+          //Setar Valores Padrao
+          this.srvTotvs
+          .ObterParamsDoEstabelecimento(this.codEstabelecimento).subscribe({
+            next: (response:any) => {
+              if (response !== null){
+                this.codEntrega = response.items[0].codEntrega
+              }
+            },
+          })
 
         },
         //error: (e) => this.srvNotification.error("Ocorreu um erro na requisição " ),
     })
+
+    
   }
 
   //------ funcao para ordenar
@@ -872,7 +895,7 @@ readonly acaoLogar: PoModalAction = {
   //------------------------------------------------------------------- Botao Aprovar (Resumo calculo)
   public onAprovarCalculo(tipoAprov:number){
     this.srvDialog.confirm({
-      title: 'EXECUÇÃO CÁLCULO',
+      title: 'EXECUÇÃO CÁLCULO - ' + this.lblOpcao,
       message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXECUÇÃO DO CÁLCULO ?</span></div><p>Serão geradas as notas fiscais de entrada e saída.</p>",
       confirm: () => {
         this.labelLoadTela = "Gerando execução RPW..."

@@ -1,10 +1,10 @@
-<h1>teste rpw acomp</h1>
+<h1>Teste Componente</h1>
 
-<!--Componente desenvolvido pelo Junin -->
-<rpw-acomp [numPedExec]="numPedExec()" 
-           [intervalo]="5000" 
-           [tentativas]="50" 
-           (terminoEvent)="mostrarEvento($event)"
-           >
-</rpw-acomp>
+<po-button p-label="Executar Tarefa" (p-click)="executar()"></po-button>
+
+<app-login [chamarLogin]="abrir()" (efetuarLoginEvent)="onLogin($event)"></app-login>
+
+
+
+
 

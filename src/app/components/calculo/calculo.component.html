@@ -225,8 +225,8 @@
             </div>
             
             <div class="po-md-12" style="margin-top: 20px;">
-                  <po-button [p-disabled]="lBtnAprovar" class="po-md-6" p-icon="bi bi-clipboard2-check" p-label="Aprovar" (p-click)="onAprovarCalculo(1)" ></po-button>
-                   <po-button [p-disabled]="lBtnAprovarSemE" class="po-md-6" p-icon="bi bi-clipboard2-check" p-label="Aprovar Sem Gerar Saída" (p-click)="onAprovarCalculo(2)" ></po-button>
+                  <po-button [p-disabled]="lBtnAprovar" class="po-md-6" p-icon="bi bi-clipboard2-check" [p-label]="lblAprovar" (p-click)="onAprovarCalculo(1)" ></po-button>
+                   <po-button [p-disabled]="lBtnAprovarSemE" class="po-md-6" p-icon="bi bi-clipboard2-check" [p-label]="lblAprovarSemSaida" (p-click)="onAprovarCalculo(2)" ></po-button>
               
              <!--  <po-button [p-disabled]="lBtnAprovar" class="po-md-6" p-icon="bi bi-clipboard2-check" p-label="Aprovar" (p-click)="onChamarLogin(1)" ></po-button>
               <po-button [p-disabled]="lBtnAprovarSemE" class="po-md-6" p-icon="bi bi-clipboard2-check" p-label="Aprovar Sem Gerar Saída" (p-click)="onChamarLogin(2)" ></po-button>
