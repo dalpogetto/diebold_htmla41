@@ -234,7 +234,7 @@ readonly acaoLogar: PoModalAction = {
     //--- Parametros iniciais da tela
     this.loadTela = false
     this.arquivoInfoOS = ''
-    this.tipoCalculo = '1'
+    this.tipoCalculo = '2'
     this.colunasKit = this.srvTotvs.obterColunasSaldoTerc()
 
     //--- Carregar combo de estabelecimentos
@@ -490,7 +490,7 @@ readonly acaoLogar: PoModalAction = {
                       this.listaResumo = response.items
                       this.listaSemSaldo = response.semsaldo
                       //Setar Tela para Renovacao Total
-                      this.onTipoCalculo("1")
+                      this.onTipoCalculo("2")
                       //Atualizar Contadores Resumo
                       this.AtualizarLabelsContadores()
                       //Setar que usuario foi logado

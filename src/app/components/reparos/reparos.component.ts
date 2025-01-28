@@ -92,7 +92,7 @@ readonly acoesGrid: PoTableAction[] = [
     this.srvTotvs.ObterItensParaReparo(params).subscribe({
       next:(response:any)=>{
         this.loadTela=false
-        console.log("info", response)
+        
         if (response === undefined){
           return
         }
@@ -183,7 +183,7 @@ readonly acoesGrid: PoTableAction[] = [
     title: 'CONFIRMAÇÃO',
     message: "<div class='dlg'><i class='bi bi-question-circle po-font-subtitle'></i><span class='po-font-text-large'> CONFIRMA EXCLUSÃO ?</span></div>",
     literals: { cancel: 'Não', confirm: 'Sim' },
-    confirm: () => { this.gridReparos?.removeItem(obj)},
+    confirm: () => { this.gridReparos?.removeItem(obj); this.listaReparos = this.gridReparos?.items as any[]},
     cancel: () => {},
   });
   
@@ -195,6 +195,7 @@ readonly acoesGrid: PoTableAction[] = [
     literals: { cancel: 'Não', confirm: 'Sim' },
     confirm: () => { 
         this.gridReparos?.items.forEach(item => this.gridReparos?.removeItem(item))
+        this.listaReparos=[]
     },
     cancel: () => {},
   });
