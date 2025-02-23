@@ -620,6 +620,17 @@ readonly acaoLogar: PoModalAction = {
     return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
     }).reduce((p, n) => p ? p : n, 0);
 
+  //limpar filtro
+  limparFiltro(){
+    setTimeout(() => {
+      let filtro = (document.querySelector('.po-search-input') as HTMLInputElement)
+      if(filtro !== null && filtro !== undefined)
+          filtro.value = ''
+      
+    }, 500);
+
+  }  
+
   //--------------------------------------------------------------- Chamar Modal Detalhe Resumo
   onOpenModal(type: any) {
     
@@ -646,6 +657,8 @@ readonly acaoLogar: PoModalAction = {
           this.colunasDetalhe = this.srvTotvs.obterColunasTodos()
           //this.mostrarDetalhe = true
           this.opcoesGridPagto = []
+          this.limparFiltro()
+
           this.detailsModal?.open();
         break;
 
@@ -656,6 +669,7 @@ readonly acaoLogar: PoModalAction = {
           this.colunasDetalhe = this.srvTotvs.obterColunasPagar()
           //this.mostrarDetalhe = true
           this.opcoesGridPagto = [{label: '', icon: 'po-icon po-icon po-icon-delete', action: this.onDeletarRegistroPagto.bind(this)} ]
+          this.limparFiltro()
           this.detailsModal?.open();
         break;
 
@@ -665,6 +679,7 @@ readonly acaoLogar: PoModalAction = {
           this.tituloDetalhe = `Renovações: ${this.qtde} registros`
           this.colunasDetalhe = this.srvTotvs.obterColunasRenovar();
           //this.mostrarDetalhe=true
+          this.limparFiltro()
           this.detailsModal?.open();
           this.opcoesGridPagto = []
         break;
@@ -675,6 +690,7 @@ readonly acaoLogar: PoModalAction = {
           this.tituloDetalhe = `Somente Entrada: ${this.qtde} registros`
           this.colunasDetalhe = this.srvTotvs.obterColunasSomenteEntrada();
           //this.mostrarDetalhe=true
+          this.limparFiltro()
           this.detailsModal?.open();
           this.opcoesGridPagto = []
 
@@ -687,6 +703,7 @@ readonly acaoLogar: PoModalAction = {
           this.tituloDetalhe = `ExtraKit: ${this.qtde} registros`
           this.colunasDetalhe = this.srvTotvs.obterColunasExtrakit();
           //this.mostrarDetalhe=true
+          this.limparFiltro()
           this.detailsModal?.open();
           this.opcoesGridPagto = []
         break;
@@ -697,20 +714,13 @@ readonly acaoLogar: PoModalAction = {
           this.tituloDetalhe = `Sem Saldo: ${this.qtde} registros`
           this.colunasDetalhe = this.srvTotvs.obterColunasSemSaldo()
           //this.mostrarDetalhe=true
+          this.limparFiltro()
           this.detailsModal?.open();
           this.opcoesGridPagto = []
         break;
 
     }
 
-    
-
-  }
-
-  teste(){
-    let elemento = document.querySelector('.po-search-input') as HTMLElement
-   // console.log(elemento)
-    
   }
 
   //---------------------------------------------------------------- Eliminar registro grid extrakit

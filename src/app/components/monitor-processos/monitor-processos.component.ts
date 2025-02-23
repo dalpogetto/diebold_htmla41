@@ -101,6 +101,9 @@ ngOnInit(): void {
 }
 
 public onListar(){
+
+  //Recuperar o que estava no filtro
+  
   this.lista =[]
   this.loadTela=true;
   let params:any={codEstabel: this.codEstabel}
@@ -114,14 +117,30 @@ public onListar(){
       this.labelContador[4] = this.lista.filter(o=> o.situacao === 'L').length.toString()
       this.srvTotvs.SetarMonitor({listaEstab: this.listaEstabelecimentos, listaGrid: this.lista, estabSelecionado: this.codEstabel})
       this.loadTela = false
+
+      
+
+      
+
+      
     },
-    error: (e)=> {this.loadTela = false}
+    error: (e)=> {this.loadTela = false},
+    complete() {
+      setTimeout(() => {
+        let filtro = (document.querySelector('.po-search-input') as HTMLInputElement)
+        filtro.dispatchEvent(new Event('input',{bubbles:true}))
+      }, 500);
+    },
     })
+
 
 }
 
-Etiqueta(obj:any){
-
+Etiqueta(){
+  let filtro = (document.querySelector('.po-search-input') as HTMLInputElement)
+  filtro.value = 'valter'
+  alert(filtro.value)
+  filtro.dispatchEvent(new Event('input',{bubbles:true}))
 }
 
 AbrirESAA059(obj:any){

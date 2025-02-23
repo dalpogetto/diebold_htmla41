@@ -1,5 +1,15 @@
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 
+
+:root {
+  --color-01: #004b87;
+  --color-03: #470a68;
+  --color-07: #a6192e;
+  --color-09: #0088b9;
+  --color-10: #007a87;
+}
+
+
 .menuGrid {
   display: flex;
   gap: 5px;

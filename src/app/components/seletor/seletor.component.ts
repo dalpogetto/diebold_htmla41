@@ -1,6 +1,9 @@
-import { Component, Signal, ViewChild, inject, signal } from '@angular/core';
-import { PoButtonModule} from '@po-ui/ng-components';
+import { ChangeDetectionStrategy, Component, ElementRef, Signal, ViewChild, inject, signal } from '@angular/core';
+import { PoButtonModule, PoTableComponent, PoTableModule} from '@po-ui/ng-components';
 import { LoginComponent } from "../../login/login.component";
+import { CardComponent } from '../card/card.component';
+import { PoTableBaseComponent } from '@po-ui/ng-components/lib/components/po-table/po-table-base.component';
+
 
 
 
@@ -9,20 +12,20 @@ import { LoginComponent } from "../../login/login.component";
     templateUrl: './seletor.component.html',
     styleUrls: ['./seletor.component.css'],
     standalone: true,
-    imports: [PoButtonModule,LoginComponent]
+    imports: [PoButtonModule,LoginComponent, CardComponent, PoTableModule]
 })
 
 export class SeletorComponent {
-  abrir = signal(false)
 
-  executar(){
-    //alert('Botao executar')
-    this.abrir.update(() => true)
+  constructor(private el: ElementRef) {
   }
+  
+Executar(){
 
-  onLogin(obj:any){
-    console.log(obj)
-  }
-
-
+  
+ 
+} 
 }
+
+
+

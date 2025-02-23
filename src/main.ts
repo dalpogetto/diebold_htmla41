@@ -8,7 +8,7 @@ import { AppComponent } from './app/app.component';
 import { provideRouter } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
-import { PoModule } from '@po-ui/ng-components';
+import { PoModule, PoUploadComponent } from '@po-ui/ng-components';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { APP_ROUTES } from './app/app.routes';
@@ -32,7 +32,8 @@ bootstrapApplication(AppComponent, {
         provideHttpClient(withInterceptorsFromDi()),
         provideEnvironmentNgxMask(),
         provideRouter(APP_ROUTES),
-        {provide: LOCALE_ID, useValue: 'pt-BR' }
+        {provide: LOCALE_ID, useValue: 'pt-BR' },
+    
         
     ]
 })

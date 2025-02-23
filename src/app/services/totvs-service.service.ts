@@ -1,9 +1,9 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject, map, of, take, tap } from 'rxjs';
+import { Subject, Subscription, map, of, take, tap } from 'rxjs';
 import { Observable } from 'rxjs';
 
-import { PoTableColumn, PoTableDetail } from '@po-ui/ng-components';
+import { PoHttpRequestInterceptorService, PoTableColumn, PoTableDetail } from '@po-ui/ng-components';
 import { Usuario } from '../interfaces/usuario';
 import { Monitor } from '../interfaces/monitor';
 import { environment } from '../../environments/environment';
@@ -11,6 +11,7 @@ import { Reparo } from '../interfaces/reparo';
 
 //--- Header somente para DEV
 const headersTotvs = new HttpHeaders(environment.totvs_header);
+
 
 @Injectable({
   providedIn: 'root',
@@ -48,9 +49,17 @@ export class TotvsService {
 
   private reg!: any;
   _url = environment.totvs_url;
+  subscription!: Subscription;
+  pendingRequests: number = 0;
  
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
+
+  ngOnInit(): void {
+    console.log ("entrou service")
+    
+  }
 
   //--- Variavel
   private emissorEvento$ = new Subject<any>();

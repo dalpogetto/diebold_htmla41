@@ -1,3 +1,11 @@
+.logo{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+}
+
 .hero {
   top:-10px;
   left: -20px;

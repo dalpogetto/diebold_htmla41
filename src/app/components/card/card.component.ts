@@ -20,6 +20,7 @@ export class CardComponent {
   ngOnInit() { }
 
   execFunction(){
+
     this.clickBotao.emit()
   }
 

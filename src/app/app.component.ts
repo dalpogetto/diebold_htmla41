@@ -86,8 +86,16 @@ export class AppComponent {
       shortLabel: 'ESAA059',
       action: () => this.AbrirProgramaTotvs('esp/esaa059.w'),
     },
+    /* 
+    {
+      label: 'Emprestimos',
+      icon: 'bi bi-upc-scan',
+      shortLabel: 'Emprestimos',
+      action: () => this.AbrirProgramaTotvs('totvs-menu/program-html/htmla41'),
+    },
+    
    
-    /* {
+    {
       label: 'Refactory Calculo',
       icon: 'bi bi-file-earmark-text',
       link: '/calculo-step',

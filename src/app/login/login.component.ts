@@ -65,7 +65,7 @@ export class LoginComponent {
   //contructor
   constructor(){
     effect(() => {
-      alert(this.chamarLogin())
+     // alert(this.chamarLogin())
       if (this.chamarLogin()) {
         this.acaoLogin.loading=false
         this.codUsuario=''

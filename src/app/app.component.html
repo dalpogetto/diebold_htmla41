@@ -1,8 +1,13 @@
+<div class="body">
 <div class="po-wrapper">
   <po-menu [p-menus]="menus" [p-automatic-toggle]="false" [p-collapsed]="false" #menuLateral>
-    <div *p-menu-header-template style="background: steelblue; border-radius: 5px;">
+    <div *p-menu-header-template style="background: #004b87; border-radius: 5px;">
+      <div class="logo">
+        <img src="assets/logoDN.png" class="logo" width="250px" height="55px">
+      </div>
+      
       <div style="min-height: 50px;">
-        <p style="color: white; text-align: center;padding-top: 15px"><b>AUTO ATENDIMENTO</b></p>
+        <p style="color: white; text-align: center;padding-top: 10px"><b>AUTO ATENDIMENTO</b></p>
         <hr>
         <div *ngIf="estabInfo !== ''" class="painelProcess">
           <p><i class="bi bi-pin-map"></i>&nbsp;{{estabInfo}}</p>
@@ -20,4 +25,6 @@
   <po-page-default>
     <router-outlet></router-outlet>
   </po-page-default>
+</div>
+
 </div>

@@ -2,13 +2,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { TotvsService } from '../../services/totvs-service.service';
 import { RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { PoModule } from '@po-ui/ng-components';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
     standalone: true,
-    imports: [RouterLink]
+    imports: [RouterLink, PoModule]
 })
 export class HomeComponent {
   versao!:string
@@ -48,5 +49,7 @@ export class HomeComponent {
       }})
     
   }
+
+  
 
 }

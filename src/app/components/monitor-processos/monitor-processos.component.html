@@ -18,7 +18,9 @@
             </ng-template>
         </po-combo>
     </div>
-    <div><po-button p-icon="bi bi-check2" (p-click)="onListar()" ></po-button></div>
+    <div><po-button p-icon="bi bi-check2" (p-click)="onListar()" ></po-button>
+        
+    </div>
     <div style="display: flex; justify-content: end; flex-grow: 1; margin-right: 40px;"><po-button p-tooltip="Reprocessar Processos com Erro" p-icon="bi bi-arrow-clockwise" (p-click)="onReprocessarErros()" p-danger="true" ></po-button></div>
 </div>
 <po-table [p-items]="lista" 
