@@ -31122,6 +31122,7 @@ var PoToasterComponent = class _PoToasterComponent extends PoToasterBaseComponen
   }
   /* Fecha o componente Toaster */
   close() {
+   
     if (this.isAlert()) {
       this.observableOnClose.next(true);
     } else {

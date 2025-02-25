@@ -16,12 +16,13 @@ import { PoTableBaseComponent } from '@po-ui/ng-components/lib/components/po-tab
 })
 
 export class SeletorComponent {
+  cDescricao:string = "mouse"
 
   constructor(private el: ElementRef) {
   }
   
-Executar(){
-
+Executar(event:any){
+  console.log(event)
   
  
 } 

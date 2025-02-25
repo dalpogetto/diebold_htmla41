@@ -1,12 +1,12 @@
 .face-button {
     height: 44px;
     display: inline-block;
-    border: 2px solid lightcoral;
+    border: 2px solid var(--color-03);
     font-size: 16px;
     text-align: center;
     text-decoration: none;
     font-weight: 500;
-    color: lightcoral;
+    color: var(--color-03);
     overflow: hidden;
     border-radius: 4px;
     
@@ -19,7 +19,7 @@
     }
     
     .face-primary {
-      background-color: lightcoral;
+      background-color: var(--color-03);
       color: #fff;
     }
     

@@ -6,7 +6,7 @@ import { Component,
   ElementRef,
   signal} from '@angular/core';
 
-  import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent, PoLoadingModule, PoAccordionModule, PoWidgetModule, PoFieldModule, PoIconModule, PoButtonModule, PoTooltipModule, PoTableModule, PoTagModule, PoModalModule, PoDatepickerModule, PoRadioGroupModule, PoCheckboxModule } from '@po-ui/ng-components';
+  import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent, PoLoadingModule, PoAccordionModule, PoWidgetModule, PoFieldModule, PoIconModule, PoButtonModule, PoTooltipModule, PoTableModule, PoTagModule, PoModalModule, PoDatepickerModule, PoRadioGroupModule, PoCheckboxModule, PoButtonComponent } from '@po-ui/ng-components';
   import { delay, interval, Subscription } from 'rxjs';
 import { TotvsService46 } from '../../services/totvs-service-46.service';
   import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -35,6 +35,7 @@ import { RpwComponent } from '../rpw/rpw.component';
         PoFieldModule,
         PoIconModule,
         PoButtonModule,
+        
         PoTooltipModule,
         PoTableModule,
         NgClass,
@@ -48,6 +49,15 @@ import { RpwComponent } from '../rpw/rpw.component';
     ],
 })
 export class Informe2Component {
+
+  
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      console.log('Enter key pressed');
+      // Add your logic here
+    }
+  }
+
   private srvTotvs46 = inject(TotvsService46);
   private srvTotvs = inject(TotvsService);
   private srvDialog = inject(PoDialogService);
@@ -247,9 +257,9 @@ export class Informe2Component {
   selection:any
   lIncluirItemOrdem:boolean=false
   cTitulo:string=''
+ 
 
   
-
   readonly acoesGridOrdem: PoTableAction[] = [
     {
       label: 'OS - Alterar Chamado',

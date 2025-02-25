@@ -21,10 +21,6 @@ import { registerLocaleData } from '@angular/common';
 
 registerLocaleData(localeIt, 'pt-BR', localeItExtra);
 
-
-
-
-
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(BrowserModule, PoModule, FormsModule, ReactiveFormsModule),
