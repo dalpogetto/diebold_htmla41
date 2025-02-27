@@ -59,7 +59,7 @@
             <div class="botoesOS" *ngIf=" this.mostrarDados === true">
               <po-button p-tooltip="Gerar Informe OS" (p-click)="onImpressao()" p-icon="bi bi-printer"></po-button>
               <btnDownload p-tooltip="Baixar Informe OS" [nomeArquivo]="arquivoInfoOS" [mostrarNomeArquivo]="false" style="height: 43px;"></btnDownload>
-              <po-button p-tooltip="Inclur OS" p-icon="bi bi-plus-square" p-kind="primary" p-kind="primary" (p-click)="onIncluirOrdem()"></po-button>
+              <po-button p-tooltip="Incluir OS" p-icon="bi bi-plus-square" p-kind="primary" p-kind="primary" (p-click)="onIncluirOrdem()"></po-button>
             </div>
 
             <div class="botoesItens" *ngIf="this.mostrarDados === true" style="margin-right: 300px;">

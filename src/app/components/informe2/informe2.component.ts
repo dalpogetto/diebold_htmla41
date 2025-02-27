@@ -1270,6 +1270,9 @@ export class Informe2Component {
       },
       error: (e) => {
         this.loadGrid = false;
+
+        //Caso ocorra algum problema 
+        this.atualizarTela();
       },
     });
   }
