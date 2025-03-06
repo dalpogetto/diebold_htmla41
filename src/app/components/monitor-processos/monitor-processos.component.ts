@@ -5,6 +5,7 @@ import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgClass } from '@angular/common';
+import { ExcelService } from '../../services/excel-service.service';
 
 @Component({
     selector: 'app-monitor-processos',
@@ -16,6 +17,7 @@ import { NgIf, NgClass } from '@angular/common';
 export class MonitorProcessosComponent {
 
 private srvTotvs = inject(TotvsService)
+private srvExcel = inject(ExcelService)
 private srvNotification = inject(PoNotificationService);
 private router = inject(Router)
 private route = inject(ActivatedRoute)
@@ -62,7 +64,20 @@ readonly acoes: PoTableAction[] = [
 
   ];
 
-  
+  public onExportarExcel(){
+    let titulo = "Lista de Processos"
+    let subTitulo = "Estabelecimento: " + this.codEstabel
+    this.loadTela = true
+
+    this.srvExcel.exportarParaExcel('RESUMO DE ' + titulo.toUpperCase(),
+                                      subTitulo.toUpperCase(),
+                                      this.colunas,
+                                      this.lista,
+                                      'Processos',
+                                      'Plan1')
+     this.loadTela = false;
+  }
+
 
 ngOnInit(): void {
 
@@ -117,11 +132,6 @@ public onListar(){
       this.labelContador[4] = this.lista.filter(o=> o.situacao === 'L').length.toString()
       this.srvTotvs.SetarMonitor({listaEstab: this.listaEstabelecimentos, listaGrid: this.lista, estabSelecionado: this.codEstabel})
       this.loadTela = false
-
-      
-
-      
-
       
     },
     error: (e)=> {this.loadTela = false},

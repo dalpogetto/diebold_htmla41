@@ -6,7 +6,7 @@ import { Component,
   ElementRef,
   signal} from '@angular/core';
 
-  import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent, PoLoadingModule, PoAccordionModule, PoWidgetModule, PoFieldModule, PoIconModule, PoButtonModule, PoTooltipModule, PoTableModule, PoTagModule, PoModalModule, PoDatepickerModule, PoRadioGroupModule, PoCheckboxModule, PoButtonComponent } from '@po-ui/ng-components';
+  import { PoAccordionComponent, PoAccordionItemComponent, PoDialogService, PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn, PoTableComponent, PoLoadingModule, PoAccordionModule, PoWidgetModule, PoFieldModule, PoIconModule, PoButtonModule, PoTooltipModule, PoTableModule, PoTagModule, PoModalModule, PoDatepickerModule, PoRadioGroupModule, PoCheckboxModule, PoButtonComponent, PoRadioComponent, PoRadioModule } from '@po-ui/ng-components';
   import { delay, interval, Subscription } from 'rxjs';
 import { TotvsService46 } from '../../services/totvs-service-46.service';
   import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -1057,9 +1057,18 @@ export class Informe2Component {
   }
 
   selecionarOrdem(obj: any) {
+
+  //  let filtro = (document.querySelector('td.po-table-column-selectable') as HTMLInputElement)
+   // console.log("raiz", (filtro))
+   // console.log("pai", (filtro.childNodes[0]).setAttribute('ng-reflect-checkbox-value', false))
+   // console.log("filho", (filtro.childNodes[0].firstChild))
+
+    //filtro.childNodes.
+    
     this.ordemSelecionada = obj;
     this.numSerieItem = obj['num-serie-it']
     this.gridOrdens?.selectRowItem(obj)
+   
     this.cOS = obj.NumOS;
     this.cChamado = obj.Chamado;
     this.cTitulo=`ITEMS OS - [ NumOS: ${this.cOS} - Chamado: ${this.cChamado} ]`
