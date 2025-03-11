@@ -161,20 +161,20 @@ figure.snip0057 {
     background: black;
   }
 
-  .green {color: green}
-  .blue {color: #045B8F}
-  .red {color: #9e3933}
+  .green {color: var(--color-10)}
+  .blue {color: var(--color-01)}
+  .red {color: var(--color-07)}
   .lemon {color: var(--color-09)}
   .yellow {color: var(--color-08)}
   
   figure.snip0057.green .position {
-    background: green;
+    background: var(--color-10);
   }
   figure.snip0057.blue .position {
-    background: #045B8F;
+    background: var(--color-01);
   }
   figure.snip0057.red .position {
-    background: #9e3933;
+    background: var(--color-07);
   }
   figure.snip0057.yellow .position {
     background: var(--color-08);

@@ -44,7 +44,7 @@
           </div>
   
           <div class="po-md-4">
-            <div class="po-md-8"><po-password name="password" formControlName="senha" p-label="Senha"> </po-password></div>
+            <div class="po-md-8"><po-password name="password" formControlName="senha" p-label="Senha" (keyup.enter)="onLogar()"> </po-password></div>
             <div class="po-md-4" style="margin-top: 33px;"><po-button p-icon="bi bi-check2" (p-click)="onLogar()" [p-disabled]="!this.form.valid" p-type="Submit"></po-button></div>
           </div>
          </form>
@@ -207,7 +207,7 @@
               <div><po-input formControlName="nr-enc" [p-maxlength]="9"/></div>
               
               <div class="label"><label>Série Enc:</label></div>
-              <div><po-input formControlName="Serie-enc"/></div>
+              <div><po-input formControlName="Serie-enc" p-disabled="true"/></div>
               
               <div class="label" style="width:120px"><label>Filial Enc:</label></div>
               <div><po-input formControlName="CodFilial-enc"/></div>
@@ -317,7 +317,7 @@
                 <po-checkbox name="tag-enc" formControlName="tag-enc" p-label="ENC Não Informada" (p-change)="tagEnc()"> </po-checkbox>
             </div>
             <div class="po-md-4"><po-input name="nr-enc" formControlName="nr-enc" p-label="Número ENC" [p-maxlength]=9></po-input></div>
-            <div class="po-md-4"><po-input name="Serie-enc" formControlName="Serie-enc" p-label="Série ENC"></po-input></div>
+            <div class="po-md-4"><po-input name="Serie-enc" formControlName="Serie-enc" p-label="Série ENC" p-disabled="true"></po-input></div>
             <div class="po-md-4" style="margin-top: 33px;">
               <po-button p-icon="bi bi-plus" [p-disabled]="lDisabled" (p-click)="onCadEnc()" p-help="Cadastro de Enc" p-tooltip="Incluir Nova ENC"></po-button></div>
           </po-widget></div>

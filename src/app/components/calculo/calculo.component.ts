@@ -267,8 +267,11 @@ readonly acaoLogar: PoModalAction = {
       //---------------- Consistir Passo 1
       if ((passo.label === "Técnico") && ((this.codEstabelecimento === '') || (this.codTecnico === ''))){
         this.arquivoInfoOS = ''
-
         this.srvNotification.error('Estabelecimento e Ténico não foram preenchidos corretamente');
+
+       // let msg = (document.querySelector('po-toaster') as HTMLInputElement)
+       // setTimeout(() => { msg.parentNode?.removeChild(msg) }, 5000)
+      
         return false;
       }
 
@@ -320,7 +323,7 @@ readonly acaoLogar: PoModalAction = {
                 })
             },
           error:(e)=>{
-               
+
                this.stepper?.first()
                this.loadTela=false
           }})
@@ -439,6 +442,7 @@ readonly acaoLogar: PoModalAction = {
       this.qtde=0
       this.itemsResumo.filter(o => o.qtPagar > 0 && !o.soEntrada).forEach(x=> {this.qtde += x.qtPagar + x.qtExtrakit})
       this.labelContadores[1] = this.qtde.toString()
+      
 
       //Renovacoes
       this.qtde=0

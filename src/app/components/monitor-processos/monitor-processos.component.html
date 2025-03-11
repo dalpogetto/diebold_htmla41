@@ -22,7 +22,7 @@
         
     </div>
     <div style="display: flex; justify-content: end; flex-grow: 1; margin-right: 40px; gap:10px">
-        <po-button p-tooltip="Gerar Excel" p-icon="bi bi-file-excel" (p-click)="onExportarExcel()"></po-button>
+        <po-button p-tooltip="Gerar Excel" p-icon="bi bi-file-earmark-excel" (p-click)="onExportarExcel()" p-label="Exportar Excel"></po-button>
         <po-button p-tooltip="Reprocessar Processos com Erro" p-icon="bi bi-arrow-clockwise" (p-click)="onReprocessarErros()" p-danger="true" ></po-button></div>
 </div>
 <po-table [p-items]="lista" 

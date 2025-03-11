@@ -14,6 +14,15 @@
   --color-08: #f99e1d;
   --color-09: #0088b9;
   --color-10: #007a87;
+  
+  --color-feedback-info-lightest: #f6e6e5;
+  --color-feedback-info-lighter: #e3aeab;
+  --color-feedback-info-light: #d58581;
+  --color-feedback-info-base: #be3e37;
+  --color-feedback-info-dark: #9b2d27;
+  --color-feedback-info-darker: #72211d;
+  --color-feedback-info-darkest: #4a1512;
+
 }
 
 

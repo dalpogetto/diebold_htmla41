@@ -748,12 +748,12 @@ export class Informe2Component {
           if (this.listaStatus[3].valor === 'true') {
             this.formItemOrdem.controls['nr-enc'].enable();
             this.formItemOrdem.controls['tag-enc'].enable();
-            this.formItemOrdem.controls['Serie-enc'].enable();
+          //  this.formItemOrdem.controls['Serie-enc'].enable();
             this.lDisabled = false;
           } else {
             this.formItemOrdem.controls['nr-enc'].disable();
             this.formItemOrdem.controls['tag-enc'].disable();
-            this.formItemOrdem.controls['Serie-enc'].disable();
+          //  this.formItemOrdem.controls['Serie-enc'].disable();
             this.lDisabled = true;
           }
         }
@@ -803,7 +803,7 @@ export class Informe2Component {
       this.formItemOrdem.controls['nr-enc'].setValue('0');
       this.formItemOrdem.controls['Serie-enc'].setValue('');
       this.formItemOrdem.controls['nr-enc'].enable();
-      this.formItemOrdem.controls['Serie-enc'].enable();
+    //  this.formItemOrdem.controls['Serie-enc'].enable();
     }
   }
 

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PoModalAction, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoFieldModule, PoIconModule, PoButtonModule, PoTableModule, PoDialogService, PoTooltipModule } from '@po-ui/ng-components';
+import { PoModalAction, PoNotificationService, PoTableAction, PoTableColumn, PoLoadingModule, PoFieldModule, PoIconModule, PoButtonModule, PoTableModule, PoDialogService, PoTooltipModule, PoTableLiterals } from '@po-ui/ng-components';
 import { Usuario } from '../../interfaces/usuario';
 import { TotvsService } from '../../services/totvs-service.service';
 import { FormsModule } from '@angular/forms';
@@ -42,7 +42,6 @@ colunas!:PoTableColumn[]
 lista!:any[]
 labelContador:string[]=[]
 alturaGrid:number=window.innerHeight - 255
-
 
 //--- Actions
 readonly acoes: PoTableAction[] = [
@@ -115,6 +114,7 @@ ngOnInit(): void {
   }
 }
 
+
 public onListar(){
 
   //Recuperar o que estava no filtro
@@ -148,8 +148,6 @@ public onListar(){
 
 Etiqueta(){
   let filtro = (document.querySelector('.po-search-input') as HTMLInputElement)
-  filtro.value = 'valter'
-  alert(filtro.value)
   filtro.dispatchEvent(new Event('input',{bubbles:true}))
 }
 
