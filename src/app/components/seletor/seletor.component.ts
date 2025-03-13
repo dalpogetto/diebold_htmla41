@@ -18,6 +18,8 @@ import { PoTableBaseComponent } from '@po-ui/ng-components/lib/components/po-tab
 export class SeletorComponent {
   cDescricao:string = "mouse"
 
+  @ViewChild('grid', { static: true }) gridDetalhe: PoTableComponent | undefined;
+
   public lista=[{campo:true}, {campo:false}]
 
   constructor(private el: ElementRef) {
@@ -51,8 +53,12 @@ selecionar(obj:any){
 }
 
 naoSelecionar(obj:any){
-  let marcador = (document.querySelector('td.po-table-column-selectable') as HTMLInputElement)
-  console.log(marcador)
+  //let marcador = (document.querySelector('td.po-table-column-selectable') as HTMLInputElement)
+  //console.log(marcador)
+  alert("vou desmarcar")
+  this.gridDetalhe?.unselectRowItem(obj)
+ 
+  
 
 }
 

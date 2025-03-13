@@ -6,7 +6,7 @@
    <cardResumo cabec="Desktop" desc="Vendas no Mes" cont="80" style="width: 200px;"></cardResumo>
 </div>
 
-<po-table [p-items]="lista" (p-selected)="selecionar($event)" [p-selectable]="true" (p-unselected)="naoSelecionar($event)"></po-table>
+<po-table #grid [p-items]="lista" (p-selected)="selecionar($event)" [p-selectable]="true" (p-unselected)="naoSelecionar($event)"></po-table>
 
 
 
