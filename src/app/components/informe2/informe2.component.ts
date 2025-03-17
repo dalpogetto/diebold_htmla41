@@ -524,6 +524,7 @@ export class Informe2Component {
         if(response.ok !== "ok") return
         this.formItemOrdem.controls['nr-enc'].setValue(this.formEnc.controls['nr-enc'].value)
         this.formItemOrdem.controls['Serie-enc'].setValue(this.formEnc.controls['Serie-enc'].value)
+        this.formItemOrdem.controls['Serie-enc'].disable();
         this.telaIncluirEnc?.close()
         this.telaIncluirItemOrdem?.open()
       }
@@ -756,6 +757,7 @@ export class Informe2Component {
           //  this.formItemOrdem.controls['Serie-enc'].disable();
             this.lDisabled = true;
           }
+          this.formItemOrdem.controls['Serie-enc'].disable();
         }
         this.loadTela = false;
       },
@@ -803,6 +805,7 @@ export class Informe2Component {
       this.formItemOrdem.controls['nr-enc'].setValue('0');
       this.formItemOrdem.controls['Serie-enc'].setValue('');
       this.formItemOrdem.controls['nr-enc'].enable();
+      this.formItemOrdem.controls['Serie-enc'].disable();
     //  this.formItemOrdem.controls['Serie-enc'].enable();
     }
   }
@@ -861,6 +864,7 @@ export class Informe2Component {
     //Valores iniciais - valter
     this.formItemOrdem.controls['tag-enc'].setValue(false)
     this.formItemOrdem.controls["nr-enc"].setValue('0')
+    this.formItemOrdem.controls['Serie-enc'].disable();
     this.telaIncluirItemOrdem?.open();
   }
 
@@ -910,6 +914,7 @@ export class Informe2Component {
     this.formItemOrdem.controls['envelope-seguranca'].disable();
     this.formItemOrdem.controls['serie-ins'].disable();
     this.formItemOrdem.controls['serie-ret'].disable();
+    this.formItemOrdem.controls['Serie-enc'].disable();
     this.formItemOrdem.patchValue(obj);
     this.formItemOrdem.controls['tag-enc'].setValue(Number(obj["nr-enc"]) === 999999999 || Number(obj["nr-enc"]) === 0)
 
