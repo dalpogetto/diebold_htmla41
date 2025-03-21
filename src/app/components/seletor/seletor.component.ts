@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Signal, ViewChild, inject, signal } from '@angular/core';
-import { PoButtonModule, PoTableComponent, PoTableModule} from '@po-ui/ng-components';
+import { PoAccordionModule, PoButtonModule, PoFieldModule, PoIconModule, PoTableComponent, PoTableModule, PoTabsModule} from '@po-ui/ng-components';
 import { LoginComponent } from "../../login/login.component";
 import { CardComponent } from '../card/card.component';
 import { PoTableBaseComponent } from '@po-ui/ng-components/lib/components/po-table/po-table-base.component';
+import { TotvsService } from '../../services/totvs-service.service';
+import { DninputComponent } from "../dninput/dninput.component";
 
 
 
@@ -12,13 +14,23 @@ import { PoTableBaseComponent } from '@po-ui/ng-components/lib/components/po-tab
     templateUrl: './seletor.component.html',
     styleUrls: ['./seletor.component.css'],
     standalone: true,
-    imports: [PoButtonModule,CardComponent, PoTableModule]
+    imports: [
+    PoFieldModule,
+    PoTabsModule,
+    PoIconModule,
+    PoButtonModule,
+    PoButtonModule,
+    PoAccordionModule,
+    PoTableModule,
+    DninputComponent
+]
 })
 
 export class SeletorComponent {
   cDescricao:string = "mouse"
 
   @ViewChild('grid', { static: true }) gridDetalhe: PoTableComponent | undefined;
+  private srvTotvs = inject(TotvsService)
 
   public lista=[{campo:true}, {campo:false}]
 
@@ -59,6 +71,10 @@ naoSelecionar(obj:any){
   this.gridDetalhe?.unselectRowItem(obj)
  
   
+
+}
+ngOnInit(): void {
+  this.srvTotvs.EmitirParametros({ tituloTela: 'htmlESRR017 - Consulta de Reparos', estabInfo:''});
 
 }
 

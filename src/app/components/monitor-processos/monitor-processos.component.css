@@ -1,3 +1,7 @@
+::ng-deep .po-table td {
+  padding: 5px !important;
+}
+
 .selecao{
     display: flex; 
     align-items:center; 

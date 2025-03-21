@@ -1176,9 +1176,11 @@ export class Informe2Component {
         this.resetarVariaveis();
       },
       complete() {
-
-          //let elementos = document.getElementsByClassName('.po-table-group-row')
-          //console.log("Elementos", elementos)
+          //Efetuar a busca
+          setTimeout(() => {
+            let filtro = (document.querySelector('.po-search-input') as HTMLInputElement)
+            filtro.dispatchEvent(new Event('input',{bubbles:true}))
+          }, 500);
       },
     });
   }
