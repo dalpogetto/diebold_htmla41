@@ -183,6 +183,10 @@ readonly options: Array<PoRadioGroupOption> = [
   { label: 'Devolução ExtraKit', value: '3' }
 ];
 
+private sub!: Subscription;
+
+
+
 readonly acaoLogar: PoModalAction = {
   action: () => { this.onLogarUsuario()}, label: 'Login' };
 
@@ -213,6 +217,15 @@ readonly acaoLogar: PoModalAction = {
 
     //--- Titulo Tela
     this.srvTotvs.EmitirParametros({tituloTela: 'HTMLA41 - PARÂMETROS DE CÁLCULO'})
+
+    //--- Evento de Logout
+    this.sub = this.srvTotvs46.VerificarLogout().subscribe({
+      next: (response: any) => {
+        this.stepper?.first()
+        this.srvNotification.success("Processo foi desbloqueado com sucesso!")
+      },
+    });
+  
 
     //--- Login Unico
     this.srvTotvs.ObterUsuario().subscribe({
@@ -257,6 +270,10 @@ readonly acaoLogar: PoModalAction = {
     })
 
     //this.cdRef.detectChanges()
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   //-------------------------------------------------------- Metodos

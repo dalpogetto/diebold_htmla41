@@ -126,6 +126,19 @@ obterColunasArquivos(): Array<PoTableColumn> {
                   take(1));
   }
 
+  //--- Variavel
+  private emissorEvento$ = new Subject<any>();
+
+  //--- Emissor
+  public Deslogar() {
+    this.emissorEvento$.next('');
+  }
+
+  //--- Observador
+  public VerificarLogout() {
+    return this.emissorEvento$.asObservable();
+  }
+
   //---------------------- 
   public CriarOrdem(params?: any){
     return this.http.post(`${this._url}/CriarOrdem`, params, {headers:headersTotvs})
@@ -260,6 +273,11 @@ obterColunasArquivos(): Array<PoTableColumn> {
 
   public piObterSituacaoRPW(params?: any){
     return this.http.get(`${this._url}/piObterSituacaoRPW`, {params:params, headers:headersTotvs})
+                   .pipe(take(1));
+  }
+
+  public DesbloquearProcesso(params?: any){
+    return this.http.get(`${this._url}/DesbloquearProcesso`, {params:params, headers:headersTotvs})
                    .pipe(take(1));
   }
 

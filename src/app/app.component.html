@@ -14,6 +14,8 @@
           <p><i class="bi bi-person-workspace"></i>&nbsp;{{tecnicoInfo}}</p>
           <p *ngIf="processoInfo !== ''"><i class="bi bi-clipboard-data"></i>&nbsp;{{processoInfo}}</p>
           <p class="infoProcess" *ngIf="processoInfo !== ''"><i>{{processoSituacao}}</i></p>
+
+          <button class="po-button" style="margin: 20px 10px; background-color: var(--color-07); color:white; " (click)="DesbloquearProcesso()"> <i class="bi bi-unlock"></i>&nbsp;Desbloquear Processo</button>
         </div>
       </div>
     </div>
