@@ -276,8 +276,8 @@ obterColunasArquivos(): Array<PoTableColumn> {
                    .pipe(take(1));
   }
 
-  public DesbloquearProcesso(params?: any){
-    return this.http.get(`${this._url}/DesbloquearProcesso`, {params:params, headers:headersTotvs})
+  public DestravarProcesso(params?: any){
+    return this.http.get(`${this._url}/DestravarProcesso`, {params:params, headers:headersTotvs})
                    .pipe(take(1));
   }
 

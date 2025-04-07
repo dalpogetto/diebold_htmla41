@@ -17,8 +17,6 @@ export const environment = {
     'CompanyId': 1
   },
   
- 
-  
 };
 
 

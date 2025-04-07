@@ -137,7 +137,10 @@ export class AppComponent {
 
   DesbloquearProcesso(){
    let params:any={codEstabel: this.estabInfo.split(' ')[0], nrProcess: this.processoInfo}
-   this.srvTotvs46.DesbloquearProcesso(params);
+   console.log(params)
+   this.srvTotvs46.DestravarProcesso(params).subscribe({
+    next: (response: any) => {}})
+    
    this.srvTotvs46.Deslogar()
   }
 

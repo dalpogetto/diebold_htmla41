@@ -242,6 +242,7 @@ export class Informe2Component {
   colunasEnc!: PoTableColumn[];
 
   sub!: Subscription;
+  sub2!: Subscription;
   nrProcesso: number = 0;
   lDisabled: boolean = false;
 
@@ -471,6 +472,33 @@ export class Informe2Component {
   //---Inicializar
   ngOnInit(): void {
     this.limparArquivo()
+
+     //--- Evento de Logout
+     this.sub2 = this.srvTotvs46.VerificarLogout().subscribe({
+      next: (response: any) => {
+        this.listaArquivos=[]
+        this.listaOrdens=[]
+        this.listaItens=[]
+         //Fechar Painel item 1 e abrir item 2
+         this.principal.poAccordionItems.forEach((x) =>
+          x.label === 'Informações do Técnico' || x.label === 'Log de Arquivos'
+            ? x.expand()
+            : x.collapse()
+        );
+        this.item1.expand();
+       
+        this.form.controls.senha.setValue("")
+        this.formOrdem.controls.numOS.setValue(0);
+        this.formOrdem.controls.Chamado.setValue(0);
+        
+        this.cUsadas="0"
+        this.cBrancas="0"
+        this.cTotal="0"
+        this.cOS=""
+        this.cChamado=""
+        this.srvNotification.success("Processo foi desbloqueado com sucesso!")
+      },
+    });
     
     this.srvTotvs46
       .ObterCadastro({tabela: 'spool', codigo: ''})
@@ -513,6 +541,10 @@ export class Informe2Component {
       },
       error: (e) => {},
     });
+  }
+
+  ngOnDestroy(): void {
+    this.sub2.unsubscribe();
   }
 
   okIncluirEnc() {
