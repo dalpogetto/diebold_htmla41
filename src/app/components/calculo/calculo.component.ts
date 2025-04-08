@@ -148,6 +148,7 @@ tipoAprovacao:number=1
 lblAprovar = ''
 lblAprovarSemSaida = ''
 lblOpcao=''
+cRowId = ''
 
 //------ Controle Tela
 mostrarDetalhe:boolean=false
@@ -310,8 +311,14 @@ readonly acaoLogar: PoModalAction = {
           let params:any={codEstabel: this.codEstabelecimento, codUsuario: this.codTecnico, senha: 'moto', origem:'calculo'}
           this.srvTotvs46.ObterDados2(params).subscribe({
             next: (response: any) => {
-                if(response.ordens !== undefined){
+              /*  Rotina substituida pelo junin
+              if(response.ordens !== undefined){
                   this.listaOrdens = response.ordens
+                }
+                  */
+
+                if (response.cRowId !== undefined){
+                  this.cRowId = response.cRowId;
                 }
 
                 this.srvTotvs.ObterNrProcesso(paramsTec).subscribe({
@@ -960,7 +967,14 @@ readonly acaoLogar: PoModalAction = {
     })}
 
     onImpressao() {
+      /*
       if (this.listaOrdens === undefined){
+        this.srvNotification.error('Não existem ordens para o técnico')
+        return 
+      }
+        */
+
+      if(this.cRowId === undefined){
         this.srvNotification.error('Não existem ordens para o técnico')
         return 
       }
@@ -977,7 +991,7 @@ readonly acaoLogar: PoModalAction = {
           //this.loadTela = true;
           let paramsArquivo: any = {
             iExecucao: 2,
-            cRowId: this.listaOrdens[0]['c-rowId'],
+            cRowId:  this.cRowId //this.listaOrdens[0]['c-rowId'],
           };
           this.srvTotvs46.ImprimirOS(paramsArquivo).subscribe({
             next: (response: any) => {
