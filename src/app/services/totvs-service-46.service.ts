@@ -165,6 +165,12 @@ obterColunasArquivos(): Array<PoTableColumn> {
 
   //---------------------- 
   public ObterDados2(params?: any){
+    return this.http.get(`${this._url}/ObterDados2`, {params:params, headers:headersTotvs})
+                   .pipe(take(1));
+  }
+
+  //---------------------- 
+  public ObterDadosMobile(params?: any){
     return this.http.get(`${this._url}/ObterDadosMobile`, {params:params, headers:headersTotvs})
                    .pipe(take(1));
   }

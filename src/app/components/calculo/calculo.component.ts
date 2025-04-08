@@ -309,7 +309,7 @@ readonly acaoLogar: PoModalAction = {
 
           //Chamar o mesmo método da tela do Informe porem passando a origem como Calculo
           let params:any={codEstabel: this.codEstabelecimento, codUsuario: this.codTecnico, senha: 'moto', origem:'calculo'}
-          this.srvTotvs46.ObterDados2(params).subscribe({
+          this.srvTotvs46.ObterDadosMobile(params).subscribe({
             next: (response: any) => {
               /*  Rotina substituida pelo junin
               if(response.ordens !== undefined){
