@@ -1,6 +1,7 @@
 import { Component,
   inject,
   OnInit,
+  OnDestroy,
   ViewChild, ChangeDetectorRef,
   QueryList,
   ElementRef,

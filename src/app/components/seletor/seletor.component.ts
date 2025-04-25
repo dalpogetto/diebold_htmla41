@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Signal, ViewChild, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Signal, ViewChild, WritableSignal, inject, signal } from '@angular/core';
 import { PoAccordionModule, PoButtonModule, PoFieldModule, PoIconModule, PoTableComponent, PoTableModule, PoTabsModule} from '@po-ui/ng-components';
 import { LoginComponent } from "../../login/login.component";
 import { CardComponent } from '../card/card.component';
 import { PoTableBaseComponent } from '@po-ui/ng-components/lib/components/po-table/po-table-base.component';
 import { TotvsService } from '../../services/totvs-service.service';
 import { DninputComponent } from "../dninput/dninput.component";
+import { DnrangeComponent } from '../dnrange/dnrange.component';
+import { InicioFim } from '../../interfaces/inicio-fim';
 
 
 
@@ -22,12 +24,22 @@ import { DninputComponent } from "../dninput/dninput.component";
     PoButtonModule,
     PoAccordionModule,
     PoTableModule,
-    DninputComponent
+    DninputComponent,
+    DnrangeComponent
 ]
 })
 
 export class SeletorComponent {
   cDescricao:string = "mouse"
+
+  estabIniFim!:InicioFim
+  serieIniFim!:InicioFim
+  itemIniFim!:InicioFim
+
+  valEstabIni="0"
+  valEstabFim="1"
+
+
 
   @ViewChild('grid', { static: true }) gridDetalhe: PoTableComponent | undefined;
   private srvTotvs = inject(TotvsService)
@@ -39,9 +51,12 @@ export class SeletorComponent {
   
 Executar(event:any){
   console.log(event)
-  
- 
 } 
+
+
+onMostrar() {
+  console.log("Inicial:" + this.valEstabIni + " Final:" + this.valEstabFim)
+}
 
 selecionar(obj:any){
  // let marcador = (document.querySelector('td.po-table-column-selectable') as HTMLInputElement)
